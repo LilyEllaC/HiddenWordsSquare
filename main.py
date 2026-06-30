@@ -20,12 +20,28 @@ async def main():
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
                 running=False
-            if event.type==pygame.MOUSEBUTTONDOWN:
-                if gameState=="playing" and not preset.gameStarted:
-                    preset.gameStarted=True
-                    squareInfo=preset.getSquareInfo()
-                    preset.getSquares(squareInfo[0], squareInfo[1], squareInfo[2])
-                    print("squares")
+            if gameState=="playing":
+                if event.type==pygame.MOUSEBUTTONDOWN:
+                    #setting up the letters
+                    if not preset.gameStarted:
+                        preset.gameStarted=True
+                        squareInfo=preset.getSquareInfo()
+                        preset.getSquares(squareInfo[0], squareInfo[1], squareInfo[2])
+                    #actual gameplay
+                    else:
+                        for square in preset.squares:
+                            if square.rect.collidepoint(event.pos):
+                                square.colour=square.colourC
+                                gameplay.clicked=True
+                if event.type==pygame.MOUSEBUTTONUP:
+                    for square in preset.squares:
+                        square.colour=square.colourN
+                    
+
+
+
+
+
         if gameState=="playing":
             gameplay.play()
 

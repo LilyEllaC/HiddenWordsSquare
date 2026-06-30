@@ -6,7 +6,7 @@ import math
 
 
 
-
+clicked=False
 
 def play():
     const.SCREEN.fill(const.MAGENTA)

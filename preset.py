@@ -34,9 +34,9 @@ def getSquares(number, letters, colour):
 
     #finding other colour
     colourC=const.GRAY
-    for colourOpt in const.COLOUROPTIONS:
-        if colourOpt==colour:
-            colourC=colourOpt
+    for i in range (0, len(const.COLOUROPTIONS)-1):
+        if const.COLOUROPTIONS[i]==colour:
+            colourC=const.COLOUROPTIONS[i+1]
 
     letterPos=0
     #creating the squares
