@@ -29,11 +29,18 @@ async def main():
                         preset.getSquares(squareInfo[0], squareInfo[1], squareInfo[2])
                     #actual gameplay
                     else:
+                        #starting to make a word
                         for square in preset.squares:
                             if square.rect.collidepoint(event.pos):
                                 square.colour=square.colourC
                                 gameplay.clicked=True
+                                gameplay.currentWord=square.letter
+                                break
+
+
                 if event.type==pygame.MOUSEBUTTONUP:
+                    gameplay.clicked=False
+                    gameplay.currentWord="   "
                     for square in preset.squares:
                         square.colour=square.colourN
                     
