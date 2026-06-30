@@ -37,7 +37,6 @@ def colourSquares(square, mouseX, mouseY):
     if square.isDuple and square.letter in currentWord and square.colour==square.colourC:
         isThere=False
         for i in range(0, len(currentWord)):
-            print("stuff: ", square.letter, square.position, i)
             if currentWord[i]==square.letter and i==square.position:
                 isThere=True
                 break
