@@ -3,6 +3,7 @@ import asyncio
 import constants as const
 import utilities as util
 import gameplay
+import preset
 
 
 # important stuff
@@ -19,6 +20,12 @@ async def main():
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
                 running=False
+            if event.type==pygame.MOUSEBUTTONDOWN:
+                if gameState=="playing" and not preset.gameStarted:
+                    preset.gameStarted=True
+                    squareInfo=preset.getSquareInfo()
+                    preset.getSquares(squareInfo[0], squareInfo[1], squareInfo[2])
+                    print("squares")
         if gameState=="playing":
             gameplay.play()
 

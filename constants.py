@@ -33,6 +33,8 @@ GRAY = (177, 177, 177)
 DARK_GRAY = (100, 100, 100)
 LIGHT_RED = (210, 76, 76)
 
+COLOUROPTIONS=[RED, DARK_RED, ORANGE, DARK_ORANGE, YELLOW, DARK_YELLOW, GREEN, DARK_GREEN, TEAL, DARK_TEAL, BLUE, DARK_BLUE, PURPLE, DARK_PURPLE, MAGENTA, DARK_MAGENTA]
+
 #typing
 pygame.font.init()
 FONT_TYPE = None
@@ -42,7 +44,13 @@ FONT17 = pygame.font.Font(FONT_TYPE, 17)
 FONT20 = pygame.font.Font(FONT_TYPE, 20)
 FONT25 = pygame.font.Font(FONT_TYPE, 25)
 FONT30 = pygame.font.Font(FONT_TYPE, 30)
-FONT37 = pygame.font.Font(FONT_TYPE, 37)
+FONT35 = pygame.font.Font(FONT_TYPE, 35)
 FONT40 = pygame.font.Font(FONT_TYPE, 40)
+FONT45 = pygame.font.Font(FONT_TYPE, 45)
+FONT50 = pygame.font.Font(FONT_TYPE, 50)
+FONT55 = pygame.font.Font(FONT_TYPE, 55)
 FONT60 = pygame.font.Font(FONT_TYPE, 60)
+FONT150 = pygame.font.Font(FONT_TYPE, 150)
 FONT200 = pygame.font.Font(FONT_TYPE, 200)
+
+FONTS = [FONT150, FONT10, FONT15, FONT20, FONT25, FONT30, FONT35, FONT40, FONT45, FONT50, FONT55, FONT60]
