@@ -18,3 +18,11 @@ def toScreen3(words1, words2, words3, font, colour, x, y):
     toScreen(words1, font, colour, x, y - font.get_height())
     toScreen(words2, font, colour, x, y)
     toScreen(words3, font, colour, x, y + font.get_height())
+
+def toScreenInfTopLeft(wordList, font, colour, x, y):
+    heightAdded=0
+    fontHeight=font.get_height()
+    for word in wordList:
+        text = font.render(word, True, colour)
+        const.SCREEN.blit(text, (x, y+heightAdded*fontHeight))
+        heightAdded+=1

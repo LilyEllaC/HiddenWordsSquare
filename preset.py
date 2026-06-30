@@ -16,6 +16,7 @@ def getSquareInfo():
     with open("letters.txt", "r") as file:
         lines = file.readlines()
     letters=lines[random.randint(0, len(lines)-1)].strip()
+    letters="ABCDEFGHIJKLMNOP"
     return [len(letters), letters, const.TEAL]
 
 

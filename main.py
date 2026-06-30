@@ -42,6 +42,7 @@ async def main():
                     gameplay.clicked=False
                     for square in preset.squares:
                         square.colour=square.colourN
+                    gameplay.wordsFound=gameplay.checkIfWord(gameplay.currentWord, gameplay.wordsFound)
                     
 
 

@@ -8,6 +8,7 @@ import math
 
 clicked=False
 currentWord="   "
+wordsFound=[]
 
 def colourSquares(square, mouseX, mouseY):
     global currentWord
@@ -19,7 +20,7 @@ def colourSquares(square, mouseX, mouseY):
             square.position=len(currentWord)-1
             #print(square.letter, square.position, currentWord[square.position])
         #making it so if mouse is off it, it uncolours
-        #nomral way
+        #normal way
         elif not square.isDuple:
             if square.letter!=currentWord[-1] and square.letter in currentWord: 
                 currentWord=currentWord[0: currentWord.find(square.letter)+1]
@@ -45,16 +46,30 @@ def colourSquares(square, mouseX, mouseY):
             square.position=0
                 
         
-
-
+def checkIfWord(word, wordsFound):
+    with open("wordsInPuzzle.txt", "r") as file:
+        words = file.readlines()
+    print("word made")
+    for option in words:
+        print(option)
+    for option in words:
+        if option.strip()==word:
+            wordsFound.append(word)
+            print("found: "+word)
+    return wordsFound
+        
 
 def play():
+    global clicked, currentWord, wordsFound
+
     #basic stuff
     const.SCREEN.fill(const.MAGENTA)
     util.toScreen("HIDDEN WORDS SQUARE", const.FONT60, const.BLACK, const.WIDTH // 2, 50)
     
+    #showing the words found
+    util.toScreenInfTopLeft(wordsFound, const.FONT45, const.BLACK, 100, 200)
+
     #getting the mouse dragged stuff to work
-    global clicked, currentWord
     mouseX, mouseY = pygame.mouse.get_pos()
     util.toScreen(currentWord, const.FONT50, const.BLACK, const.WIDTH//2, 130)
     if clicked:
