@@ -10,6 +10,7 @@ xPos=[]
 yPos=[]
 gameStarted=False
 
+
 #getting the square info
 def getSquareInfo():
     with open("letters.txt", "r") as file:
@@ -28,6 +29,13 @@ def getSquares(number, letters, colour):
         xPos.append(const.WIDTH//4+xDistance*i)
         yPos.append(const.HEIGHT//4+xDistance*i)
 
+    #dealing with duplicates
+    duplicateLetters=[]
+    for i in range(0, len(letters)):
+        for j in range(i+1, len(letters)):
+            if letters[i]==letters[j]:
+                duplicateLetters.append(letters[i])
+
     #finding font size
     fontNum=(size*4//5)//5
     fontNum=0
@@ -42,6 +50,10 @@ def getSquares(number, letters, colour):
     #creating the squares
     for y in yPos:
         for x in xPos:
-            squares.append(Squares(size, fontNum, x, y, colour, colourC, letters[letterPos]))
+            if letters[letterPos] in duplicateLetters:
+                duplicate=True
+            else:
+                duplicate=False
+            squares.append(Squares(size, fontNum, x, y, colour, colourC, letters[letterPos], duplicate))
             letterPos+=1
         

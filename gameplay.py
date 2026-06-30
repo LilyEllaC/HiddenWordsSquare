@@ -9,6 +9,46 @@ import math
 clicked=False
 currentWord="   "
 
+def colourSquares(square, mouseX, mouseY):
+    global currentWord
+    if square.rect.collidepoint((mouseX, mouseY)):
+        if square.colour==square.colourN:
+            square.colour=square.colourC
+            #making the word
+            currentWord+=square.letter
+            square.position=len(currentWord)-1
+            #print(square.letter, square.position, currentWord[square.position])
+        #making it so if mouse is off it, it uncolours
+        #nomral way
+        elif not square.isDuple:
+            if square.letter!=currentWord[-1] and square.letter in currentWord: 
+                currentWord=currentWord[0: currentWord.find(square.letter)+1]
+        #letter is a duplicate strange way
+        elif square.isDuple: 
+            if square.letter in currentWord:
+                for i in range(0, len(currentWord)-1):
+                    if len(currentWord)>1:
+                        if currentWord[i]==square.letter and i==square.position:
+                            currentWord=currentWord[0: i+1]
+                            break
+
+    if square.letter not in currentWord and square.colour==square.colourC:
+        square.colour=square.colourN
+    if square.isDuple and square.letter in currentWord and square.colour==square.colourC:
+        isThere=False
+        for i in range(0, len(currentWord)):
+            print("stuff: ", square.letter, square.position, i)
+            if currentWord[i]==square.letter and i==square.position:
+                isThere=True
+                break
+        if not isThere:
+            square.colour=square.colourN
+            square.position=0
+                
+        
+
+
+
 def play():
     #basic stuff
     const.SCREEN.fill(const.MAGENTA)
@@ -20,14 +60,7 @@ def play():
     util.toScreen(currentWord, const.FONT50, const.BLACK, const.WIDTH//2, 130)
     if clicked:
         for square in squares:
-            if square.rect.collidepoint((mouseX, mouseY)):
-                if square.colour==square.colourN:
-                    currentWord+=square.letter
-                    square.colour=square.colourC
-                elif square.letter!=currentWord[-1] and square.letter in currentWord: 
-                    currentWord=currentWord[0: currentWord.find(square.letter)+1]
-            if square.letter not in currentWord and square.colour==square.colourC:
-                square.colour=square.colourN
+            colourSquares(square, mouseX, mouseY)
 
                     
                 

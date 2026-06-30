@@ -5,7 +5,7 @@ import utilities as util
 
 #letters
 class Squares:
-    def __init__(self, size, fontNum, x, y, colourNorm, colourClicked, letter):
+    def __init__(self, size, fontNum, x, y, colourNorm, colourClicked, letter, isDuplicate):
         self.size=size
         self.x=x
         self.y=y
@@ -14,6 +14,8 @@ class Squares:
         self.colour=self.colourN
         self.letter=letter
         self.fontNum=fontNum
+        self.isDuple=isDuplicate
+        self.position=0
 
         self.rect = pygame.Rect(self.x, self.y, self.size, self.size)
     

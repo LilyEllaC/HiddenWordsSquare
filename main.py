@@ -40,7 +40,6 @@ async def main():
 
                 if event.type==pygame.MOUSEBUTTONUP:
                     gameplay.clicked=False
-                    gameplay.currentWord="   "
                     for square in preset.squares:
                         square.colour=square.colourN
                     
