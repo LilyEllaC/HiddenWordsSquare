@@ -1,4 +1,4 @@
-from sprites import Squares, ScoreBar
+from sprites import Squares, ScoreBar, WordType
 import constants as const
 import utilities as util
 import math
@@ -9,7 +9,7 @@ squares=[]
 xPos=[]
 yPos=[]
 gameStarted=False
-
+wordType=WordType()
 
 
 #creating the points bar
@@ -20,7 +20,7 @@ def calculatePointBar():
     for word in words:
         for letter in word:
             totalScore+=const.POINTS[ord(letter)-65]
-    x=const.WIDTH*10//13
+    x=675
     y=150
     pointBar=ScoreBar(totalScore, const.BLUE, const. DARK_BLUE, x, y)
     return pointBar

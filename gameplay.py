@@ -1,9 +1,9 @@
 import constants as const
 import utilities as util
 import preset
-from preset import squares
+from preset import squares, wordType
+
 import pygame
-import math
 
 
 #variables
@@ -11,8 +11,6 @@ clicked=False
 currentWord="   "
 wordsFound=[]
 score=0
-
-#sprite
 
 #functions
 def colourSquares(square, mouseX, mouseY):
@@ -60,6 +58,9 @@ def checkIfWord(word, wordsFound):
             calculatePoints(word)
             pointBar.changeScore(score)
             print("found: "+word)
+            wordType.image=wordType.imageCorrect
+        else:
+            wordType.image=wordType.imageWrong
     return wordsFound
 
 
@@ -78,7 +79,7 @@ def play():
     #global clicked, currentWord, wordsFound, score
     #basic stuff
     const.SCREEN.fill(const.MAGENTA)
-    util.toScreen("HIDDEN WORDS SQUARE", const.FONT60, const.BLACK, const.WIDTH // 2, 50)
+    util.toScreen("HIDDEN WORDS SQUARE", const.FONT60, const.BLACK, const.WIDTH // 2, 30)
     
     #showing the words found
     util.toScreenInfTopLeft(wordsFound, const.FONT45, const.BLACK, 100, 200)
@@ -87,6 +88,7 @@ def play():
     mouseX, mouseY = pygame.mouse.get_pos()
     util.toScreen(currentWord, const.FONT50, const.BLACK, const.WIDTH//2, 130)
     if clicked:
+        wordType.image=wordType.imageBlank
         for square in squares:
             colourSquares(square, mouseX, mouseY)
 
@@ -101,6 +103,7 @@ def play():
     if preset.gameStarted:
         pointBar.draw()
         util.toScreen("Score: "+str(score), const.FONT30, const.BLACK, const.WIDTH*4//5, 100)
+        wordType.draw()
     for square in squares:
         square.draw()
 

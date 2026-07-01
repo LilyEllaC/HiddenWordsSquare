@@ -44,3 +44,23 @@ class ScoreBar:
     def draw(self):
         pygame.draw.rect(const.SCREEN, self.colourBase, self.rectBase)
         pygame.draw.rect(const.SCREEN, self.colourPoints, self.rectPoints)
+
+
+
+class WordType:
+    def __init__ (self):
+        self.x=const.WIDTH//2-25
+        self.y=60
+        self.width=50
+        image=pygame.image.load("checkmark.webp")
+        self.imageCorrect=pygame.transform.scale(image, (self.width, self.width))
+        image=pygame.image.load("cross.png")
+        self.imageWrong=pygame.transform.scale(image, (self.width, self.width))
+        image=pygame.image.load("Bonus symbol.png")
+        self.imageBonus=pygame.transform.scale(image, (self.width, self.width))
+        image=pygame.image.load("blank.png")
+        self.imageBlank=pygame.transform.scale(image, (self.width, self.width))
+        self.image=self.imageBlank
+
+    def draw(self):
+        const.SCREEN.blit(self.image, (self.x, self.y))
