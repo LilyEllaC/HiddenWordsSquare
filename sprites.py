@@ -5,25 +5,34 @@ import utilities as util
 
 #letters
 class Squares:
-    def __init__(self, size, fontNum, x, y, colourNorm, colourClicked, letter, isDuplicate, point):
+    def __init__(self, size, fontNum, x, y, colourClicked, letter, isDuplicate, point):
         self.size=size
+        self.radius=self.size*3//8
         self.x=x
         self.y=y
-        self.colourN=colourNorm
+        self.xCirc=self.x+self.size//2
+        self.yCirc=self.y+self.size//2
+        self.colourN=const.DARK_GRAY
         self.colourC=colourClicked
         self.colour=self.colourN
         self.letter=letter
         self.fontNum=fontNum
         self.isDuple=isDuplicate
-        self.position=0
+        self.position=-1
         self.point=point
+        self.setting="normal"
 
         self.rect = pygame.Rect(self.x, self.y, self.size, self.size)
     
     def draw(self):
         pygame.draw.rect(const.SCREEN, self.colour, self.rect)
+        if self.setting=="clicked":
+            pygame.draw.circle(const.SCREEN, self.colourC, (self.xCirc, self.yCirc), self.radius)
+        else:
+            self.position=-1
         util.toScreen(self.letter, const.FONTS[self.fontNum], const.BLACK, self.x+self.size//2, self.y+self.size*4//7)
-    
+
+
 class ScoreBar:
     def __init__(self, totalScore, colourPoints, colourBase, x, y):
         self.x=x

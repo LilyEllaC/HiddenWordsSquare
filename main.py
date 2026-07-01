@@ -33,22 +33,17 @@ async def main():
                         #starting to make a word
                         for square in preset.squares:
                             if square.rect.collidepoint(event.pos):
-                                square.colour=square.colourC
                                 gameplay.clicked=True
-                                gameplay.currentWord=square.letter
+                                gameplay.currentWord=""#square.letter
                                 break
 
 
                 if event.type==pygame.MOUSEBUTTONUP:
                     gameplay.clicked=False
                     for square in preset.squares:
-                        square.colour=square.colourN
+                        square.setting="normal"
                     gameplay.wordsFound=gameplay.checkIfWord(gameplay.currentWord, gameplay.wordsFound)
                     
-
-
-
-
 
         if gameState=="playing":
             gameplay.play()

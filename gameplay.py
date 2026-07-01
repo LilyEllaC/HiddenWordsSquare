@@ -13,11 +13,14 @@ wordsFound=[]
 score=0
 
 #functions
+#make the squares know when they are hovered over
 def colourSquares(square, mouseX, mouseY):
     global currentWord
+    coloured=False
     if square.rect.collidepoint((mouseX, mouseY)):
-        if square.colour==square.colourN:
-            square.colour=square.colourC
+        if square.setting=="normal":
+            square.setting="clicked"
+            coloured=True
             #making the word
             currentWord+=square.letter
             square.position=len(currentWord)-1
@@ -36,19 +39,33 @@ def colourSquares(square, mouseX, mouseY):
                             currentWord=currentWord[0: i+1]
                             break
 
-    if square.letter not in currentWord and square.colour==square.colourC:
-        square.colour=square.colourN
-    if square.isDuple and square.letter in currentWord and square.colour==square.colourC:
+    if square.letter not in currentWord and square.setting=="clicked":
+        square.setting="normal"
+        square.position=-1
+    if square.isDuple and square.letter in currentWord and square.setting=="clicked":
         isThere=False
         for i in range(0, len(currentWord)):
             if currentWord[i]==square.letter and i==square.position:
                 isThere=True
                 break
         if not isThere:
-            square.colour=square.colourN
-            square.position=0
+            square.setting="normal"
+            square.position=-1
+    return coloured
                 
-        
+
+#make a line
+def showLine(colour, square, squares):
+    mouseX, mouseY = pygame.mouse.get_pos()
+    if square.setting=="clicked" and square.position==len(currentWord)-1:
+        pygame.draw.line(const.SCREEN, colour, (square.xCirc, square.yCirc), (mouseX, mouseY), 20)
+    elif square.setting=="clicked":
+        for otherSquare in squares:
+            if otherSquare.position==square.position+1 and otherSquare.position!=-1:
+                pygame.draw.line(const.SCREEN, colour, (square.xCirc, square.yCirc), (otherSquare.xCirc, otherSquare.yCirc), 20)
+
+
+#check if the word is in the word list  
 def checkIfWord(word, wordsFound):
     with open("wordsInPuzzle.txt", "r") as file:
         words = file.readlines()
@@ -59,22 +76,25 @@ def checkIfWord(word, wordsFound):
             pointBar.changeScore(score)
             print("found: "+word)
             wordType.image=wordType.imageCorrect
+            break
         else:
             wordType.image=wordType.imageWrong
     return wordsFound
 
-
+#calculate how many points a word is worth
 def calculatePoints(word):
     global score
     for letter in word:
         score+=const.POINTS[ord(letter)-65]
     print("score", score)
-    
+
+#actually make the bar
 def makePointBar():
     global pointBar
     pointBar=preset.calculatePointBar()
 
 
+#play the game
 def play():
     #global clicked, currentWord, wordsFound, score
     #basic stuff
@@ -91,6 +111,7 @@ def play():
         wordType.image=wordType.imageBlank
         for square in squares:
             colourSquares(square, mouseX, mouseY)
+            showLine(const.DARK_TEAL, square, squares)
 
                     
             

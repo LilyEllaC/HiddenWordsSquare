@@ -30,7 +30,7 @@ def getSquareInfo():
     with open("letters.txt", "r") as file:
         lines = file.readlines()
     letters=lines[random.randint(0, len(lines)-1)].strip()
-    letters="ABCDEFGHIJKLMNOP"
+    #letters="ABCDEFGHIJKLMNOP"
     return [len(letters), letters, const.TEAL]
 
 
@@ -77,6 +77,6 @@ def getSquares(number, letters, colour):
             point=const.POINTS[ord(letter)-65]
             
             #creating
-            squares.append(Squares(size, fontNum, x, y, colour, colourC, letter, duplicate, point))
+            squares.append(Squares(size, fontNum, x, y, colourC, letter, duplicate, point))
             letterPos+=1
         
