@@ -1,4 +1,4 @@
-from sprites import Squares
+from sprites import Squares, ScoreBar
 import constants as const
 import utilities as util
 import math
@@ -10,6 +10,20 @@ xPos=[]
 yPos=[]
 gameStarted=False
 
+
+
+#creating the points bar
+def calculatePointBar():
+    with open("wordsInPuzzle.txt", "r") as file:
+        words = [line.strip() for line in file]
+    totalScore=0
+    for word in words:
+        for letter in word:
+            totalScore+=const.POINTS[ord(letter)-65]
+    x=const.WIDTH*10//13
+    y=150
+    pointBar=ScoreBar(totalScore, const.BLUE, const. DARK_BLUE, x, y)
+    return pointBar
 
 #getting the square info
 def getSquareInfo():
@@ -25,7 +39,7 @@ def getSquares(number, letters, colour):
     # getting the info
     numAcross=int(math.sqrt(number))
     xDistance=(const.WIDTH//2)//numAcross
-    size=xDistance-xDistance//12
+    size=xDistance-xDistance//8
     for i in range(0, numAcross):
         xPos.append(const.WIDTH//4+xDistance*i)
         yPos.append(const.HEIGHT//4+xDistance*i)
@@ -45,16 +59,24 @@ def getSquares(number, letters, colour):
     colourC=const.GRAY
     for i in range (0, len(const.COLOUROPTIONS)-1):
         if const.COLOUROPTIONS[i]==colour:
-            colourC=const.COLOUROPTIONS[i+1]
+            colourC=const.COLOUROPTIONS[i+1]    
 
-    letterPos=0
+
     #creating the squares
+    letterPos=0
     for y in yPos:
         for x in xPos:
+            #duplicate stuff
             if letters[letterPos] in duplicateLetters:
                 duplicate=True
             else:
                 duplicate=False
-            squares.append(Squares(size, fontNum, x, y, colour, colourC, letters[letterPos], duplicate))
+            
+            #points
+            letter=letters[letterPos]
+            point=const.POINTS[ord(letter)-65]
+            
+            #creating
+            squares.append(Squares(size, fontNum, x, y, colour, colourC, letter, duplicate, point))
             letterPos+=1
         

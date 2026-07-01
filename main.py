@@ -27,6 +27,7 @@ async def main():
                         preset.gameStarted=True
                         squareInfo=preset.getSquareInfo()
                         preset.getSquares(squareInfo[0], squareInfo[1], squareInfo[2])
+                        gameplay.makePointBar()
                     #actual gameplay
                     else:
                         #starting to make a word

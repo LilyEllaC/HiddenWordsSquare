@@ -1,15 +1,20 @@
 import constants as const
 import utilities as util
+import preset
 from preset import squares
 import pygame
 import math
 
 
-
+#variables
 clicked=False
 currentWord="   "
 wordsFound=[]
+score=0
 
+#sprite
+
+#functions
 def colourSquares(square, mouseX, mouseY):
     global currentWord
     if square.rect.collidepoint((mouseX, mouseY)):
@@ -49,19 +54,28 @@ def colourSquares(square, mouseX, mouseY):
 def checkIfWord(word, wordsFound):
     with open("wordsInPuzzle.txt", "r") as file:
         words = file.readlines()
-    print("word made")
     for option in words:
-        print(option)
-    for option in words:
-        if option.strip()==word:
+        if option.strip()==word and word not in wordsFound:
             wordsFound.append(word)
+            calculatePoints(word)
+            pointBar.changeScore(score)
             print("found: "+word)
     return wordsFound
-        
+
+
+def calculatePoints(word):
+    global score
+    for letter in word:
+        score+=const.POINTS[ord(letter)-65]
+    print("score", score)
+    
+def makePointBar():
+    global pointBar
+    pointBar=preset.calculatePointBar()
+
 
 def play():
-    global clicked, currentWord, wordsFound
-
+    #global clicked, currentWord, wordsFound, score
     #basic stuff
     const.SCREEN.fill(const.MAGENTA)
     util.toScreen("HIDDEN WORDS SQUARE", const.FONT60, const.BLACK, const.WIDTH // 2, 50)
@@ -77,14 +91,16 @@ def play():
             colourSquares(square, mouseX, mouseY)
 
                     
-                
-
-
-
+            
 
 
 
     #drawing
+    #showing the score
+    util.toScreen("Score: "+str(score), const.FONT30, const.BLACK, const.WIDTH*4//5, 100)
+    if preset.gameStarted:
+        pointBar.draw()
+        util.toScreen("Score: "+str(score), const.FONT30, const.BLACK, const.WIDTH*4//5, 100)
     for square in squares:
         square.draw()
 
