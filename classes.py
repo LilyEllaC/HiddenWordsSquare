@@ -12,7 +12,7 @@ class Squares:
         self.y=y
         self.xCirc=self.x+self.size//2
         self.yCirc=self.y+self.size//2
-        self.colourN=const.DARK_GRAY
+        self.colourN=const.GRAY
         self.colourC=colourClicked
         self.colour=self.colourN
         self.letter=letter
@@ -37,8 +37,8 @@ class ScoreBar:
     def __init__(self, totalScore, colourPoints, colourBase, x, y):
         self.x=x
         self.y=y
-        self.height=50
-        self.width=200
+        self.height=75
+        self.width=const.WIDTH//4-50
         self.colourPoints=colourPoints
         self.colourBase=colourBase
 
@@ -73,3 +73,67 @@ class WordType:
 
     def draw(self):
         const.SCREEN.blit(self.image, (self.x, self.y))
+
+
+
+
+
+class WordsSorted():
+    def __init__(self, words):
+        self.wordsToShowList=[]
+
+        #tuples showing the words in the puzzle, the words found, and the length of the words
+        self.words4=([],[], 4)
+        self.words5=([],[], 5)
+        self.words6=([],[], 6)
+        self.words7=([],[], 7)
+        self.words8=([],[], 8)
+        self.words9=([],[], 9)
+        self.words10=([],[], 10)
+        self.words11=([],[], 11)
+        self.words12=([],[], 12)
+        self.words13=([],[], 13)
+        self.words14=([],[], 14)
+        self.words15=([],[], 15)
+        self.words16=([],[], 16)
+        self.allWordsSorted=[self.words4, self.words5, self.words6, self.words7, self.words8, self.words9, self.words10, self.words11, self.words12, self.words13, self.words14, self.words15, self.words16]
+        self.allWords=words
+        for word in words:
+            self.allWordsSorted[len(word)-4][0].append(word)
+            print(word)
+            
+        
+        numbersToDelete=[]
+        for wordCat in self.allWordsSorted:
+            if len(wordCat[0])==0:
+                numbersToDelete.append(wordCat)
+        for numbers in numbersToDelete:
+            position=self.allWordsSorted.index(numbers)
+            self.allWordsSorted.pop(position)
+        
+
+    def draw(self):
+        wordsToShow="\n\n"
+        numberLeft=0
+        for wordCat in self.allWordsSorted:
+            addNewLine=True
+            wordCat[1].sort()
+            numberLeft=len(wordCat[0])-len(wordCat[1])
+            wordsToShow+="\n"+str(wordCat[2])+" Letter Words\n"+str(numberLeft)+" left"
+            if len(wordCat[1])>0:
+                for word in wordCat[1]:
+                    #print(wordCat[1])
+                    if wordCat[2]>8:
+                        wordsToShow+="\n"+word
+                
+                    else:
+                        if addNewLine:
+                            wordsToShow+="\n"
+                        wordsToShow+=word+"\t"
+                        addNewLine= not addNewLine
+            wordsToShow+="\n"
+        self.wordsToShowList=util.stringToList(wordsToShow, "\n")
+        util.toScreenInfTopLeft(self.wordsToShowList, const.FONT60, const.BLACK, 10, 50)
+                        
+                            
+        #print(wordsToShow)

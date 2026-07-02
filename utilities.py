@@ -26,3 +26,17 @@ def toScreenInfTopLeft(wordList, font, colour, x, y):
         text = font.render(word, True, colour)
         const.SCREEN.blit(text, (x, y+heightAdded*fontHeight))
         heightAdded+=1
+
+#taking a string with \n and turning it into a list
+def stringToList(string, symbol):
+    tempString=""
+    wordsList=[]
+    while symbol in string:
+        symbolPlacement=string.find(symbol)
+        tempString=string[:symbolPlacement-(len(symbol)-1)]
+        wordsList.append(tempString)
+        string=string[string.find(symbol)+len(symbol):]
+    wordsList.append(string)
+   # for words in wordsList:
+    #    print(words+"\n\n")
+    return wordsList

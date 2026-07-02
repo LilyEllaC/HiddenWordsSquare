@@ -2,6 +2,7 @@ import constants as const
 import utilities as util
 import preset
 from preset import squares, wordType
+import classes
 
 import pygame
 
@@ -9,7 +10,6 @@ import pygame
 #variables
 clicked=False
 currentWord="   "
-wordsFound=[]
 score=0
 
 #functions
@@ -69,6 +69,7 @@ def showLine(colour, square, squares):
 def checkIfWord(word):
     global wordInformation
     sortedLists=wordInformation.allWordsSorted
+    found=False
     for lists in sortedLists:
         for option in lists[0]:
             if option==word and word not in lists[1]:
@@ -77,12 +78,13 @@ def checkIfWord(word):
                 pointBar.changeScore(score)
                 print("found: "+word)
                 wordType.image=wordType.imageCorrect
+                found=True
                 break
         if word in lists[1]:
             break
-        else:
-            wordType.image=wordType.imageWrong
-            print("Not found: "+word)
+    if not found:
+        wordType.image=wordType.imageWrong
+        print("Not found: "+word)
 
 
 #calculate how many points a word is worth
@@ -103,17 +105,22 @@ def setUp():
     for word in words:
         position=words.index(word)
         words[position]=word.strip()
-    wordInformation=preset.WordsSorted(words)
+    wordInformation=classes.WordsSorted(words)
     return wordInformation
+
+
+
+
+
 
 timer=0
 #play the game
 def play():
-    #global clicked, currentWord, wordsFound, score
+    #global clicked, currentWord, score
     #basic stuff
     global timer
     const.SCREEN.fill(const.MAGENTA)
-    util.toScreen("HIDDEN WORDS SQUARE", const.FONT60, const.BLACK, const.WIDTH // 2, 30)
+    util.toScreen("HIDDEN WORDS SQUARE", const.FONT75, const.BLACK, const.WIDTH // 2, 30)
     
     #showing the words found
     #util.toScreenInfTopLeft(wordsFound, const.FONT45, const.BLACK, 100, 200)
@@ -139,8 +146,8 @@ def play():
         pointBar.draw()
         util.toScreen("Score: "+str(score), const.FONT30, const.BLACK, const.WIDTH*4//5, 100)
         wordType.draw()
+        wordInformation.draw()
         if timer==const.FPS*2:
-            wordInformation.draw()
             timer=0
         timer+=1
 

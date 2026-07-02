@@ -1,7 +1,7 @@
 import pygame
 
 #game set up
-WIDTH, HEIGHT=900, 600
+WIDTH, HEIGHT=1500, 1000
 FPS=30
 FPS_SCALING=30/FPS
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -56,6 +56,7 @@ FONT45 = pygame.font.Font(FONT_TYPE, 45)
 FONT50 = pygame.font.Font(FONT_TYPE, 50)
 FONT55 = pygame.font.Font(FONT_TYPE, 55)
 FONT60 = pygame.font.Font(FONT_TYPE, 60)
+FONT75 = pygame.font.Font(FONT_TYPE, 75)
 FONT150 = pygame.font.Font(FONT_TYPE, 150)
 FONT200 = pygame.font.Font(FONT_TYPE, 200)
 
