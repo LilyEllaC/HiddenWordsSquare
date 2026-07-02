@@ -30,9 +30,8 @@ def getSquareInfo():
     with open("letters.txt", "r") as file:
         lines = file.readlines()
     letters=lines[random.randint(0, len(lines)-1)].strip()
-    #letters="ABCDEFGHIJKLMNOP"
+    letters="PGIMEUNRCTSAIONR"
     return [len(letters), letters, const.TEAL]
-
 
 #getting all of the squares
 def getSquares(number, letters, colour):
@@ -80,3 +79,60 @@ def getSquares(number, letters, colour):
             squares.append(Squares(size, fontNum, x, y, colourC, letter, duplicate, point))
             letterPos+=1
         
+
+#getting the list of words in the puzzle by length
+def sortWords(words):
+    with open("wordsInPuzzle.txt", "r") as file:
+        words = file.readlines()
+
+class WordsSorted():
+    def __init__(self, words):
+        self.words2=([],[], 2)
+        self.words4=([],[], 4)
+        self.words5=([],[], 5)
+        self.words6=([],[], 6)
+        self.words7=([],[], 7)
+        self.words8=([],[], 8)
+        self.words9=([],[], 9)
+        self.words10=([],[], 10)
+        self.words11=([],[], 11)
+        self.words12=([],[], 12)
+        self.words13=([],[], 13)
+        self.words14=([],[], 14)
+        self.words15=([],[], 15)
+        self.words16=([],[], 16)
+        self.allWordsSorted=[self.words4, self.words5, self.words6, self.words7, self.words8, self.words9, self.words10, self.words11, self.words12, self.words13, self.words14, self.words15, self.words16]
+        self.allWords=words
+        for word in words:
+            self.allWordsSorted[len(word)-4][0].append(word)
+            print(word)
+            
+        
+        numbersToDelete=[]
+        for wordCat in self.allWordsSorted:
+            if len(wordCat[0])==0:
+                numbersToDelete.append(wordCat)
+        for numbers in numbersToDelete:
+            position=self.allWordsSorted.index(numbers)
+            self.allWordsSorted.pop(position)
+        
+
+    def draw(self):
+        wordsToShow=""
+        addNewLine=False
+        for wordCat in self.allWordsSorted:
+            wordsToShow+=str(wordCat[2])+" Letter Words \n"
+            if len(wordCat[1])>0:
+                for word in wordCat[1]:
+                    #print(wordCat[1])
+                    #if wordCat[2]>8:
+                    wordsToShow+=word+"\n"
+                    """
+                    else:
+                        wordsToShow+=word
+                        addNewLine= not addNewLine
+                        if addNewLine:
+                            wordsToShow+="\n"
+                            """
+        print(wordsToShow)
+

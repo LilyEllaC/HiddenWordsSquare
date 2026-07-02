@@ -66,20 +66,24 @@ def showLine(colour, square, squares):
 
 
 #check if the word is in the word list  
-def checkIfWord(word, wordsFound):
-    with open("wordsInPuzzle.txt", "r") as file:
-        words = file.readlines()
-    for option in words:
-        if option.strip()==word and word not in wordsFound:
-            wordsFound.append(word)
-            calculatePoints(word)
-            pointBar.changeScore(score)
-            print("found: "+word)
-            wordType.image=wordType.imageCorrect
+def checkIfWord(word):
+    global wordInformation
+    sortedLists=wordInformation.allWordsSorted
+    for lists in sortedLists:
+        for option in lists[0]:
+            if option==word and word not in lists[1]:
+                lists[1].append(word)
+                calculatePoints(word)
+                pointBar.changeScore(score)
+                print("found: "+word)
+                wordType.image=wordType.imageCorrect
+                break
+        if word in lists[1]:
             break
         else:
             wordType.image=wordType.imageWrong
-    return wordsFound
+            print("Not found: "+word)
+
 
 #calculate how many points a word is worth
 def calculatePoints(word):
@@ -89,20 +93,30 @@ def calculatePoints(word):
     print("score", score)
 
 #actually make the bar
-def makePointBar():
-    global pointBar
+def setUp():
+    global pointBar, wordInformation
+    #pointbar stuff
     pointBar=preset.calculatePointBar()
+    #words showing stuff
+    with open("wordsInPuzzle.txt", "r") as file:
+        words = file.readlines()
+    for word in words:
+        position=words.index(word)
+        words[position]=word.strip()
+    wordInformation=preset.WordsSorted(words)
+    return wordInformation
 
-
+timer=0
 #play the game
 def play():
     #global clicked, currentWord, wordsFound, score
     #basic stuff
+    global timer
     const.SCREEN.fill(const.MAGENTA)
     util.toScreen("HIDDEN WORDS SQUARE", const.FONT60, const.BLACK, const.WIDTH // 2, 30)
     
     #showing the words found
-    util.toScreenInfTopLeft(wordsFound, const.FONT45, const.BLACK, 100, 200)
+    #util.toScreenInfTopLeft(wordsFound, const.FONT45, const.BLACK, 100, 200)
 
     #getting the mouse dragged stuff to work
     mouseX, mouseY = pygame.mouse.get_pos()
@@ -125,6 +139,11 @@ def play():
         pointBar.draw()
         util.toScreen("Score: "+str(score), const.FONT30, const.BLACK, const.WIDTH*4//5, 100)
         wordType.draw()
+        if timer==const.FPS*2:
+            wordInformation.draw()
+            timer=0
+        timer+=1
+
     for square in squares:
         square.draw()
 

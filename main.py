@@ -27,7 +27,8 @@ async def main():
                         preset.gameStarted=True
                         squareInfo=preset.getSquareInfo()
                         preset.getSquares(squareInfo[0], squareInfo[1], squareInfo[2])
-                        gameplay.makePointBar()
+                        gameplay.setUp()
+
                     #actual gameplay
                     else:
                         #starting to make a word
@@ -42,7 +43,7 @@ async def main():
                     gameplay.clicked=False
                     for square in preset.squares:
                         square.setting="normal"
-                    gameplay.wordsFound=gameplay.checkIfWord(gameplay.currentWord, gameplay.wordsFound)
+                    gameplay.checkIfWord(gameplay.currentWord)
                     
 
         if gameState=="playing":
