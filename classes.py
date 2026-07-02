@@ -80,6 +80,16 @@ class WordType:
 
 class WordsSorted():
     def __init__(self, words):
+        #dealing with scrolling
+        self.y=50.0
+        self.height=const.HEIGHT
+        self.rect = pygame.Rect(const.WIDTH//4-40, 0, 20, self.height)
+        self.colour=const.MAGENTA
+        self.bottomY=0
+        self.textHeight=self.y-self.bottomY
+        self.showableHeight=const.HEIGHT-self.y-30
+
+
         self.wordsToShowList=[]
 
         #tuples showing the words in the puzzle, the words found, and the length of the words
@@ -102,7 +112,7 @@ class WordsSorted():
             self.allWordsSorted[len(word)-4][0].append(word)
             print(word)
             
-        
+        self.wordsToShow=""
         numbersToDelete=[]
         for wordCat in self.allWordsSorted:
             if len(wordCat[0])==0:
@@ -110,10 +120,9 @@ class WordsSorted():
         for numbers in numbersToDelete:
             position=self.allWordsSorted.index(numbers)
             self.allWordsSorted.pop(position)
-        
-
-    def draw(self):
-        wordsToShow="\n\n"
+    
+    def makeWordsToShow(self):
+        wordsToShow=""
         numberLeft=0
         for wordCat in self.allWordsSorted:
             addNewLine=True
@@ -129,11 +138,25 @@ class WordsSorted():
                     else:
                         if addNewLine:
                             wordsToShow+="\n"
-                        wordsToShow+=word+"\t"
+                        wordsToShow+=word+"    "
                         addNewLine= not addNewLine
             wordsToShow+="\n"
-        self.wordsToShowList=util.stringToList(wordsToShow, "\n")
-        util.toScreenInfTopLeft(self.wordsToShowList, const.FONT60, const.BLACK, 10, 50)
-                        
+        self.wordsToShow=wordsToShow
+
+    def scrollBarAppearance(self):
+        if self.bottomY>const.HEIGHT-30:
+            self.colour=const.LIGHT_GRAY
+            self.textHeight=self.bottomY-self.y
+            self.height=self.showableHeight*(self.showableHeight/self.textHeight)
+            self.rect = pygame.Rect(const.WIDTH//4-40, self.y+60, 20, self.height)
+
+
+    def draw(self):
+        self.makeWordsToShow()
+        self.wordsToShowList=util.stringToList(self.wordsToShow, "\n")
+        self.bottomY=util.toScreenInfTopLeft(self.wordsToShowList, const.FONT60, const.BLACK, 10, self.y)
+        #print(str(self.bottomY))      
                             
-        #print(wordsToShow)
+        #scroll bar stuff
+        self.scrollBarAppearance()
+        pygame.draw.rect(const.SCREEN, self.colour, self.rect)

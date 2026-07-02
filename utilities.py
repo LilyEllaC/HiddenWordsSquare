@@ -25,7 +25,8 @@ def toScreenInfTopLeft(wordList, font, colour, x, y):
     for word in wordList:
         text = font.render(word, True, colour)
         const.SCREEN.blit(text, (x, y+heightAdded*fontHeight))
-        heightAdded+=1
+        heightAdded+=1.0
+    return y+heightAdded*fontHeight
 
 #taking a string with \n and turning it into a list
 def stringToList(string, symbol):
