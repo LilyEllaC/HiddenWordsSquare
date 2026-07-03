@@ -37,13 +37,21 @@ async def main():
                                 gameplay.clicked=True
                                 gameplay.currentWord=""#square.letter
                                 break
+                        #scroll bar
+                        gameplay.wordInformation.startMove()
 
 
                 if event.type==pygame.MOUSEBUTTONUP:
+                    if gameplay.clicked:
+                        gameplay.checkIfWord(gameplay.currentWord)
                     gameplay.clicked=False
+                    
+                    #scroll bar
+                    gameplay.wordInformation.moving=False
+
+                    #resetting the squares
                     for square in preset.squares:
                         square.setting="normal"
-                    gameplay.checkIfWord(gameplay.currentWord)
                     
 
         if gameState=="playing":

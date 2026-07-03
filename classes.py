@@ -81,16 +81,22 @@ class WordType:
 class WordsSorted():
     def __init__(self, words):
         #dealing with scrolling
-        self.y=50.0
+        self.barY=130
+        self.minY=self.barY
         self.height=const.HEIGHT
         self.rect = pygame.Rect(const.WIDTH//4-40, 0, 20, self.height)
         self.colour=const.MAGENTA
         self.bottomY=0
-        self.textHeight=self.y-self.bottomY
-        self.showableHeight=const.HEIGHT-self.y-30
+        self.yToMove=0
+        self.mouseStart=0
+        self.textHeight=self.barY-self.bottomY
+        self.showableHeight=(const.HEIGHT-self.barY)-5
+        self.maxY=self.minY+self.showableHeight
+        self.moving=False
 
 
         self.wordsToShowList=[]
+        self.textY=self.barY-40
 
         #tuples showing the words in the puzzle, the words found, and the length of the words
         self.words4=([],[], 4)
@@ -110,7 +116,7 @@ class WordsSorted():
         self.allWords=words
         for word in words:
             self.allWordsSorted[len(word)-4][0].append(word)
-            print(word)
+            self.allWordsSorted[len(word)-4][1].append(word)
             
         self.wordsToShow=""
         numbersToDelete=[]
@@ -146,17 +152,42 @@ class WordsSorted():
     def scrollBarAppearance(self):
         if self.bottomY>const.HEIGHT-30:
             self.colour=const.LIGHT_GRAY
-            self.textHeight=self.bottomY-self.y
+            self.textHeight=self.bottomY-self.barY
             self.height=self.showableHeight*(self.showableHeight/self.textHeight)
-            self.rect = pygame.Rect(const.WIDTH//4-40, self.y+60, 20, self.height)
+            self.rect = pygame.Rect(const.WIDTH//4-40, self.barY, 20, self.height)
+
+    def startMove(self):
+        mouseX, mouseY= pygame.mouse.get_pos()
+        if self.rect.collidepoint((mouseX, mouseY)):
+            self.yToMove=self.barY
+            self.mouseStart=mouseY
+            self.moving=True
+            print("started moving")
+            
+    
+    def move(self):
+        mouseY= pygame.mouse.get_pos()[1]
+        #print("Y position: "+str(self.barY)+" min y: "+str(self.minY)+" max y: "+str(self.maxY-self.height))
+        if self.barY>=self.minY and self.barY<=self.maxY-self.height:
+            self.barY=self.yToMove+(mouseY-self.mouseStart)
+
+        #stopping it from glitching and going to far
+        if self.barY<self.minY:
+            self.barY=self.minY
+        if self.barY+self.height>self.maxY:
+            self.barY=(self.maxY-self.height)-1
+
 
 
     def draw(self):
         self.makeWordsToShow()
         self.wordsToShowList=util.stringToList(self.wordsToShow, "\n")
-        self.bottomY=util.toScreenInfTopLeft(self.wordsToShowList, const.FONT60, const.BLACK, 10, self.y)
+        self.bottomY=util.toScreenInfTopLeft(self.wordsToShowList, const.FONT60, const.BLACK, 10, self.textY)
         #print(str(self.bottomY))      
                             
         #scroll bar stuff
         self.scrollBarAppearance()
         pygame.draw.rect(const.SCREEN, self.colour, self.rect)
+
+        if self.moving: 
+            self.move()
