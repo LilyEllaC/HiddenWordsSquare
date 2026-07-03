@@ -120,22 +120,16 @@ def play():
     #basic stuff
     global timer
     const.SCREEN.fill(const.MAGENTA)
-    util.toScreen("HIDDEN WORDS SQUARE", const.FONT75, const.BLACK, const.WIDTH // 2, 30)
+    util.toScreen("HIDDEN WORDS SQUARE", const.FONT75, const.BLACK, const.WIDTH // 2, 80)
     
-    #showing the words found
-    #util.toScreenInfTopLeft(wordsFound, const.FONT45, const.BLACK, 100, 200)
-
     #getting the mouse dragged stuff to work
     mouseX, mouseY = pygame.mouse.get_pos()
-    util.toScreen(currentWord, const.FONT50, const.BLACK, const.WIDTH//2, 130)
+    util.toScreen(currentWord, const.FONT50, const.BLACK, const.WIDTH//2, 205)
     if clicked:
         wordType.image=wordType.imageBlank
         for square in squares:
             colourSquares(square, mouseX, mouseY)
             showLine(const.DARK_TEAL, square, squares)
-
-                    
-            
 
 
 

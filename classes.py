@@ -31,6 +31,7 @@ class Squares:
         else:
             self.position=-1
         util.toScreen(self.letter, const.FONTS[self.fontNum], const.BLACK, self.x+self.size//2, self.y+self.size*4//7)
+        util.toScreen(str(self.point), const.FONT40, const.BLACK, self.x+self.size//2, self.y+self.size-20)
 
 
 class ScoreBar:
@@ -59,7 +60,7 @@ class ScoreBar:
 class WordType:
     def __init__ (self):
         self.x=const.WIDTH//2-25
-        self.y=60
+        self.y=125
         self.width=50
         image=pygame.image.load("checkmark.webp")
         self.imageCorrect=pygame.transform.scale(image, (self.width, self.width))
@@ -73,8 +74,6 @@ class WordType:
 
     def draw(self):
         const.SCREEN.blit(self.image, (self.x, self.y))
-
-
 
 
 
@@ -210,3 +209,26 @@ class WordsSorted():
 
         if self.moving: 
             self.move()
+
+
+class Buttons():
+    def __init__(self):
+        self.width=100
+        self.x=const.WIDTH-self.width-30
+        self.y=const.HEIGHT-self.width-30
+        image=pygame.image.load("play.png")
+        self.imageGame=pygame.transform.scale(image, (self.width, self.width))
+        self.rectGame=pygame.Rect(self.x, self.y, self.width, self.width)
+        image=pygame.image.load("Explain.png")
+        self.imageExplain=pygame.transform.scale(image, (self.width, self.width))
+        self.rectExplain=pygame.Rect(self.x, self.y-(self.width+30), self.width, self.width)
+        image=pygame.image.load("tutorial.png")
+        self.imageTutorial=pygame.transform.scale(image, (self.width, self.width))
+        self.rectTutorial=pygame.Rect(self.x, self.y-(self.width+30)*2, self.width, self.width)
+        image=pygame.image.load("blank.png")
+        self.imageBlank=pygame.transform.scale(image, (self.width, self.width))
+
+    def draw(self):
+        const.SCREEN.blit(self.imageGame, (self.x, self.y))
+        const.SCREEN.blit(self.imageExplain, (self.x, self.y-(self.width+30)))
+        const.SCREEN.blit(self.imageTutorial, (self.x, self.y-(self.width+30)*2))
