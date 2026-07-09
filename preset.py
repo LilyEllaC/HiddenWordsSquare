@@ -7,6 +7,8 @@ import random
 gameStarted=False
 wordType=WordType()
 timer=0
+startTimer=False
+done=False
 letterNum=0
 theLetters=""
 

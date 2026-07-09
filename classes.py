@@ -60,17 +60,25 @@ class ScoreBar:
 
 class WordType:
     def __init__ (self):
-        self.x=const.WIDTH//2-25
-        self.y=125
-        self.width=50
-        image=pygame.image.load("checkmark.webp")
-        self.imageCorrect=pygame.transform.scale(image, (self.width, self.width))
-        image=pygame.image.load("cross.png")
-        self.imageWrong=pygame.transform.scale(image, (self.width, self.width))
-        image=pygame.image.load("Bonus symbol.png")
-        self.imageBonus=pygame.transform.scale(image, (self.width, self.width))
+        self.width=245
+        self.height=75
+        self.x=const.WIDTH//2-(self.width//2)
+        self.y=110
+        
+        image=pygame.image.load("correct.png")
+        self.imageCorrect=pygame.transform.scale(image, (self.width, self.height))
+        image=pygame.image.load("wrong.png")
+        self.imageWrong=pygame.transform.scale(image, (self.width, self.height))
+        image=pygame.image.load("tooShort.png")
+        self.imageShort=pygame.transform.scale(image, (self.width, self.height))
+        image=pygame.image.load("bonus.png")
+        self.imageBonus=pygame.transform.scale(image, (self.width, self.height))
+        image=pygame.image.load("found.png")
+        self.imageFound=pygame.transform.scale(image, (self.width, self.height))
+        image=pygame.image.load("foundBonus.png")
+        self.imageFoundBonus=pygame.transform.scale(image, (self.width, self.height))
         image=pygame.image.load("blank.png")
-        self.imageBlank=pygame.transform.scale(image, (self.width, self.width))
+        self.imageBlank=pygame.transform.scale(image, (self.width, self.height))
         self.image=self.imageBlank
 
     def draw(self):

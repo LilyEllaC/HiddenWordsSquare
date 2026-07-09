@@ -8,12 +8,12 @@ import preset
 
 currentWord=""
 clicked=False
-letters=["     PY  AL     ","WRD O           ", "   S   Q   USERA"]
+letters=["     PY  AL     ","WRD O           ", "   S   Q   U ERA"]
 letterNum=0
 squares=preset.makeSquares(len(letters[0]), letters[preset.letterNum], const.TEAL)
 
-pointBar=preset.calculatePointBar(["PLAY", "WORD", "SQUARES"])
-wordInfo=classes.WordsSorted(["PLAY", "WORD", "SQUARES"], const.LIGHT_BLUE)
+pointBar=preset.calculatePointBar(["PLAY", "WORD", "SQUARE"])
+wordInfo=classes.WordsSorted(["PLAY", "WORD", "SQUARE"], const.LIGHT_BLUE)
 score=0
 timer=0
 
@@ -59,20 +59,25 @@ def playTutorial(scoreBar, theCurrentWord, letterSquares):
         game.wordType.image=game.wordType.imageBlank
         for square in letterSquares:
             theCurrentWord, square=game.colourSquares(square, mouseX, mouseY, theCurrentWord)
-            game.showLine(const.DARK_TEAL, square, letterSquares)
+            game.showLine(const.DARK_TEAL, square, letterSquares, theCurrentWord)
     
 
     #moving to the next word
-    if theCurrentWord=="PLAY" or theCurrentWord=="WORD" or theCurrentWord=="SQUARES":
+    if theCurrentWord=="PLAY" or theCurrentWord=="WORD" or theCurrentWord=="SQUARE":
+        if theCurrentWord=="SQUARE":
+            preset.done=True
+        preset.startTimer=True
+    if preset.startTimer:
         preset.timer+=1/const.FPS
-    if preset.timer>3 and (theCurrentWord=="WORD" or theCurrentWord=="PLAY"):
+    if preset.timer>3 and not preset.done:
         preset.letterNum+=1
         letterSquares=preset.makeSquares(16, letters[preset.letterNum], const.TEAL)
         for square in letterSquares:
             square.visible=True
+        preset.startTimer=False
         preset.timer=0
         theCurrentWord=""
-    elif preset.timer>3:
+    elif preset.timer>3 and preset.done:
         util.toScreen2("Now you can",  "go play!", const.FONT55, const.BLACK, const.WIDTH-250, const.HEIGHT-80)
 
 

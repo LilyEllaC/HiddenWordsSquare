@@ -77,9 +77,9 @@ def colourSquares(square, mouseX, mouseY, word:str):
                 
 
 #make a line
-def showLine(colour, square, letterSquares):
+def showLine(colour, square, letterSquares, theCurrentWord):
     mouseX, mouseY = pygame.mouse.get_pos()
-    if square.setting=="clicked" and square.position==len(currentWord)-1:
+    if square.setting=="clicked" and square.position==len(theCurrentWord)-1:
         pygame.draw.line(const.SCREEN, colour, (square.xCirc, square.yCirc), (mouseX, mouseY), 20)
     elif square.setting=="clicked":
         for otherSquare in letterSquares:
@@ -92,6 +92,10 @@ def checkIfWord(word, wordInfo, scoreBar, points):
     sortedLists=wordInfo.allWordsSorted
     found=False
     for lists in sortedLists:
+        if word in lists[1]:
+            wordType.image=wordType.imageFound
+            found=True
+            break
         for option in lists[0]:
             if option==word and word not in lists[1]:
                 lists[1].append(word)
@@ -100,10 +104,12 @@ def checkIfWord(word, wordInfo, scoreBar, points):
                 wordType.image=wordType.imageCorrect
                 found=True
                 break
-        if word in lists[1]:
-            break
+        
     if not found:
-        wordType.image=wordType.imageWrong
+        if len(word)<4:
+            wordType.image=wordType.imageShort
+        else:
+            wordType.image=wordType.imageWrong
     return points
 
 
@@ -135,7 +141,7 @@ def play(wordInformation, scoreBar, theCurrentWord):
         wordType.image=wordType.imageBlank
         for square in squares:
             theCurrentWord, square=colourSquares(square, mouseX, mouseY, theCurrentWord)
-            showLine(const.DARK_TEAL, square, squares)
+            showLine(const.DARK_TEAL, square, squares, theCurrentWord)
 
 
 
