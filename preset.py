@@ -5,11 +5,10 @@ import math
 import random
 
 #preassigned variables
-squares=[]
-xPos=[]
-yPos=[]
 gameStarted=False
 wordType=WordType()
+timer=0
+letterNum=0
 
 
 #creating the points bar
@@ -34,11 +33,14 @@ def getSquareInfo():
     return [len(letters), letters, const.TEAL]
 
 #getting all of the squares
-def getSquares(number, letters, colour):
+def makeSquares(number, letters, colour):
     # getting the info
     numAcross=int(math.sqrt(number))
     xDistance=(const.WIDTH//2)//numAcross
     size=xDistance-xDistance//8
+    print("Num across"+str(numAcross))
+    xPos=[]
+    yPos=[]
     for i in range(0, numAcross):
         xPos.append(const.WIDTH//4+xDistance*i)
         yPos.append(const.HEIGHT//4+xDistance*i)
@@ -63,6 +65,7 @@ def getSquares(number, letters, colour):
 
     #creating the squares
     letterPos=0
+    squares=[]
     for y in yPos:
         for x in xPos:
             #duplicate stuff
@@ -73,11 +76,15 @@ def getSquares(number, letters, colour):
             
             #points
             letter=letters[letterPos]
-            point=const.POINTS[ord(letter)-65]
+            if ord(letter)-65<0:
+                point=0
+            else:
+                point=const.POINTS[ord(letter)-65]
             
             #creating
             squares.append(Squares(size, fontNum, x, y, colourC, letter, duplicate, point))
             letterPos+=1
+    return squares
         
 
 #getting the list of words in the puzzle by length

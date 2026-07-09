@@ -4,6 +4,7 @@ import constants as const
 import utilities as util
 import gameplay
 import explanation
+import tutorial
 import preset
 import classes
 
@@ -30,52 +31,55 @@ async def main():
                 if buttons.rectGame.collidepoint((mouseX, mouseY)):
                     print("game")
                     gameState="playing"
+                    wordInfo=gameplay.setUp(preset.gameStarted)
                 if buttons.rectExplain.collidepoint((mouseX, mouseY)):
                     print("explain")
                     gameState="explain"
                 if buttons.rectTutorial.collidepoint((mouseX, mouseY)):
                     print("tutorial")
-                    gameState="explain"
+                    gameState="tutorial"
+                    tutorial.setUp()
 
 
             if gameState=="playing":
                 if event.type==pygame.MOUSEBUTTONDOWN:
-                    #setting up the letters
-                    if not preset.gameStarted:
-                        preset.gameStarted=True
-                        squareInfo=preset.getSquareInfo()
-                        preset.getSquares(squareInfo[0], squareInfo[1], squareInfo[2])
-                        gameplay.setUp()
-
                     #actual gameplay
-                    else:
-                        #starting to make a word
-                        for square in preset.squares:
-                            if square.rect.collidepoint(event.pos):
-                                gameplay.clicked=True
-                                gameplay.currentWord=""
-                                break
-                        #scroll bar
-                        gameplay.wordInformation.startMove()
+                    #starting to make a word
+                    for square in gameplay.squares:
+                        if square.rect.collidepoint(event.pos):
+                            gameplay.clicked=True
+                            gameplay.currentWord=""
+                            break
+                    #scroll bar
+                    wordInfo.startMove()
 
 
                 if event.type==pygame.MOUSEBUTTONUP:
                     if gameplay.clicked:
-                        gameplay.checkIfWord(gameplay.currentWord)
+                        gameplay.checkIfWord(gameplay.currentWord, wordInfo, gameplay.pointBar)
                     gameplay.clicked=False
                     
                     #scroll bar
-                    gameplay.wordInformation.moving=False
+                    wordInfo.moving=False
 
                     #resetting the squares
-                    for square in preset.squares:
+                    for square in gameplay.squares:
                         square.setting="normal"
+            
+            #tutorial
+            if gameState=="tutorial":
+                if event.type==pygame.MOUSEBUTTONDOWN:
+                    tutorial.mouseDown(event)
+                if event.type==pygame.MOUSEBUTTONUP:
+                    tutorial.mouseUp()
                     
 
         if gameState=="playing":
-            gameplay.play()
+            gameplay.play(wordInfo)
         elif gameState=="explain":
             explanation.showExplanation()
+        elif gameState=="tutorial":
+            tutorial.playTutorial()
 
         #important stuff
         buttons.draw()

@@ -21,6 +21,7 @@ class Squares:
         self.position=-1
         self.point=point
         self.setting="normal"
+        self.visible=False
 
         self.rect = pygame.Rect(self.x, self.y, self.size, self.size)
     
@@ -78,13 +79,14 @@ class WordType:
 
 
 class WordsSorted():
-    def __init__(self, words):
+    def __init__(self, words, colour):
         #dealing with scrolling
         self.barY=130
         self.minY=self.barY
         self.height=const.HEIGHT
         self.rect = pygame.Rect(const.WIDTH//4-40, 0, 20, self.height)
-        self.colour=const.MAGENTA
+        self.hiddenColour=colour
+        self.colour=self.hiddenColour
         self.bottomY=0
         self.change=0
         self.barStartMovingY=0
@@ -205,7 +207,7 @@ class WordsSorted():
         #scroll bar stuff
         self.scrollBarAppearance()
         pygame.draw.rect(const.SCREEN, self.colour, self.rect)
-        pygame.draw.rect(const.SCREEN, const.MAGENTA, self.hidingRect)
+        pygame.draw.rect(const.SCREEN, self.hiddenColour, self.hidingRect)
 
         if self.moving: 
             self.move()
