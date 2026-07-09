@@ -71,7 +71,6 @@ def playTutorial(scoreBar, theCurrentWord, letterSquares):
         for square in letterSquares:
             square.visible=True
         preset.timer=0
-        print("Changing Word")
         theCurrentWord=""
     elif preset.timer>3:
         util.toScreen2("Now you can",  "go play!", const.FONT55, const.BLACK, const.WIDTH-250, const.HEIGHT-80)

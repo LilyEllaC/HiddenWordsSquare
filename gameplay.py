@@ -17,14 +17,12 @@ pointBar=""
 
 #functions
 #setting up
-def setUp(hasStarted, letterSquares, scoreBar):
+def setUp(hasStarted, letterSquares, scoreBar, wordInfo):
     if not hasStarted:
         preset.gameStarted=True
         squareInfo=preset.getSquareInfo()
         letterSquares=preset.makeSquares(squareInfo[0], squareInfo[1], squareInfo[2])
         preset.theLetters=squareInfo[1]
-    words=getWords(preset.theLetters)
-    wordInfo, scoreBar=makePoints(hasStarted, words, scoreBar)
     
     for square in tutorial.squares:
         square.visible=False
@@ -46,11 +44,8 @@ def colourSquares(square, mouseX, mouseY, word:str):
         if square.setting=="normal":
             square.setting="clicked"
             #making the word
-            if isinstance(word, tuple):
-                print("It is a tuple!")
             word+=str(square.letter)
             square.position=len(word)-1
-            #print(square.letter, square.position, currentWord[square.position])
         #making it so if mouse is off it, it uncolours
         #normal way
         elif not square.isDuple:
@@ -102,7 +97,6 @@ def checkIfWord(word, wordInfo, scoreBar, points):
                 lists[1].append(word)
                 points=calculatePoints(word, points)
                 scoreBar.changeScore(points)
-                print("found: "+word)
                 wordType.image=wordType.imageCorrect
                 found=True
                 break
@@ -110,7 +104,6 @@ def checkIfWord(word, wordInfo, scoreBar, points):
             break
     if not found:
         wordType.image=wordType.imageWrong
-        print("Not found: "+word)
     return points
 
 
@@ -121,14 +114,11 @@ def calculatePoints(word, points):
     return points
 
 #actually make the bar
-def makePoints(hasStarted, words, scoreBar):
+def makePoints(words, scoreBar):
     #pointbar stuff
     scoreBar=preset.calculatePointBar(words)
     #words showing stuff
-    if not hasStarted:
-        wordInformation=classes.WordsSorted(words, const.MAGENTA)
-    else: 
-        wordInformation=classes.WordsSorted(words, const.MAGENTA)
+    wordInformation=classes.WordsSorted(words, const.MAGENTA)
     return wordInformation, scoreBar
 
 

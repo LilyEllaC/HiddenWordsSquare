@@ -25,17 +25,16 @@ async def main():
                 running=False
             #buttons
             if event.type==pygame.MOUSEBUTTONDOWN:
-                print("pressed")
                 mouseX, mouseY=pygame.mouse.get_pos()
                 if buttons.rectGame.collidepoint((mouseX, mouseY)):
-                    print("game")
                     gameState="playing"
-                    wordInfo, gameplay.squares, gameplay.pointBar=gameplay.setUp(preset.gameStarted, gameplay.squares, gameplay.pointBar)
+                    if not preset.gameStarted:
+                        words=gameplay.getWords(preset.theLetters)
+                        wordInfo, gameplay.pointBar=gameplay.makePoints(words, gameplay.pointBar)
+                    wordInfo, gameplay.squares, gameplay.pointBar=gameplay.setUp(preset.gameStarted, gameplay.squares, gameplay.pointBar, wordInfo)
                 if buttons.rectExplain.collidepoint((mouseX, mouseY)):
-                    print("explain")
                     gameState="explain"
                 if buttons.rectTutorial.collidepoint((mouseX, mouseY)):
-                    print("tutorial")
                     gameState="tutorial"
                     tutorial.setUp()
 

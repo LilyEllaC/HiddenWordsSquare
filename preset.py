@@ -35,7 +35,6 @@ def makeSquares(number, letters, colour):
     numAcross=int(math.sqrt(number))
     xDistance=(const.WIDTH//2)//numAcross
     size=xDistance-xDistance//8
-    print("Num across"+str(numAcross))
     xPos=[]
     yPos=[]
     for i in range(0, numAcross):
