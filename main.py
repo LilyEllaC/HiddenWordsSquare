@@ -1,7 +1,6 @@
 import pygame
 import asyncio
 import constants as const
-import utilities as util
 import gameplay
 import explanation
 import tutorial
@@ -31,7 +30,7 @@ async def main():
                 if buttons.rectGame.collidepoint((mouseX, mouseY)):
                     print("game")
                     gameState="playing"
-                    wordInfo=gameplay.setUp(preset.gameStarted)
+                    wordInfo, gameplay.squares, gameplay.pointBar=gameplay.setUp(preset.gameStarted, gameplay.squares, gameplay.pointBar)
                 if buttons.rectExplain.collidepoint((mouseX, mouseY)):
                     print("explain")
                     gameState="explain"
@@ -56,7 +55,7 @@ async def main():
 
                 if event.type==pygame.MOUSEBUTTONUP:
                     if gameplay.clicked:
-                        gameplay.checkIfWord(gameplay.currentWord, wordInfo, gameplay.pointBar)
+                        gameplay.score=gameplay.checkIfWord(gameplay.currentWord, wordInfo, gameplay.pointBar, gameplay.score)
                     gameplay.clicked=False
                     
                     #scroll bar
@@ -69,17 +68,17 @@ async def main():
             #tutorial
             if gameState=="tutorial":
                 if event.type==pygame.MOUSEBUTTONDOWN:
-                    tutorial.mouseDown(event)
+                    tutorial.clicked, tutorial.currentWord=tutorial.mouseDown(event, tutorial.pointBar, tutorial.currentWord)
                 if event.type==pygame.MOUSEBUTTONUP:
-                    tutorial.mouseUp()
+                    tutorial.clicked, tutorial.score=tutorial.mouseUp(tutorial.clicked, tutorial.pointBar, tutorial.score, tutorial.currentWord)
                     
 
         if gameState=="playing":
-            gameplay.play(wordInfo)
+            gameplay.currentWord=gameplay.play(wordInfo, gameplay.pointBar, gameplay.currentWord)
         elif gameState=="explain":
             explanation.showExplanation()
         elif gameState=="tutorial":
-            tutorial.playTutorial()
+            tutorial.pointBar, tutorial.currentWord, tutorial.squares=tutorial.playTutorial(tutorial.pointBar, tutorial.currentWord, tutorial.squares)
 
         #important stuff
         buttons.draw()

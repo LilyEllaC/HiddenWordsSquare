@@ -1,6 +1,5 @@
 import constants as const
 import utilities as util
-import pygame
 
 #text
 #explanation

@@ -12,7 +12,7 @@ letters=["     PY  AL     ","WRD O           ", "   S   Q   USERA"]
 letterNum=0
 squares=preset.makeSquares(len(letters[0]), letters[preset.letterNum], const.TEAL)
 
-pointBar=preset.calculatePointBar()
+pointBar=preset.calculatePointBar(["PLAY", "WORD", "SQUARES"])
 wordInfo=classes.WordsSorted(["PLAY", "WORD", "SQUARES"], const.LIGHT_BLUE)
 score=0
 timer=0
@@ -23,19 +23,19 @@ def setUp():
     for square in game.squares:
         square.visible=False
 
-def mouseDown(event):
-    global clicked, currentWord
+def mouseDown(event, isClicked, theCurrentWord):
     for square in squares:
         if square.rect.collidepoint(event.pos):
-            clicked=True
-            currentWord=""#square.letter
+            isClicked=True
+            theCurrentWord=""
             break
+    return isClicked, theCurrentWord
 
-def mouseUp():
-    global clicked, wordInfo
-    if clicked:
-        game.checkIfWord(currentWord, wordInfo, pointBar)
-    clicked=False
+def mouseUp(isClicked, scoreBar, points, theCurrentWord):
+    if isClicked:
+        points=game.checkIfWord(theCurrentWord, wordInfo, scoreBar, points)
+
+    isClicked=False
     
     #scroll bar
     wordInfo.moving=False
@@ -43,49 +43,53 @@ def mouseUp():
     #resetting the squares
     for square in squares:
         square.setting="normal"
+    return isClicked, points
 
 
-def playTutorial():
-    global currentWord, squares
+
+def playTutorial(scoreBar, theCurrentWord, letterSquares):
     #basic stuff
     const.SCREEN.fill(const.LIGHT_BLUE)
     util.toScreen("HIDDEN WORDS SQUARE", const.FONT75, const.BLACK, const.WIDTH // 2, 80)
     
     #getting the mouse dragged stuff to work
     mouseX, mouseY = pygame.mouse.get_pos()
-    util.toScreen(currentWord, const.FONT50, const.BLACK, const.WIDTH//2, 205)
+    util.toScreen(theCurrentWord, const.FONT50, const.BLACK, const.WIDTH//2, 205)
     if clicked:
         game.wordType.image=game.wordType.imageBlank
-        for square in squares:
-            currentWord, square=game.colourSquares(square, mouseX, mouseY, currentWord)
-            game.showLine(const.DARK_TEAL, square, squares)
+        for square in letterSquares:
+            theCurrentWord, square=game.colourSquares(square, mouseX, mouseY, theCurrentWord)
+            game.showLine(const.DARK_TEAL, square, letterSquares)
     
 
     #moving to the next word
-    if currentWord=="PLAY" or currentWord=="WORD":
+    if theCurrentWord=="PLAY" or theCurrentWord=="WORD" or theCurrentWord=="SQUARES":
         preset.timer+=1/const.FPS
-    if preset.timer>4:
-        print("new")
+    if preset.timer>3 and (theCurrentWord=="WORD" or theCurrentWord=="PLAY"):
         preset.letterNum+=1
-        squares=preset.makeSquares(16, letters[preset.letterNum], const.TEAL)
-        print(str(len(letters))+"num: "+str(preset.letterNum))
-        for square in squares:
+        letterSquares=preset.makeSquares(16, letters[preset.letterNum], const.TEAL)
+        for square in letterSquares:
             square.visible=True
         preset.timer=0
-        currentWord=""
+        print("Changing Word")
+        theCurrentWord=""
+    elif preset.timer>3:
+        util.toScreen2("Now you can",  "go play!", const.FONT55, const.BLACK, const.WIDTH-250, const.HEIGHT-80)
 
 
     #drawing
     #showing the score
     util.toScreen("Score: "+str(score), const.FONT30, const.BLACK, const.WIDTH*4//5, 100)
     
-    pointBar.draw()
+    scoreBar.draw()
     util.toScreen("Score: "+str(score), const.FONT30, const.BLACK, const.WIDTH*4//5, 100)
     game.wordType.draw()
     wordInfo.draw()
     
 
-    for square in squares:
+    for square in letterSquares:
         if square.visible:
             square.draw()
+    
+    return scoreBar, theCurrentWord, letterSquares
         

@@ -1,6 +1,5 @@
 from classes import Squares, ScoreBar, WordType
 import constants as const
-import utilities as util
 import math
 import random
 
@@ -9,12 +8,10 @@ gameStarted=False
 wordType=WordType()
 timer=0
 letterNum=0
-
+theLetters=""
 
 #creating the points bar
-def calculatePointBar():
-    with open("wordsInPuzzle.txt", "r") as file:
-        words = [line.strip() for line in file]
+def calculatePointBar(words):
     totalScore=0
     for word in words:
         for letter in word:
@@ -87,10 +84,6 @@ def makeSquares(number, letters, colour):
     return squares
         
 
-#getting the list of words in the puzzle by length
-def sortWords(words):
-    with open("wordsInPuzzle.txt", "r") as file:
-        words = file.readlines()
 
 
 
