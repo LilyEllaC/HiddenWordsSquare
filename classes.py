@@ -277,12 +277,7 @@ class Finger():
                 self.x-=self.speed
         else:
             self.moveDiagonal()
-        print("Distance Y: "+str((self.y+self.height//2)-self.nextLocation[1])+ "\tDistance X: "+str((self.x+self.width//2)-self.nextLocation[0]))
-        if abs((self.x+self.width//2)-self.nextLocation[0])<self.speed:
-            print("x is reached")
-        if abs((self.y+self.height//2)-self.nextLocation[1])<self.speed:
-            print("Y is reached")
-        
+       
         if abs((self.x+self.width//2)-self.nextLocation[0])<self.speed and abs((self.y+self.height//2)-self.nextLocation[1])<self.speed:
             self.previousLocations.append(self.locations[position])
             self.currentLocation=self.locations[position]

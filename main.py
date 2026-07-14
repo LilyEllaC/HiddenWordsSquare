@@ -6,6 +6,7 @@ import explanation
 import tutorial
 import preset
 import classes
+import findTheWords
 
 
 # important stuff
@@ -18,6 +19,7 @@ gameState="explain"
 buttons=classes.Buttons()
 
 async def main():
+    findTheWords.fixWordList()
     global running, gameState
     while running:
         for event in pygame.event.get():
