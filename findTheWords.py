@@ -1,17 +1,14 @@
 
 def fixWordList():
-    words=getFromFile("newWords.txt")
+    words=getFromFile("realWords.txt")
     realWords=getFromFile("allWords.txt")
     print("Got real words")
-    finalWords=[]
-    for word in words:
-        word=word.upper()
-        word=word.replace(";", "")
-        if word in realWords:
-            finalWords.append(word)
-        else: print("error"+word)
+    bonusWords=[]
+    for word in realWords:
+        if word not in words:
+            bonusWords.append(word)
     
-    pushToFile(finalWords, "actualList.txt")
+    pushToFile(bonusWords, "bonusWords.txt")
 
 
 def pushToFile(words, fileName):
