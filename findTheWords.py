@@ -1,14 +1,14 @@
 
 def fixWordList():
-    words=getFromFile("realWords.txt")
-    realWords=getFromFile("allWords.txt")
-    print("Got real words")
-    bonusWords=[]
+    realWords=getFromFile("bonusWords.txt")
+    newRealWords=[]    
     for word in realWords:
-        if word not in words:
-            bonusWords.append(word)
+        if len(word)<=4:
+            print("Too short: "+word)
+        else:
+            newRealWords.append(word)
     
-    pushToFile(bonusWords, "bonusWords.txt")
+    pushToFile(newRealWords, "bonusWords.txt")
 
 
 def pushToFile(words, fileName):
