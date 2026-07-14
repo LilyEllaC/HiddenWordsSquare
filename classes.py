@@ -57,7 +57,6 @@ class ScoreBar:
         pygame.draw.rect(const.SCREEN, self.colourPoints, self.rectPoints)
 
 
-
 class WordType:
     def __init__ (self):
         self.width=245
@@ -83,7 +82,6 @@ class WordType:
 
     def draw(self):
         const.SCREEN.blit(self.image, (self.x, self.y))
-
 
 
 class WordsSorted():
@@ -242,3 +240,72 @@ class Buttons():
         const.SCREEN.blit(self.imageGame, (self.x, self.y))
         const.SCREEN.blit(self.imageExplain, (self.x, self.y-(self.width+30)))
         const.SCREEN.blit(self.imageTutorial, (self.x, self.y-(self.width+30)*2))
+
+
+class Finger():
+    def __init__(self, locations, width):
+        for location in locations:
+            location[0]+=width//2
+            location[1]+=width//2
+
+        location1=locations[0]
+        self.width=100
+        self.height=130
+        self.speed=3
+        self.locations=locations
+        self.previousLocations=[location1]
+        self.x=location1[0]-self.width//2
+        self.y=location1[1]-self.height//2
+        self.currentLocation=location1
+        self.nextLocation=locations[1]
+
+        image=pygame.image.load("fingerPointing.png")
+        self.image=pygame.transform.scale(image, (self.width, self.height))
+        #self.image=pygame.transform.rotate(self.image, -90)
+
+    def move(self):
+        position=len(self.previousLocations)
+        if self.currentLocation[0]==self.nextLocation[0]:
+            if self.currentLocation[1]<self.nextLocation[1]:
+                self.y+=self.speed
+            if self.currentLocation[1]>self.nextLocation[1]:
+                self.y-=self.speed
+        elif self.currentLocation[1]==self.nextLocation[1]:
+            if self.currentLocation[0]<self.nextLocation[0]:
+                self.x+=self.speed
+            if self.currentLocation[0]>self.nextLocation[0]:
+                self.x-=self.speed
+        else:
+            self.moveDiagonal()
+        print("Distance Y: "+str((self.y+self.height//2)-self.nextLocation[1])+ "\tDistance X: "+str((self.x+self.width//2)-self.nextLocation[0]))
+        if abs((self.x+self.width//2)-self.nextLocation[0])<self.speed:
+            print("x is reached")
+        if abs((self.y+self.height//2)-self.nextLocation[1])<self.speed:
+            print("Y is reached")
+        
+        if abs((self.x+self.width//2)-self.nextLocation[0])<self.speed and abs((self.y+self.height//2)-self.nextLocation[1])<self.speed:
+            self.previousLocations.append(self.locations[position])
+            self.currentLocation=self.locations[position]
+            if position+1!=len(self.locations):
+                self.nextLocation=self.locations[position+1]
+            print("reached location")
+
+    def moveDiagonal(self):
+        
+        slope=((self.nextLocation[1]+self.height//2)-(self.currentLocation[1]+self.height//2))/((self.nextLocation[0]+self.width)-(self.currentLocation[0]+self.width))
+        print(slope)
+        if self.currentLocation[0]<self.nextLocation[0]:
+            self.x+=self.speed
+        if self.currentLocation[0]>self.nextLocation[0]:
+            self.x-=self.speed
+        self.y+=slope*self.speed
+        #if self.currentLocation[1]<self.locations[position][1]:
+         #   self.y+=self.speed/2
+        #if self.currentLocation[1]>self.locations[position][1]:
+         #   self.y-=self.speed/2
+
+            
+    def draw(self):
+        if len(self.previousLocations)!=len(self.locations):
+            const.SCREEN.blit(self.image, (self.x, self.y))
+            self.move()

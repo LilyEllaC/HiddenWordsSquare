@@ -11,11 +11,13 @@ clicked=False
 letters=["     PY  AL     ","WRD O           ", "   S   Q   U ERA"]
 letterNum=0
 squares=preset.makeSquares(len(letters[0]), letters[preset.letterNum], const.TEAL)
+finger=classes.Finger([[squares[5].x,squares[5].y], [squares[10].x,squares[10].y], [squares[9].x,squares[9].y], [squares[6].x,squares[6].y]], squares[0].size)
 
 pointBar=preset.calculatePointBar(["PLAY", "WORD", "SQUARE"])
 wordInfo=classes.WordsSorted(["PLAY", "WORD", "SQUARE"], const.LIGHT_BLUE)
 score=0
 timer=0
+
 
 def setUp():
     for square in squares:
@@ -47,7 +49,7 @@ def mouseUp(isClicked, scoreBar, points, theCurrentWord):
 
 
 
-def playTutorial(scoreBar, theCurrentWord, letterSquares):
+def playTutorial(scoreBar, theCurrentWord, letterSquares, finger):
     #basic stuff
     const.SCREEN.fill(const.LIGHT_BLUE)
     util.toScreen("HIDDEN WORDS SQUARE", const.FONT75, const.BLACK, const.WIDTH // 2, 80)
@@ -88,12 +90,11 @@ def playTutorial(scoreBar, theCurrentWord, letterSquares):
     scoreBar.draw()
     util.toScreen("Score: "+str(score), const.FONT30, const.BLACK, const.WIDTH*4//5, 100)
     game.wordType.draw()
-    wordInfo.draw()
-    
-
+    wordInfo.draw()    
     for square in letterSquares:
         if square.visible:
             square.draw()
+    finger.draw()
     
     return scoreBar, theCurrentWord, letterSquares
         

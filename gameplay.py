@@ -108,6 +108,8 @@ def checkIfWord(word, wordInfo, scoreBar, points):
     if not found:
         if len(word)<4:
             wordType.image=wordType.imageShort
+            if len(word)==0 or " " in word:
+                wordType.image=wordType.imageBlank
         else:
             wordType.image=wordType.imageWrong
     return points

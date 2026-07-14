@@ -77,7 +77,7 @@ async def main():
         elif gameState=="explain":
             explanation.showExplanation()
         elif gameState=="tutorial":
-            tutorial.pointBar, tutorial.currentWord, tutorial.squares=tutorial.playTutorial(tutorial.pointBar, tutorial.currentWord, tutorial.squares)
+            tutorial.pointBar, tutorial.currentWord, tutorial.squares=tutorial.playTutorial(tutorial.pointBar, tutorial.currentWord, tutorial.squares, tutorial.finger)
 
         #important stuff
         buttons.draw()
