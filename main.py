@@ -65,6 +65,7 @@ async def main():
                     for square in gameplay.squares:
                         square.setting="normal"
             
+            
             #tutorial
             if gameState=="tutorial":
                 if event.type==pygame.MOUSEBUTTONDOWN:
@@ -74,7 +75,7 @@ async def main():
                     
 
         if gameState=="playing":
-            gameplay.currentWord=gameplay.play(wordInfo, gameplay.pointBar, gameplay.currentWord)
+            gameplay.currentWord=gameplay.play(wordInfo, gameplay.pointBar, gameplay.currentWord, gameplay.score)
         elif gameState=="explain":
             explanation.showExplanation()
         elif gameState=="tutorial":

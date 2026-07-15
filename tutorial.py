@@ -91,9 +91,7 @@ def playTutorial(scoreBar, theCurrentWord, letterSquares, pointingFinger):
         elif preset.letterNum==2:
             pointingFinger.newLocations([[squares[3].x,squares[3].y], [squares[7].x,squares[7].y], [squares[11].x,squares[11].y], [squares[15].x,squares[15].y], [squares[14].x,squares[14].y], [squares[13].x,squares[13].y]], squares[0].size)
 
-    #showing the end message
-    elif preset.timer>3 and preset.done:
-        util.toScreen2("Now you can",  "go play!", const.FONT55, const.BLACK, const.WIDTH-250, const.HEIGHT-80)
+    
 
 
     #drawing
@@ -108,6 +106,11 @@ def playTutorial(scoreBar, theCurrentWord, letterSquares, pointingFinger):
         if square.visible:
             square.draw()
     pointingFinger.draw()
+
+    #showing the end message
+    if preset.timer>3 and preset.done:
+        game.celebrate()
+        util.toScreen2("Now you can",  "go play!", const.FONT55, const.BLACK, const.WIDTH-250, const.HEIGHT-80)
     
     return scoreBar, theCurrentWord, letterSquares
         

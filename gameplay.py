@@ -15,6 +15,8 @@ score=0
 squares=[]
 pointBar=""
 
+
+
 #functions
 #setting up
 def setUp(hasStarted, letterSquares, scoreBar, wordInfo):
@@ -51,7 +53,6 @@ def getWords(letters):
     wordString=wordString[wordString.find(" ")+1:]
     while " " in wordString:
         tempWords.append(wordString[:wordString.find(" ")])
-        print("Word: "+tempWords[-1])
         wordString=wordString[wordString.find(" ")+1:]
         #switching to the list of bonus words
         if tempWords[-1]=="BONUSWORD":
@@ -59,19 +60,12 @@ def getWords(letters):
             words=tempWords
             tempWords=[]
             bonusFound=True
-            print("Bonus found")
     if bonusFound:
         bonusWords=tempWords
     else:
         words=tempWords
 
-
-    print("Bonus")
-    for word in bonusWords:
-        print(word+ " ")
-
     return words, bonusWords
-
 
 #make the squares know when they are hovered over
 def colourSquares(square, mouseX, mouseY, word:str):
@@ -110,7 +104,6 @@ def colourSquares(square, mouseX, mouseY, word:str):
             square.position=-1
     return word, square
                 
-
 #make a line
 def showLine(colour, square, letterSquares, theCurrentWord):
     mouseX, mouseY = pygame.mouse.get_pos()
@@ -120,7 +113,6 @@ def showLine(colour, square, letterSquares, theCurrentWord):
         for otherSquare in letterSquares:
             if otherSquare.position==square.position+1 and otherSquare.position!=-1:
                 pygame.draw.line(const.SCREEN, colour, (square.xCirc, square.yCirc), (otherSquare.xCirc, otherSquare.yCirc), 20)
-
 
 #check if the word is in the word list  
 def checkIfWord(word, wordInfo, scoreBar, points):
@@ -159,7 +151,6 @@ def checkIfWord(word, wordInfo, scoreBar, points):
             wordType.image=wordType.imageWrong
     return points
 
-
 #calculate how many points a word is worth
 def calculatePoints(word, points):
     for letter in word:
@@ -174,9 +165,14 @@ def makeBarAndWordInfo(words, bonusWords, scoreBar):
     wordInformation=classes.WordsSorted(words, bonusWords, const.MAGENTA)
     return wordInformation, scoreBar
 
+def celebrate():
+    for confetti in preset.confettis:
+        
+        confetti.draw()
+
 
 #play the game
-def play(wordInformation, scoreBar, theCurrentWord):
+def play(wordInformation, scoreBar, theCurrentWord, points):
     #basic stuff
     const.SCREEN.fill(const.MAGENTA)
     util.toScreen("HIDDEN WORDS SQUARE", const.FONT75, const.BLACK, const.WIDTH // 2, 80)
@@ -190,8 +186,6 @@ def play(wordInformation, scoreBar, theCurrentWord):
             theCurrentWord, square=colourSquares(square, mouseX, mouseY, theCurrentWord)
             showLine(const.DARK_TEAL, square, squares, theCurrentWord)
 
-
-
     #drawing
     #showing the score
     util.toScreen("Score: "+str(score), const.FONT30, const.BLACK, const.WIDTH*4//5, 100)
@@ -200,11 +194,14 @@ def play(wordInformation, scoreBar, theCurrentWord):
         util.toScreen("Score: "+str(score), const.FONT30, const.BLACK, const.WIDTH*4//5, 100)
         wordType.draw()
         wordInformation.draw()
-        
-
+    #squares
     for square in squares:
         if square.visible:
             square.draw()
+
+    #celebration
+    if points==scoreBar.totalScore:
+        celebrate()
 
     return theCurrentWord
 

@@ -1,4 +1,4 @@
-from classes import Squares, ScoreBar, WordType
+from classes import Squares, ScoreBar, WordType, Confetti
 import constants as const
 import math
 import random
@@ -11,6 +11,10 @@ startTimer=False
 done=False
 letterNum=0
 theLetters=""
+#confetti
+confettis=[]
+for i in range(0,15):
+    confettis.append(Confetti())
 
 #creating the points bar
 def calculatePointBar(words):

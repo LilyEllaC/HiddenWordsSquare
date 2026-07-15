@@ -1,7 +1,7 @@
 import pygame
 import constants as const
 import utilities as util
-
+import random
 
 #letters
 class Squares:
@@ -46,6 +46,7 @@ class ScoreBar:
 
         #figuring distance
         self.onePoint=self.width/totalScore
+        self.totalScore=totalScore
         self.rectPoints = pygame.Rect(self.x, self.y, 0, self.height)
         self.rectBase = pygame.Rect(self.x, self.y, self.width, self.height)
 
@@ -120,13 +121,12 @@ class WordsSorted():
             self.allWordsSorted.append(([], [], i))
         #bonusWords
         self.allWordsSorted.append(([], [], 100))
-        if ([],[],100) in self.allWordsSorted:
-            print("Added")
         
         #adding the words to the list
         self.allRealWords=words
         for word in words:
             self.allWordsSorted[len(word)-4][0].append(word)
+            #self.allWordsSorted[len(word)-4][1].append(word) #cheating so I don't have to actually find the words
         #bonus word stuff
         for word in bonusWords:
             self.allWordsSorted[12][0].append(word)
@@ -319,3 +319,48 @@ class Finger():
         if len(self.previousLocations)!=len(self.locations) and not self.stop:
             const.SCREEN.blit(self.image, (self.x, self.y))
             self.move()
+
+
+#code mostly taken from a previous project of mine
+class Confetti():
+    def __init__(self):
+        self.width=200
+        self.height=200
+        self.x=random.randint(0, const.WIDTH)
+        self.y=random.randint(-300,300)
+        self.angle=random.randint(0,360)
+        image=pygame.image.load("confetti.png")
+        #image
+        self.startImage=pygame.transform.scale(image, (self.width, self.height))
+        self.image=pygame.transform.rotate(self.startImage, self.angle)
+        self.done=False
+        #not needed stuff
+#        self.rect=self.image.get_rect()
+ #       self.rect.x=self.x
+  #      self.rect.y=self.y
+    
+    def update(self):
+        FPSScaling=const.FPS_SCALING
+        #moving down slowly and drifting a little
+        self.y+=random.randint(7, 13)*FPSScaling
+        self.x+=random.randint(-2,2)*FPSScaling
+        self.angle+=random.randint(-15,15)*FPSScaling
+        self.image=pygame.transform.rotate(self.startImage, self.angle) 
+        #resetting if too low
+        if self.y>const.HEIGHT:
+            self.done=True
+            self.reset()
+
+    def reset(self):
+        self.y=random.randint(-300,300)
+
+    def draw(self):
+        if not self.done:
+            const.SCREEN.blit(self.image, (self.x, self.y))
+            self.update()
+        
+        
+        
+
+    
+        
