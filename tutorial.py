@@ -14,7 +14,7 @@ squares=preset.makeSquares(len(letters[0]), letters[preset.letterNum], const.TEA
 finger=classes.Finger([[squares[5].x,squares[5].y], [squares[10].x,squares[10].y], [squares[9].x,squares[9].y], [squares[6].x,squares[6].y]], squares[0].size)
 
 pointBar=preset.calculatePointBar(["PLAY", "WORD", "SQUARE"])
-wordInfo=classes.WordsSorted(["PLAY", "WORD", "SQUARE"], const.LIGHT_BLUE)
+wordInfo=classes.WordsSorted(["PLAY", "WORD", "SQUARE"], [], const.LIGHT_BLUE)
 score=0
 timer=0
 

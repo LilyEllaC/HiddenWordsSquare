@@ -30,8 +30,8 @@ async def main():
                 if buttons.rectGame.collidepoint((mouseX, mouseY)):
                     gameState="playing"
                     if not preset.gameStarted:
-                        words=gameplay.getWords(preset.theLetters)
-                        wordInfo, gameplay.pointBar=gameplay.makePoints(words, gameplay.pointBar)
+                        words, bonusWords=gameplay.getWords(preset.theLetters)
+                        wordInfo, gameplay.pointBar=gameplay.makeBarAndWordInfo(words, bonusWords, gameplay.pointBar)
                     wordInfo, gameplay.squares, gameplay.pointBar=gameplay.setUp(preset.gameStarted, gameplay.squares, gameplay.pointBar, wordInfo)
                 if buttons.rectExplain.collidepoint((mouseX, mouseY)):
                     gameState="explain"

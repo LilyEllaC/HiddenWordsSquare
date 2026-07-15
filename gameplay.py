@@ -31,12 +31,47 @@ def setUp(hasStarted, letterSquares, scoreBar, wordInfo):
     
     return wordInfo, letterSquares, scoreBar
 
+#getting the word from the file
 def getWords(letters):
+    #getting all the info
     with open("wordsInPuzzle.txt", "r") as file:
-        words = [line.strip() for line in file]
-    if " " in letters:
-        words=["PLAY", "WORDS", "SQUARES"]
-    return words
+        everything = [line.strip() for line in file]
+
+    
+    #variables
+    words=[]
+    tempWords=[]
+    bonusWords=[]
+    bonusFound=False
+    # words are curently all in one line woth spaces between. The letters are at the start
+    for line in everything:
+        if letters in line:
+            wordString=line
+            break
+    wordString=wordString[wordString.find(" ")+1:]
+    while " " in wordString:
+        tempWords.append(wordString[:wordString.find(" ")])
+        print("Word: "+tempWords[-1])
+        wordString=wordString[wordString.find(" ")+1:]
+        #switching to the list of bonus words
+        if tempWords[-1]=="BONUSWORD":
+            tempWords.pop()
+            words=tempWords
+            tempWords=[]
+            bonusFound=True
+            print("Bonus found")
+    if bonusFound:
+        bonusWords=tempWords
+    else:
+        words=tempWords
+
+
+    print("Bonus")
+    for word in bonusWords:
+        print(word+ " ")
+
+    return words, bonusWords
+
 
 #make the squares know when they are hovered over
 def colourSquares(square, mouseX, mouseY, word:str):
@@ -91,17 +126,27 @@ def showLine(colour, square, letterSquares, theCurrentWord):
 def checkIfWord(word, wordInfo, scoreBar, points):
     sortedLists=wordInfo.allWordsSorted
     found=False
+    isBonus=False
     for lists in sortedLists:
+        if lists[2]==100:
+            isBonus=True
         if word in lists[1]:
-            wordType.image=wordType.imageFound
+            if not isBonus:
+                wordType.image=wordType.imageFound
+            else: 
+                wordType.image=wordType.imageFoundBonus
             found=True
             break
         for option in lists[0]:
             if option==word and word not in lists[1]:
                 lists[1].append(word)
-                points=calculatePoints(word, points)
-                scoreBar.changeScore(points)
-                wordType.image=wordType.imageCorrect
+                #not a bonus word
+                if not isBonus:
+                    points=calculatePoints(word, points)
+                    scoreBar.changeScore(points)
+                    wordType.image=wordType.imageCorrect
+                else:
+                    wordType.image=wordType.imageBonus
                 found=True
                 break
         
@@ -122,11 +167,11 @@ def calculatePoints(word, points):
     return points
 
 #actually make the bar
-def makePoints(words, scoreBar):
+def makeBarAndWordInfo(words, bonusWords, scoreBar):
     #pointbar stuff
     scoreBar=preset.calculatePointBar(words)
     #words showing stuff
-    wordInformation=classes.WordsSorted(words, const.MAGENTA)
+    wordInformation=classes.WordsSorted(words, bonusWords, const.MAGENTA)
     return wordInformation, scoreBar
 
 

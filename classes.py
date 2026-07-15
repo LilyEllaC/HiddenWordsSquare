@@ -85,7 +85,7 @@ class WordType:
 
 
 class WordsSorted():
-    def __init__(self, words, colour):
+    def __init__(self, words, bonusWords, colour):
         #dealing with scrolling
         self.barY=130
         self.minY=self.barY
@@ -115,29 +115,29 @@ class WordsSorted():
 
 
         #tuples showing the words in the puzzle, the words found, and the length of the words
-        self.words4=([],[], 4)
-        self.words5=([],[], 5)
-        self.words6=([],[], 6)
-        self.words7=([],[], 7)
-        self.words8=([],[], 8)
-        self.words9=([],[], 9)
-        self.words10=([],[], 10)
-        self.words11=([],[], 11)
-        self.words12=([],[], 12)
-        self.words13=([],[], 13)
-        self.words14=([],[], 14)
-        self.words15=([],[], 15)
-        self.words16=([],[], 16)
-        self.allWordsSorted=[self.words4, self.words5, self.words6, self.words7, self.words8, self.words9, self.words10, self.words11, self.words12, self.words13, self.words14, self.words15, self.words16]
-        self.allWords=words
+        self.allWordsSorted=[]
+        for i in range (4, 16):
+            self.allWordsSorted.append(([], [], i))
+        #bonusWords
+        self.allWordsSorted.append(([], [], 100))
+        if ([],[],100) in self.allWordsSorted:
+            print("Added")
+        
+        #adding the words to the list
+        self.allRealWords=words
         for word in words:
             self.allWordsSorted[len(word)-4][0].append(word)
-            
+        #bonus word stuff
+        for word in bonusWords:
+            self.allWordsSorted[12][0].append(word)
+        
+        #getting rid of categories that don't have any words in them
         self.wordsToShow=""
         numbersToDelete=[]
         for wordCat in self.allWordsSorted:
             if len(wordCat[0])==0:
                 numbersToDelete.append(wordCat)
+        #actually deleting
         for numbers in numbersToDelete:
             position=self.allWordsSorted.index(numbers)
             self.allWordsSorted.pop(position)
@@ -145,14 +145,20 @@ class WordsSorted():
     def makeWordsToShow(self):
         wordsToShow=""
         numberLeft=0
+        #for each word length
         for wordCat in self.allWordsSorted:
             addNewLine=True
             wordCat[1].sort()
             numberLeft=len(wordCat[0])-len(wordCat[1])
-            wordsToShow+="\n"+str(wordCat[2])+" Letter Words\n"+str(numberLeft)+" left"
+            if wordCat[2]!=100:
+                wordsToShow+="\n"+str(wordCat[2])+" Letter Words\n"+str(numberLeft)+" left"
+            else:
+                wordsToShow+="\n"+"Bonus Words\n"+str(numberLeft)+" left"
+            #slight error checking (I think)
             if len(wordCat[1])>0:
                 for word in wordCat[1]:
                     #print(wordCat[1])
+                    #four letters words have two per line, others have only 1
                     if wordCat[2]!=4:
                         wordsToShow+="\n"+word
                 
