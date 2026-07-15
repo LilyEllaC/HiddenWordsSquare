@@ -258,10 +258,25 @@ class Finger():
         self.y=location1[1]-self.height//2
         self.currentLocation=location1
         self.nextLocation=locations[1]
+        self.stop=False
 
         image=pygame.image.load("fingerPointing.png")
         self.image=pygame.transform.scale(image, (self.width, self.height))
-        #self.image=pygame.transform.rotate(self.image, -90)
+
+    def newLocations(self, locations, width):
+        #remake everything
+        for location in locations:
+            location[0]+=width//2
+            location[1]+=width//2
+
+        location1=locations[0]
+        self.locations=locations
+        self.previousLocations=[location1]
+        self.x=location1[0]-self.width//2
+        self.y=location1[1]-self.height//2
+        self.currentLocation=location1
+        self.nextLocation=locations[1]
+        self.stop=False
 
     def move(self):
         position=len(self.previousLocations)
@@ -283,24 +298,18 @@ class Finger():
             self.currentLocation=self.locations[position]
             if position+1!=len(self.locations):
                 self.nextLocation=self.locations[position+1]
-            print("reached location")
 
     def moveDiagonal(self):
         
         slope=((self.nextLocation[1]+self.height//2)-(self.currentLocation[1]+self.height//2))/((self.nextLocation[0]+self.width)-(self.currentLocation[0]+self.width))
-        print(slope)
         if self.currentLocation[0]<self.nextLocation[0]:
             self.x+=self.speed
         if self.currentLocation[0]>self.nextLocation[0]:
             self.x-=self.speed
         self.y+=slope*self.speed
-        #if self.currentLocation[1]<self.locations[position][1]:
-         #   self.y+=self.speed/2
-        #if self.currentLocation[1]>self.locations[position][1]:
-         #   self.y-=self.speed/2
 
             
     def draw(self):
-        if len(self.previousLocations)!=len(self.locations):
+        if len(self.previousLocations)!=len(self.locations) and not self.stop:
             const.SCREEN.blit(self.image, (self.x, self.y))
             self.move()
