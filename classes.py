@@ -213,7 +213,7 @@ class WordsSorted():
     def draw(self):
         self.makeWordsToShow()
         self.wordsToShowList=util.stringToList(self.wordsToShow, "\n")
-        self.bottomY=util.toScreenInfTopLeft(self.wordsToShowList, const.FONT60, const.BLACK, 10, self.textY)
+        self.bottomY=util.toScreenInfTopLeft(self.wordsToShowList, const.FONT60, const.FONT45, const.BLACK, 10, self.textY)
         #print(str(self.bottomY))      
                             
         #scroll bar stuff

@@ -19,14 +19,28 @@ def toScreen3(words1, words2, words3, font, colour, x, y):
     toScreen(words2, font, colour, x, y)
     toScreen(words3, font, colour, x, y + font.get_height())
 
-def toScreenInfTopLeft(wordList, font, colour, x, y):
-    heightAdded=0
-    fontHeight=font.get_height()
+def toScreenInfTopLeft(wordList, font1, font2, colour, x, y):
+    font1Height=font1.get_height()
+    font2Height=font2.get_height()
+    fontHeight=font1Height
+    font=font1
+    currentHeight=y
     for word in wordList:
+        #check which font to use
+        for number in "1234567890":
+            if number in word or word=="Bonus Words":
+                font=font1
+                fontHeight=font1Height
+                break
+            else: 
+                font=font2
+                fontHeight=font2Height
+        #stuff
+        currentHeight+=fontHeight+5
         text = font.render(word, True, colour)
-        const.SCREEN.blit(text, (x, y+heightAdded*fontHeight))
-        heightAdded+=1.0
-    return y+heightAdded*fontHeight
+            
+        const.SCREEN.blit(text, (x, currentHeight))
+    return currentHeight
 
 #taking a string with \n and turning it into a list
 def stringToList(string, symbol):

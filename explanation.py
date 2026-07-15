@@ -13,4 +13,4 @@ def showExplanation():
     const.SCREEN.fill(const.LIGHT_GREEN)
     util.toScreen("HIDDEN WORDS SQUARE", const.FONT75, const.BLACK, const.WIDTH // 2, 80)
 
-    util.toScreenInfTopLeft(text, const.FONT40, const.BLACK, const.WIDTH//10, 150)
+    util.toScreenInfTopLeft(text, const.FONT40, const.FONT40, const.BLACK, const.WIDTH//10, 150)
