@@ -2,10 +2,11 @@ import pygame
 import constants as const
 import utilities as util
 import random
+import math
 
 #letters
 class Squares:
-    def __init__(self, size, fontNum, x, y, colourClicked, letter, isDuplicate, point):
+    def __init__(self, size, fontNum, x, y, colourClicked, letters, letterNum, isDuplicate, point):
         self.size=size
         self.radius=self.size*3//8
         self.x=x
@@ -15,7 +16,7 @@ class Squares:
         self.colourN=const.GRAY
         self.colourC=colourClicked
         self.colour=self.colourN
-        self.letter=letter
+        self.letter=letters[letterNum]
         self.fontNum=fontNum
         self.isDuple=isDuplicate
         self.position=-1
@@ -24,6 +25,48 @@ class Squares:
         self.visible=False
 
         self.rect = pygame.Rect(self.x, self.y, self.size, self.size)
+
+        #finding out neighbouring letters
+        self.neighbours=[]
+        numLetters=len(letters)
+        numAcross=math.sqrt(numLetters)
+        numAcross=int(numAcross)
+        #all left neighbours
+        if letterNum%numAcross!=0:
+            #print("\nLetters to the left: "+letters[letterNum-1])
+            self.neighbours.append(letters[letterNum-1])
+            #left up, left down
+            if letterNum>numAcross-1:
+                #print("Left up: "+letters[letterNum-(numAcross+1)])
+                self.neighbours.append(letters[letterNum-(numAcross+1)])
+            if letterNum<numLetters-numAcross:
+                #print("Left down: "+letters[letterNum+(numAcross-1)])
+                self.neighbours.append(letters[letterNum+(numAcross-1)])
+
+        #all right neighbours
+        if letterNum%numAcross!=3:
+            #print("Letters to the right: "+letters[letterNum+1])
+            self.neighbours.append(letters[letterNum+1])
+            #left up, left down
+            if letterNum>numAcross:
+                #print("right up: "+letters[letterNum-(numAcross-1)])
+                self.neighbours.append(letters[letterNum-(numAcross-1)])
+            if letterNum<numLetters-numAcross:
+                #print("Right down: "+letters[letterNum+(numAcross+1)])
+                self.neighbours.append(letters[letterNum+(numAcross+1)])
+        
+        #up and down
+        if letterNum>numAcross:
+            #print("Up: "+letters[letterNum-(numAcross)])
+            self.neighbours.append(letters[letterNum-(numAcross)])
+        if letterNum<numLetters-numAcross:
+            #print("down: "+letters[letterNum+(numAcross)])
+            self.neighbours.append(letters[letterNum+(numAcross)])
+
+        
+        
+        
+
     
     def draw(self):
         pygame.draw.rect(const.SCREEN, self.colour, self.rect)

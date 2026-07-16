@@ -71,20 +71,20 @@ def makeSquares(number, letters, colour):
     for y in yPos:
         for x in xPos:
             #duplicate stuff
-            if letters[letterPos] in duplicateLetters:
+            letter=letters[letterPos]
+            if letter in duplicateLetters:
                 duplicate=True
             else:
                 duplicate=False
             
             #points
-            letter=letters[letterPos]
             if ord(letter)-65<0:
                 point=0
             else:
                 point=const.POINTS[ord(letter)-65]
             
             #creating
-            squares.append(Squares(size, fontNum, x, y, colourC, letter, duplicate, point))
+            squares.append(Squares(size, fontNum, x, y, colourC, letters, letterPos, duplicate, point))
             letterPos+=1
     return squares
         
