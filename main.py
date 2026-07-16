@@ -27,14 +27,18 @@ async def main():
             #buttons
             if event.type==pygame.MOUSEBUTTONDOWN:
                 mouseX, mouseY=pygame.mouse.get_pos()
+                #going to the game
                 if buttons.rectGame.collidepoint((mouseX, mouseY)):
                     gameState="playing"
+                    #first time
                     if not preset.gameStarted:
                         words, bonusWords=gameplay.getWords(preset.theLetters)
                         wordInfo, gameplay.pointBar=gameplay.makeBarAndWordInfo(words, bonusWords, gameplay.pointBar)
                     wordInfo, gameplay.squares, gameplay.pointBar=gameplay.setUp(preset.gameStarted, gameplay.squares, gameplay.pointBar, wordInfo)
+                #going to the explanation
                 if buttons.rectExplain.collidepoint((mouseX, mouseY)):
                     gameState="explain"
+                #going to the tutorial
                 if buttons.rectTutorial.collidepoint((mouseX, mouseY)):
                     gameState="tutorial"
                     tutorial.setUp()
@@ -65,7 +69,7 @@ async def main():
                     for square in gameplay.squares:
                         square.setting="normal"
             
-            
+
             #tutorial
             if gameState=="tutorial":
                 if event.type==pygame.MOUSEBUTTONDOWN:

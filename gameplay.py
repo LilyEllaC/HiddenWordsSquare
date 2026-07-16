@@ -73,8 +73,12 @@ def colourSquares(square, mouseX, mouseY, word:str):
         if square.setting=="normal":
             square.setting="clicked"
             #making the word
-            word+=str(square.letter)
-            square.position=len(word)-1
+            if len(word)==0:
+                word+=str(square.letter)
+                square.position=len(word)-1
+            elif word[-1] in square.neighbours:
+                word+=str(square.letter)
+                square.position=len(word)-1
         #making it so if mouse is off it, it uncolours
         #normal way
         elif not square.isDuple:
@@ -111,7 +115,8 @@ def showLine(colour, square, letterSquares, theCurrentWord):
         pygame.draw.line(const.SCREEN, colour, (square.xCirc, square.yCirc), (mouseX, mouseY), 20)
     elif square.setting=="clicked":
         for otherSquare in letterSquares:
-            if otherSquare.position==square.position+1 and otherSquare.position!=-1:
+            #checking if the letters are next to each other in the word, checking if the other square is actually in the word, seeing if the two letters are beside each other on the board, slight duplicate checking
+            if otherSquare.position==square.position+1 and otherSquare.position!=-1 and otherSquare.letter in square.neighbours and square.letter in otherSquare.neighbours:
                 pygame.draw.line(const.SCREEN, colour, (square.xCirc, square.yCirc), (otherSquare.xCirc, otherSquare.yCirc), 20)
 
 #check if the word is in the word list  
@@ -165,11 +170,11 @@ def makeBarAndWordInfo(words, bonusWords, scoreBar):
     wordInformation=classes.WordsSorted(words, bonusWords, const.MAGENTA)
     return wordInformation, scoreBar
 
+#confetti
 def celebrate():
     for confetti in preset.confettis:
         
         confetti.draw()
-
 
 #play the game
 def play(wordInformation, scoreBar, theCurrentWord, points):
