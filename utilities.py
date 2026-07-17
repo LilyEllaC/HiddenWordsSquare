@@ -20,7 +20,7 @@ def toScreen3(words1, words2, words3, font, colour, x, y):
     toScreen(words3, font, colour, x, y + font.get_height())
 
 def toScreenInfTopLeft(wordList, font1, font2, colour, x, y):
-    font1Height=font1.get_height()
+    font1Height=font1.get_height()-5
     font2Height=font2.get_height()
     fontHeight=font1Height
     font=font1

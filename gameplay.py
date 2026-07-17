@@ -11,6 +11,7 @@ import pygame
 #variables
 clicked=False
 currentWord=" "
+wordNumbers=" "
 score=0
 squares=[]
 pointBar=""
@@ -68,23 +69,28 @@ def getWords(letters):
     return words, bonusWords
 
 #make the squares know when they are hovered over
-def colourSquares(square, mouseX, mouseY, word:str):
+def colourSquares(square, mouseX, mouseY, word:str, wordNums):
     if square.rect.collidepoint((mouseX, mouseY)) and square.visible:
         if square.setting=="normal":
             square.setting="clicked"
             #making the word
             if len(word)==0:
                 word+=str(square.letter)
+                wordNums+=str(square.gridPosition)
                 square.position=len(word)-1
-            elif word[-1] in square.neighbours:
+            elif int(wordNums[-1]) in square.numNeighbours:
                 word+=str(square.letter)
+                wordNums+=str(square.gridPosition)
                 square.position=len(word)-1
+            
+
         #making it so if mouse is off it, it uncolours
         #normal way
         elif not square.isDuple:
             if len(word)>0:
                 if square.letter!=word[-1] and square.letter in word: 
                     word=word[0: word.find(square.letter)+1]
+                    wordNums=wordNums[0: word.find(square.letter)+1]
         #letter is a duplicate strange way
         elif square.isDuple: 
             if square.letter in word:
@@ -92,6 +98,7 @@ def colourSquares(square, mouseX, mouseY, word:str):
                     if len(word)>1:
                         if word[i]==square.letter and i==square.position:
                             word=word[0: i+1]
+                            wordNums=wordNums[0: i+1]
                             break
 
     if square.letter not in word and square.setting=="clicked":
@@ -106,7 +113,7 @@ def colourSquares(square, mouseX, mouseY, word:str):
         if not isThere:
             square.setting="normal"
             square.position=-1
-    return word, square
+    return word, wordNums, square
                 
 #make a line
 def showLine(colour, square, letterSquares, theCurrentWord):
@@ -115,8 +122,8 @@ def showLine(colour, square, letterSquares, theCurrentWord):
         pygame.draw.line(const.SCREEN, colour, (square.xCirc, square.yCirc), (mouseX, mouseY), 20)
     elif square.setting=="clicked":
         for otherSquare in letterSquares:
-            #checking if the letters are next to each other in the word, checking if the other square is actually in the word, seeing if the two letters are beside each other on the board, slight duplicate checking
-            if otherSquare.position==square.position+1 and otherSquare.position!=-1 and otherSquare.letter in square.neighbours and square.letter in otherSquare.neighbours:
+            #checking if the letters are next to each other in the word, checking if the other square is actually in the word, seeing if the squares are neighbours
+            if otherSquare.position==square.position+1 and otherSquare.position!=-1 and otherSquare in square.neighbours:
                 pygame.draw.line(const.SCREEN, colour, (square.xCirc, square.yCirc), (otherSquare.xCirc, otherSquare.yCirc), 20)
 
 #check if the word is in the word list  
@@ -177,7 +184,7 @@ def celebrate():
         confetti.draw()
 
 #play the game
-def play(wordInformation, scoreBar, theCurrentWord, points):
+def play(wordInformation, scoreBar, theCurrentWord, wordNums, points):
     #basic stuff
     const.SCREEN.fill(const.MAGENTA)
     util.toScreen("HIDDEN WORDS SQUARE", const.FONT75, const.BLACK, const.WIDTH // 2, 80)
@@ -188,7 +195,7 @@ def play(wordInformation, scoreBar, theCurrentWord, points):
     if clicked:
         wordType.image=wordType.imageBlank
         for square in squares:
-            theCurrentWord, square=colourSquares(square, mouseX, mouseY, theCurrentWord)
+            theCurrentWord, wordNums, square=colourSquares(square, mouseX, mouseY, theCurrentWord, wordNums)
             showLine(const.DARK_TEAL, square, squares, theCurrentWord)
 
     #drawing
@@ -208,5 +215,5 @@ def play(wordInformation, scoreBar, theCurrentWord, points):
     if points==scoreBar.totalScore:
         celebrate()
 
-    return theCurrentWord
+    return theCurrentWord, wordNums
 

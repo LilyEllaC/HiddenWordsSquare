@@ -52,6 +52,7 @@ async def main():
                         if square.rect.collidepoint(event.pos):
                             gameplay.clicked=True
                             gameplay.currentWord=""
+                            gameplay.wordNumbers=""
                             break
                     #scroll bar
                     wordInfo.startMove()
@@ -73,17 +74,17 @@ async def main():
             #tutorial
             if gameState=="tutorial":
                 if event.type==pygame.MOUSEBUTTONDOWN:
-                    tutorial.clicked, tutorial.currentWord=tutorial.mouseDown(event, tutorial.pointBar, tutorial.currentWord)
+                    tutorial.clicked, tutorial.currentWord, tutorial.wordNumbers=tutorial.mouseDown(event, tutorial.pointBar, tutorial.currentWord, tutorial.wordNumbers)
                 if event.type==pygame.MOUSEBUTTONUP:
                     tutorial.clicked, tutorial.score=tutorial.mouseUp(tutorial.clicked, tutorial.pointBar, tutorial.score, tutorial.currentWord)
                     
 
         if gameState=="playing":
-            gameplay.currentWord=gameplay.play(wordInfo, gameplay.pointBar, gameplay.currentWord, gameplay.score)
+            gameplay.currentWord, gameplay.wordNumbers=gameplay.play(wordInfo, gameplay.pointBar, gameplay.currentWord, gameplay.wordNumbers, gameplay.score)
         elif gameState=="explain":
             explanation.showExplanation()
         elif gameState=="tutorial":
-            tutorial.pointBar, tutorial.currentWord, tutorial.squares=tutorial.playTutorial(tutorial.pointBar, tutorial.currentWord, tutorial.squares, tutorial.finger)
+            tutorial.pointBar, tutorial.currentWord, tutorial.wordNumbers, tutorial.squares=tutorial.playTutorial(tutorial.pointBar, tutorial.currentWord, tutorial.wordNumbers, tutorial.squares, tutorial.finger)
 
         #important stuff
         buttons.draw()

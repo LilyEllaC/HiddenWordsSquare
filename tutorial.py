@@ -7,6 +7,7 @@ import classes
 import preset
 
 currentWord=""
+wordNumbers=" "
 clicked=False
 letters=["     PY  AL     ","WRD O           ", "   S   Q   U ERA"]
 letterNum=0
@@ -25,13 +26,14 @@ def setUp():
     for square in game.squares:
         square.visible=False
 
-def mouseDown(event, isClicked, theCurrentWord):
+def mouseDown(event, isClicked, theCurrentWord, wordNum):
     for square in squares:
         if square.rect.collidepoint(event.pos):
             isClicked=True
             theCurrentWord=""
+            wordNum=""
             break
-    return isClicked, theCurrentWord
+    return isClicked, theCurrentWord, wordNum
 
 def mouseUp(isClicked, scoreBar, points, theCurrentWord):
     if isClicked:
@@ -49,7 +51,7 @@ def mouseUp(isClicked, scoreBar, points, theCurrentWord):
 
 
 
-def playTutorial(scoreBar, theCurrentWord, letterSquares, pointingFinger):
+def playTutorial(scoreBar, theCurrentWord, wordNums, letterSquares, pointingFinger):
     #basic stuff
     const.SCREEN.fill(const.LIGHT_BLUE)
     util.toScreen("HIDDEN WORDS SQUARE", const.FONT75, const.BLACK, const.WIDTH // 2, 80)
@@ -60,7 +62,7 @@ def playTutorial(scoreBar, theCurrentWord, letterSquares, pointingFinger):
     if clicked:
         game.wordType.image=game.wordType.imageBlank
         for square in letterSquares:
-            theCurrentWord, square=game.colourSquares(square, mouseX, mouseY, theCurrentWord)
+            theCurrentWord, wordNums, square=game.colourSquares(square, mouseX, mouseY, theCurrentWord, wordNums)
             game.showLine(const.DARK_TEAL, square, letterSquares, theCurrentWord)
     
 
@@ -112,5 +114,5 @@ def playTutorial(scoreBar, theCurrentWord, letterSquares, pointingFinger):
         game.celebrate()
         util.toScreen2("Now you can",  "go play!", const.FONT55, const.BLACK, const.WIDTH-250, const.HEIGHT-80)
     
-    return scoreBar, theCurrentWord, letterSquares
+    return scoreBar, theCurrentWord, wordNums, letterSquares
         

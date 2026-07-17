@@ -17,55 +17,65 @@ class Squares:
         self.colourC=colourClicked
         self.colour=self.colourN
         self.letter=letters[letterNum]
+        self.gridPosition=letterNum
         self.fontNum=fontNum
         self.isDuple=isDuplicate
         self.position=-1
         self.point=point
         self.setting="normal"
         self.visible=False
+        self.neighbours=[]
+        self.numNeighbours=[]
+
 
         self.rect = pygame.Rect(self.x, self.y, self.size, self.size)
 
+    def findNeighbours(self, squares):
+        position=self.gridPosition
+
         #finding out neighbouring letters
-        self.neighbours=[]
-        numLetters=len(letters)
-        numAcross=math.sqrt(numLetters)
+        numSquares=len(squares)
+        numAcross=math.sqrt(numSquares)
         numAcross=int(numAcross)
         #all left neighbours
-        if letterNum%numAcross!=0:
+        if position%numAcross!=0:
             #print("\nLetters to the left: "+letters[letterNum-1])
-            self.neighbours.append(letters[letterNum-1])
+            self.neighbours.append(squares[position-1])
+            self.numNeighbours.append(squares[position-1].gridPosition)
             #left up, left down
-            if letterNum>numAcross-1:
+            if position>numAcross-1:
                 #print("Left up: "+letters[letterNum-(numAcross+1)])
-                self.neighbours.append(letters[letterNum-(numAcross+1)])
-            if letterNum<numLetters-numAcross:
+                self.neighbours.append(squares[position-(numAcross+1)])
+                self.numNeighbours.append(squares[position-(numAcross+1)].gridPosition)
+            if position<numSquares-numAcross:
                 #print("Left down: "+letters[letterNum+(numAcross-1)])
-                self.neighbours.append(letters[letterNum+(numAcross-1)])
+                self.neighbours.append(squares[position+(numAcross-1)])
+                self.numNeighbours.append(squares[position+(numAcross-1)].gridPosition)
 
         #all right neighbours
-        if letterNum%numAcross!=3:
+        if position%numAcross!=3:
             #print("Letters to the right: "+letters[letterNum+1])
-            self.neighbours.append(letters[letterNum+1])
+            self.neighbours.append(squares[position+1])
+            self.numNeighbours.append(squares[position+1].gridPosition)
             #left up, left down
-            if letterNum>numAcross:
+            if position>numAcross:
                 #print("right up: "+letters[letterNum-(numAcross-1)])
-                self.neighbours.append(letters[letterNum-(numAcross-1)])
-            if letterNum<numLetters-numAcross:
+                self.neighbours.append(squares[position-(numAcross-1)])
+                self.numNeighbours.append(squares[position-(numAcross-1)].gridPosition)
+            if position<numSquares-numAcross:
                 #print("Right down: "+letters[letterNum+(numAcross+1)])
-                self.neighbours.append(letters[letterNum+(numAcross+1)])
+                self.neighbours.append(squares[position+(numAcross+1)])
+                self.numNeighbours.append(squares[position+(numAcross+1)].gridPosition)
         
         #up and down
-        if letterNum>numAcross:
+        if position>numAcross:
             #print("Up: "+letters[letterNum-(numAcross)])
-            self.neighbours.append(letters[letterNum-(numAcross)])
-        if letterNum<numLetters-numAcross:
+            self.neighbours.append(squares[position-(numAcross)])
+            self.numNeighbours.append(squares[position-numAcross].gridPosition)
+        if position<numSquares-numAcross:
             #print("down: "+letters[letterNum+(numAcross)])
-            self.neighbours.append(letters[letterNum+(numAcross)])
-
-        
-        
-        
+            self.neighbours.append(squares[position+(numAcross)])
+            self.numNeighbours.append(squares[position+numAcross].gridPosition)
 
     
     def draw(self):
@@ -366,22 +376,19 @@ class Finger():
 
 #code mostly taken from a previous project of mine
 class Confetti():
-    def __init__(self):
-        self.width=200
-        self.height=200
+    def __init__(self, image):
         self.x=random.randint(0, const.WIDTH)
         self.y=random.randint(-300,300)
         self.angle=random.randint(0,360)
-        image=pygame.image.load("confetti.png")
         #image
-        self.startImage=pygame.transform.scale(image, (self.width, self.height))
+        self.startImage=image
         self.image=pygame.transform.rotate(self.startImage, self.angle)
         self.done=False
         #not needed stuff
 #        self.rect=self.image.get_rect()
  #       self.rect.x=self.x
   #      self.rect.y=self.y
-    
+
     def update(self):
         FPSScaling=const.FPS_SCALING
         #moving down slowly and drifting a little

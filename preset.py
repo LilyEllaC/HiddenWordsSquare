@@ -1,7 +1,9 @@
-from classes import Squares, ScoreBar, WordType, Confetti
-import constants as const
 import math
 import random
+import pygame
+from classes import Squares, ScoreBar, WordType, Confetti
+import constants as const
+
 
 #preassigned variables
 gameStarted=False
@@ -13,8 +15,9 @@ letterNum=0
 theLetters=""
 #confetti
 confettis=[]
+image=pygame.transform.scale(pygame.image.load("confetti.png"), (200, 200))
 for i in range(0,15):
-    confettis.append(Confetti())
+    confettis.append(Confetti(image))
 
 #creating the points bar
 def calculatePointBar(words):
@@ -86,6 +89,8 @@ def makeSquares(number, letters, colour):
             #creating
             squares.append(Squares(size, fontNum, x, y, colourC, letters, letterPos, duplicate, point))
             letterPos+=1
+    for square in squares:
+        square.findNeighbours(squares)
     return squares
         
 
