@@ -14,6 +14,7 @@ pygame.init()
 running=True
 gameState="explain"
 
+
 #buttons
 buttons=classes.Buttons()
 
@@ -52,7 +53,7 @@ async def main():
                         if square.rect.collidepoint(event.pos):
                             gameplay.clicked=True
                             gameplay.currentWord=""
-                            gameplay.wordNumbers=""
+                            gameplay.wordNumbers=[]
                             break
                     #scroll bar
                     wordInfo.startMove()

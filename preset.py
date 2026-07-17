@@ -27,7 +27,7 @@ def calculatePointBar(words):
             totalScore+=const.POINTS[ord(letter)-65]
     x=const.WIDTH-(const.WIDTH//4-25)
     y=150
-    pointBar=ScoreBar(totalScore, const.BLUE, const. DARK_BLUE, x, y)
+    pointBar=ScoreBar(totalScore, const.colour1, const.colour2, x, y)
     return pointBar
 
 #getting the square info
@@ -36,7 +36,7 @@ def getSquareInfo():
         lines = file.readlines()
     letters=lines[random.randint(0, len(lines)-1)].strip()
     letters="PGIMEUNRCTSAIONR"
-    return [len(letters), letters, const.TEAL]
+    return [len(letters), letters, const.colour1]
 
 #getting all of the squares
 def makeSquares(number, letters, colour):
@@ -62,10 +62,9 @@ def makeSquares(number, letters, colour):
     fontNum=0
 
     #finding other colour
-    colourC=const.GRAY
-    for i in range (0, len(const.COLOUROPTIONS)-1):
-        if const.COLOUROPTIONS[i]==colour:
-            colourC=const.COLOUROPTIONS[i+1]    
+    colours=const.COLOUROPTIONS
+    colourN=colours[colours.index(colour)-1]
+    
 
 
     #creating the squares
@@ -87,7 +86,7 @@ def makeSquares(number, letters, colour):
                 point=const.POINTS[ord(letter)-65]
             
             #creating
-            squares.append(Squares(size, fontNum, x, y, colourC, letters, letterPos, duplicate, point))
+            squares.append(Squares(size, fontNum, x, y, colour, colourN, letters, letterPos, duplicate, point))
             letterPos+=1
     for square in squares:
         square.findNeighbours(squares)

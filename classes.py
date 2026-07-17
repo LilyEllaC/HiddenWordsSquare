@@ -6,17 +6,18 @@ import math
 
 #letters
 class Squares:
-    def __init__(self, size, fontNum, x, y, colourClicked, letters, letterNum, isDuplicate, point):
+    def __init__(self, size, fontNum, x, y, colourClicked, colourNormal, letters, letterNum, isDuplicate, point):
         self.size=size
         self.radius=self.size*3//8
         self.x=x
         self.y=y
         self.xCirc=self.x+self.size//2
         self.yCirc=self.y+self.size//2
-        self.colourN=const.GRAY
+        self.colourN=colourNormal
         self.colourC=colourClicked
         self.colour=self.colourN
         self.letter=letters[letterNum]
+        self.letters=letters
         self.gridPosition=letterNum
         self.fontNum=fontNum
         self.isDuple=isDuplicate
@@ -76,6 +77,12 @@ class Squares:
             #print("down: "+letters[letterNum+(numAcross)])
             self.neighbours.append(squares[position+(numAcross)])
             self.numNeighbours.append(squares[position+numAcross].gridPosition)
+
+        #error checking
+        if not " " in self.letters and False:
+            print("\nNumber: "+str(self.gridPosition)+self.letter)
+            for i in range(0,len(self.numNeighbours)):
+                print(str(self.numNeighbours[i])+self.neighbours[i].letter+", ", end="")
 
     
     def draw(self):

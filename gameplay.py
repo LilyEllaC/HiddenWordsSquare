@@ -11,7 +11,7 @@ import pygame
 #variables
 clicked=False
 currentWord=" "
-wordNumbers=" "
+wordNumbers=[]
 score=0
 squares=[]
 pointBar=""
@@ -73,15 +73,21 @@ def colourSquares(square, mouseX, mouseY, word:str, wordNums):
     if square.rect.collidepoint((mouseX, mouseY)) and square.visible:
         if square.setting=="normal":
             square.setting="clicked"
+            
             #making the word
             if len(word)==0:
                 word+=str(square.letter)
-                wordNums+=str(square.gridPosition)
+                wordNums.append(str(square.gridPosition))
                 square.position=len(word)-1
             elif int(wordNums[-1]) in square.numNeighbours:
                 word+=str(square.letter)
-                wordNums+=str(square.gridPosition)
+                wordNums.append(str(square.gridPosition))
                 square.position=len(word)-1
+            else: 
+                #checking for errors
+                print("\nSecond last: "+wordNums[-1]+" All numbers: ", end="")
+                for number in square.numNeighbours:
+                    print(str(number)+", ", end="")
             
 
         #making it so if mouse is off it, it uncolours
@@ -196,7 +202,7 @@ def play(wordInformation, scoreBar, theCurrentWord, wordNums, points):
         wordType.image=wordType.imageBlank
         for square in squares:
             theCurrentWord, wordNums, square=colourSquares(square, mouseX, mouseY, theCurrentWord, wordNums)
-            showLine(const.DARK_TEAL, square, squares, theCurrentWord)
+            showLine(const.colour2, square, squares, theCurrentWord)
 
     #drawing
     #showing the score

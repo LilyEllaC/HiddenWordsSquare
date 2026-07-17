@@ -11,7 +11,7 @@ wordNumbers=" "
 clicked=False
 letters=["     PY  AL     ","WRD O           ", "   S   Q   U ERA"]
 letterNum=0
-squares=preset.makeSquares(len(letters[0]), letters[preset.letterNum], const.TEAL)
+squares=preset.makeSquares(len(letters[0]), letters[preset.letterNum], const.colour1)
 finger=classes.Finger([[squares[5].x,squares[5].y], [squares[10].x,squares[10].y], [squares[9].x,squares[9].y], [squares[6].x,squares[6].y]], squares[0].size)
 
 pointBar=preset.calculatePointBar(["PLAY", "WORD", "SQUARE"])
@@ -63,7 +63,7 @@ def playTutorial(scoreBar, theCurrentWord, wordNums, letterSquares, pointingFing
         game.wordType.image=game.wordType.imageBlank
         for square in letterSquares:
             theCurrentWord, wordNums, square=game.colourSquares(square, mouseX, mouseY, theCurrentWord, wordNums)
-            game.showLine(const.DARK_TEAL, square, letterSquares, theCurrentWord)
+            game.showLine(const.colour2, square, letterSquares, theCurrentWord)
     
 
     #moving to the next word
