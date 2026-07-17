@@ -87,6 +87,7 @@ class Squares:
     
     def draw(self):
         pygame.draw.rect(const.SCREEN, self.colour, self.rect)
+        pygame.draw.rect(const.SCREEN, const.BLACK, self.rect, 5)
         if self.setting=="clicked":
             pygame.draw.circle(const.SCREEN, self.colourC, (self.xCirc, self.yCirc), self.radius)
         else:
@@ -273,7 +274,7 @@ class WordsSorted():
     def draw(self):
         self.makeWordsToShow()
         self.wordsToShowList=util.stringToList(self.wordsToShow, "\n")
-        self.bottomY=util.toScreenInfTopLeft(self.wordsToShowList, const.FONT60, const.FONT45, const.BLACK, 10, self.textY)
+        self.bottomY=util.toScreenInfTopLeft(self.wordsToShowList, const.FONT60, const.FONT45, const.colour2, 10, self.textY)
         #print(str(self.bottomY))      
                             
         #scroll bar stuff
@@ -381,6 +382,35 @@ class Finger():
             self.move()
 
 
+class ButtonToShowColours():
+    def __init__(self, x, y, width, height):
+        self.x=x
+        self.y=y
+        self.width=width
+        self.height=height
+        self.hoveredOver=False
+        image=pygame.image.load("colourWheelHovered.png")
+        self.imageHovered=pygame.transform.scale(image, (width, height))
+        image=pygame.image.load("colourWheel.png")
+        self.imageNormal=pygame.transform.scale(image, (width, height))
+        self.image=self.imageNormal
+
+        self.rect=self.image.get_rect()
+        self.rect.x=self.x
+        self.rect.y=self.y
+
+    def update(self):
+        #checking if te mouse is hovered over it
+        mouseX, mouseY=pygame.mouse.get_pos()
+        if mouseX>self.x and mouseX<self.x+self.width and mouseY>self.y and mouseY<self.y+self.height:
+            self.image=self.imageHovered
+            self.hoveredOver=True
+        else:
+            self.image=self.imageNormal
+            self.hoveredOver=False
+
+
+
 #code mostly taken from a previous project of mine
 class Confetti():
     def __init__(self, image):
@@ -416,8 +446,42 @@ class Confetti():
             const.SCREEN.blit(self.image, (self.x, self.y))
             self.update()
         
-        
-        
+            
+class ColourButton():
+    def __init__(self, x, y, width, height, colours, words, font):
+        self.x=x
+        self.y=y
+        self.width=width
+        self.height=height
+        self.hoveredOver=False
+        self.words=words
+        self.font=font
+
+        self.colour1=colours[0]
+        self.colour2=colours[1]
+        self.colour3=colours[2]
+        self.rect=(x-7, y-3.5, width, height)
+
+    def check(self):
+        #checking if the mouse is hovered over it
+        mouseX, mouseY=pygame.mouse.get_pos()
+        if mouseX>self.x and mouseX<self.x+self.width and mouseY>self.y and mouseY<self.y+self.height:
+            self.hoveredOver=True
+        else:
+            self.hoveredOver=False
+    
+    def draw(self):
+        pygame.draw.rect(const.SCREEN, self.colour1, self.rect)
+        pygame.draw.rect(const.SCREEN, self.colour3, self.rect, 5)
+      #  util.toScreen(self.words, self.font, self.colour2, self.x, self.y)
+        text=self.font.render(self.words, True, self.colour2)
+        const.SCREEN.blit(text, (self.x, self.y))
+        self.check()
+
+        #if mouse over
+        if self.hoveredOver:
+            text=self.font.render(self.words, True, const.BLACK)
+            const.SCREEN.blit(text, (self.x+self.width+10, self.y))
 
     
         

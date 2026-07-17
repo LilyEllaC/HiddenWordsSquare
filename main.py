@@ -6,6 +6,7 @@ import explanation
 import tutorial
 import preset
 import classes
+import colour
 
 
 # important stuff
@@ -86,6 +87,9 @@ async def main():
             explanation.showExplanation()
         elif gameState=="tutorial":
             tutorial.pointBar, tutorial.currentWord, tutorial.wordNumbers, tutorial.squares=tutorial.playTutorial(tutorial.pointBar, tutorial.currentWord, tutorial.wordNumbers, tutorial.squares, tutorial.finger)
+
+        #colour stuff that can always appear
+        colour.showPopUp()
 
         #important stuff
         buttons.draw()

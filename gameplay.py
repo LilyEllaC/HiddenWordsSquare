@@ -193,11 +193,11 @@ def celebrate():
 def play(wordInformation, scoreBar, theCurrentWord, wordNums, points):
     #basic stuff
     const.SCREEN.fill(const.MAGENTA)
-    util.toScreen("HIDDEN WORDS SQUARE", const.FONT75, const.BLACK, const.WIDTH // 2, 80)
+    util.toScreen("HIDDEN WORDS SQUARE", const.FONT75, const.colour1, const.WIDTH // 2, 80)
     
     #getting the mouse dragged stuff to work
     mouseX, mouseY = pygame.mouse.get_pos()
-    util.toScreen(theCurrentWord, const.FONT50, const.BLACK, const.WIDTH//2, 205)
+    util.toScreen(theCurrentWord, const.FONT50, const.colour1, const.WIDTH//2, 205)
     if clicked:
         wordType.image=wordType.imageBlank
         for square in squares:
@@ -206,7 +206,7 @@ def play(wordInformation, scoreBar, theCurrentWord, wordNums, points):
 
     #drawing
     #showing the score
-    util.toScreen("Score: "+str(score), const.FONT30, const.BLACK, const.WIDTH*4//5, 100)
+    #util.toScreen("Score: "+str(score), const.FONT30, const.BLACK, const.WIDTH*4//5, 100)
     if preset.gameStarted:
         scoreBar.draw()
         util.toScreen("Score: "+str(score), const.FONT30, const.BLACK, const.WIDTH*4//5, 100)

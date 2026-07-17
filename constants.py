@@ -46,6 +46,7 @@ COLOUROPTIONS=[LIGHT_RED, RED, DARK_RED, LIGHT_ORANGE, ORANGE, DARK_ORANGE, LIGH
 colourNum=16
 colour1=COLOUROPTIONS[colourNum]
 colour2=COLOUROPTIONS[colourNum+1]
+buttons=[]
 
 #letter points
 POINTS=[1, 2, 3, 1, 1, 3, 2, 2, 1, 6, 4, 1, 2, 1, 1, 2, 6, 1, 1, 1, 1, 3, 2, 5, 3, 6]
