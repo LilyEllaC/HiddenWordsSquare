@@ -59,7 +59,7 @@ class Squares:
             self.neighbours.append(squares[position+1])
             self.numNeighbours.append(squares[position+1].gridPosition)
             #left up, left down
-            if position>numAcross:
+            if position>=numAcross:
                 #print("right up: "+letters[letterNum-(numAcross-1)])
                 self.neighbours.append(squares[position-(numAcross-1)])
                 self.numNeighbours.append(squares[position-(numAcross-1)].gridPosition)
@@ -69,7 +69,7 @@ class Squares:
                 self.numNeighbours.append(squares[position+(numAcross+1)].gridPosition)
         
         #up and down
-        if position>numAcross:
+        if position>=numAcross:
             #print("Up: "+letters[letterNum-(numAcross)])
             self.neighbours.append(squares[position-(numAcross)])
             self.numNeighbours.append(squares[position-numAcross].gridPosition)
@@ -415,8 +415,6 @@ class ButtonToShowColours():
     def draw(self):
         const.SCREEN.blit(self.image, (self.x, self.y))
         self.update()
-
-
 
 
 #code mostly taken from a previous project of mine

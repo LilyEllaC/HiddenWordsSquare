@@ -7,7 +7,7 @@ import classes
 import preset
 
 currentWord=""
-wordNumbers=" "
+wordNumbers=[]
 clicked=False
 letters=["     PY  AL     ","WRD O           ", "   S   Q   U ERA"]
 letterNum=0
@@ -31,7 +31,7 @@ def mouseDown(event, isClicked, theCurrentWord, wordNum):
         if square.rect.collidepoint(event.pos):
             isClicked=True
             theCurrentWord=""
-            wordNum=""
+            wordNum=[]
             break
     return isClicked, theCurrentWord, wordNum
 
