@@ -11,6 +11,6 @@ text=util.stringToList(textStr, "\n")
 
 def showExplanation():
     const.SCREEN.fill(const.LIGHT_GREEN)
-    util.toScreen("HIDDEN WORDS SQUARE", const.FONT75, const.BLACK, const.WIDTH // 2, 80)
+    util.toScreen("HIDDEN WORDS SQUARE", const.FONT75, const.colour1, const.WIDTH // 2, 80)
 
     util.toScreenInfTopLeft(text, const.FONT40, const.FONT40, const.BLACK, const.WIDTH//10, 150)

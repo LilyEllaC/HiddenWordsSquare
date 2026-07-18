@@ -20,8 +20,11 @@ gameState="explain"
 buttons=classes.Buttons()
 
 
+
 async def main():
     global running, gameState
+    words, bonusWords=gameplay.getWords(preset.theLetters)
+    wordInfo, gameplay.pointBar=gameplay.makeBarAndWordInfo(words, bonusWords, gameplay.pointBar)
     while running:
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
@@ -29,13 +32,10 @@ async def main():
             #buttons
             if event.type==pygame.MOUSEBUTTONDOWN:
                 mouseX, mouseY=pygame.mouse.get_pos()
+                #navigating between the different setting
                 #going to the game
                 if buttons.rectGame.collidepoint((mouseX, mouseY)):
                     gameState="playing"
-                    #first time
-                    if not preset.gameStarted:
-                        words, bonusWords=gameplay.getWords(preset.theLetters)
-                        wordInfo, gameplay.pointBar=gameplay.makeBarAndWordInfo(words, bonusWords, gameplay.pointBar)
                     wordInfo, gameplay.squares, gameplay.pointBar=gameplay.setUp(preset.gameStarted, gameplay.squares, gameplay.pointBar, wordInfo)
                 #going to the explanation
                 if buttons.rectExplain.collidepoint((mouseX, mouseY)):
@@ -44,7 +44,11 @@ async def main():
                 if buttons.rectTutorial.collidepoint((mouseX, mouseY)):
                     gameState="tutorial"
                     tutorial.setUp()
-
+                
+                #colour stuff:
+                if mouseX<200 and mouseY<400:
+                    colour.checkButtons(mouseX, mouseY)
+                else: const.popUp=False
 
             if gameState=="playing":
                 if event.type==pygame.MOUSEBUTTONDOWN:
@@ -89,7 +93,10 @@ async def main():
             tutorial.pointBar, tutorial.currentWord, tutorial.wordNumbers, tutorial.squares=tutorial.playTutorial(tutorial.pointBar, tutorial.currentWord, tutorial.wordNumbers, tutorial.squares, tutorial.finger)
 
         #colour stuff that can always appear
-        colour.showPopUp()
+        if const.popUp:
+            colour.showPopUp()
+        colour.colourWheel.draw()
+
 
         #important stuff
         buttons.draw()

@@ -84,9 +84,12 @@ class Squares:
             for i in range(0,len(self.numNeighbours)):
                 print(str(self.numNeighbours[i])+self.neighbours[i].letter+", ", end="")
 
-    
+    def changeColours(self, colour1, colour2):
+        self.colourN=colour1
+        self.colourC=colour2
+
     def draw(self):
-        pygame.draw.rect(const.SCREEN, self.colour, self.rect)
+        pygame.draw.rect(const.SCREEN, self.colourN, self.rect)
         pygame.draw.rect(const.SCREEN, const.BLACK, self.rect, 5)
         if self.setting=="clicked":
             pygame.draw.circle(const.SCREEN, self.colourC, (self.xCirc, self.yCirc), self.radius)
@@ -409,6 +412,11 @@ class ButtonToShowColours():
             self.image=self.imageNormal
             self.hoveredOver=False
 
+    def draw(self):
+        const.SCREEN.blit(self.image, (self.x, self.y))
+        self.update()
+
+
 
 
 #code mostly taken from a previous project of mine
@@ -461,6 +469,7 @@ class ColourButton():
         self.colour2=colours[1]
         self.colour3=colours[2]
         self.rect=(x-7, y-3.5, width, height)
+        self.hitBox=pygame.Rect(x-7, y-3.5, width, height)
 
     def check(self):
         #checking if the mouse is hovered over it

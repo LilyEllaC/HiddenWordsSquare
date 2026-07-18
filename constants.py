@@ -43,10 +43,11 @@ LIGHT_RED = (210, 76, 76)
 COLOUROPTIONS=[LIGHT_RED, RED, DARK_RED, LIGHT_ORANGE, ORANGE, DARK_ORANGE, LIGHT_YELLOW, YELLOW, DARK_YELLOW, LIGHT_GREEN, GREEN, DARK_GREEN, LIGHT_TEAL, TEAL, DARK_TEAL, LIGHT_BLUE, BLUE, DARK_BLUE, LIGHT_PURPLE, PURPLE, DARK_PURPLE, LIGHT_MAGENTA, MAGENTA, DARK_MAGENTA]
 
 #isn't actually constant, but this was the best spot for it
-colourNum=16
+colourNum=19
 colour1=COLOUROPTIONS[colourNum]
 colour2=COLOUROPTIONS[colourNum+1]
 buttons=[]
+popUp=False
 
 #letter points
 POINTS=[1, 2, 3, 1, 1, 3, 2, 2, 1, 6, 4, 1, 2, 1, 1, 2, 6, 1, 1, 1, 1, 3, 2, 5, 3, 6]
