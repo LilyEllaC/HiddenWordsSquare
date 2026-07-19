@@ -20,19 +20,13 @@ pointBar=""
 
 #functions
 #setting up
-def setUp(hasStarted, letterSquares, scoreBar, wordInfo):
-    if not hasStarted:
-        preset.gameStarted=True
-        squareInfo=preset.getSquareInfo()
-        letterSquares=preset.makeSquares(squareInfo[0], squareInfo[1], squareInfo[2])
-        preset.theLetters=squareInfo[1]
-    
+def setUp(letterSquares):
     for square in tutorial.squares:
         square.visible=False
     for square in letterSquares:
         square.visible=True
     
-    return wordInfo, letterSquares, scoreBar
+    return letterSquares
 
 #getting the word from the file
 def getWords(letters):
@@ -65,7 +59,7 @@ def getWords(letters):
         bonusWords=tempWords
     else:
         words=tempWords
-
+    print("Letters: "+letters+" Length of words: "+str(len(words))+" Length of Bonus words: "+str(len(bonusWords)))
     return words, bonusWords
 
 #make the squares know when they are hovered over

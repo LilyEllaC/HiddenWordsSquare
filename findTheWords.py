@@ -136,7 +136,7 @@ def findAllWords(letters):
         for line  in file:
             normalWords.append(line.strip())
     
-    wordsForFile="Mwahahaha "+letters+" "
+    wordsForFile="\n"+letters+" "
     bonusWords=""
     for word in allFound.allWordsFound:
         if word in normalWords:
@@ -145,10 +145,11 @@ def findAllWords(letters):
             bonusWords+=word+" "
     #adding them together
     wordsForFile+="BONUSWORD "+bonusWords+"X"
-    print(wordsForFile)
     #putting this into a file
     with open("wordsInPuzzle.txt", "a") as file:
         file.write(wordsForFile)
 
 if __name__ == '__main__':
-    findAllWords("PGIMEUNRCTSAIONR")
+    letters=["ABCDEFGHIJKLMNOP","QWERTYUIOPLKJHGF","MNBVCXZASDFGHJKL","PGIMEUNRCTSAIONR","QWERTYUIO","ASDFTUIMNOEFUNTIONCYOMTUN","EREOPLEIOLNAMNFJ","PEOPLEISAWESOMER"]
+    for letter in letters:
+        findAllWords(letter)

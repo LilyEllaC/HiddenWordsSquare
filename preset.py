@@ -35,7 +35,7 @@ def getSquareInfo():
     with open("letters.txt", "r") as file:
         lines = file.readlines()
     letters=lines[random.randint(0, len(lines)-1)].strip()
-    letters="PGIMEUNRCTSAIONR"
+    #letters="PGIMEUNRCTSAIONR"
     return [len(letters), letters, const.colour1]
 
 #getting all of the squares

@@ -23,8 +23,17 @@ buttons=classes.Buttons()
 
 async def main():
     global running, gameState
+    #set up stuff
+    preset.gameStarted=True
+    squareInfo=preset.getSquareInfo()
+    preset.theLetters=squareInfo[1]
+    print("Letters: "+preset.theLetters)
+    gameplay.squares=preset.makeSquares(squareInfo[0], squareInfo[1], squareInfo[2])
     words, bonusWords=gameplay.getWords(preset.theLetters)
     wordInfo, gameplay.pointBar=gameplay.makeBarAndWordInfo(words, bonusWords, gameplay.pointBar)
+
+    preset.theLetters=squareInfo[1]
+
     while running:
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
@@ -36,7 +45,7 @@ async def main():
                 #going to the game
                 if buttons.rectGame.collidepoint((mouseX, mouseY)):
                     gameState="playing"
-                    wordInfo, gameplay.squares, gameplay.pointBar=gameplay.setUp(preset.gameStarted, gameplay.squares, gameplay.pointBar, wordInfo)
+                    gameplay.squares=gameplay.setUp(gameplay.squares)
                 #going to the explanation
                 if buttons.rectExplain.collidepoint((mouseX, mouseY)):
                     gameState="explain"
