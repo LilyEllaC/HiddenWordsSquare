@@ -47,20 +47,6 @@ def findsquaresNeighbours(position, squares):
 
 
 
-
-def getRandLetter():
-    return random.choice(string.ascii_uppercase)
-
-## first step is to make it easy to run/debug/check so this will be outside of pygame and 'simple', 
-# we'll start with a 2x2 (yes that small) and work our way to something big
-
-def genLetters(sizeX, sizeY):
-    # returns a random set of letters in the size given
-    out =[getRandLetter() for i in range(sizeX*sizeY)]
-    return out
-
-
-
 class Node:
     def __init__(self, letter):
         self.letter =letter
@@ -77,6 +63,7 @@ class Node:
 
     
 def makeGraph(letters):
+
     nodes = [Node(letter) for letter in letters]
     for i, n in enumerate(nodes):
         n.neighbours = findsquaresNeighbours(i,nodes)
@@ -103,11 +90,7 @@ class PathSoFar:
     def __repr__(self):
         return self.__str__()
 
-def log(str):
-    ""
-    print(str)
 
-def log2(str):
     ""
     #print(str)
 
@@ -119,47 +102,53 @@ def findAllWordsFrom(node : Node, found, pathSoFar : PathSoFar):
     wordSoFar = pathSoFar.wordSoFar +node.letter
     if (wordDictionary.isWord(wordSoFar)):
         found.allWordsFound.add(wordSoFar)
-        log("word found" + wordSoFar)
-    log("Word so far: "+wordSoFar)
+        
     # if we can go on, then nodesVisidted
     if (wordDictionary.canBeWord(wordSoFar)):
         # go over each neigbour and try again
         pathSoFar.nodesVisited.append(node)
-        log("Path so far: "+str(pathSoFar))
         newPath =PathSoFar(wordSoFar,pathSoFar.nodesVisited.copy())
-        log2("Path: "+wordSoFar)
         for n in node.neighbours:
             if n not in pathSoFar.nodesVisited:
                 findAllWordsFrom(n, found, newPath)
 
 
         pathSoFar.nodesVisited.pop()
-    log("finished with" + node.letter)
     
 
 
-if __name__ == '__main__':
-    size=2
-    letters =genLetters(size,size)
-    letters="ABCD"
-    letters="PGIMEUNRCTSAIONR"
-    # from letters we want to turn this into a graph (this will let us use regular algortihms to find all the words)
-
-    print(letters)
-    for i, letter in enumerate(letters):
-        if (i %int(math.sqrt(len(letters))) ==int(math.sqrt(len(letters)))-1):
-            print(letter)
-        else:
-            print(letter+ "\t", end="")
-
+def findAllWords(letters):
+    # turn into a graph for normal reasons
     graph = makeGraph(letters)
 
     # now that we have a graphnodesVisidted
     allFound = Found()
-    #findAllWordsFrom(graph[0], allFound,PathSoFar("",[]))
   
     
     for n in graph:
-        
         findAllWordsFrom(n, allFound,PathSoFar("",[]))
+
     print (allFound.allWordsFound)
+
+    #Dealing with figuring out the real and bonus words stuff
+    normalWords=[]
+    with open("realWords.txt", 'r') as file:
+        for line  in file:
+            normalWords.append(line.strip())
+    
+    wordsForFile="Mwahahaha "+letters+" "
+    bonusWords=""
+    for word in allFound.allWordsFound:
+        if word in normalWords:
+            wordsForFile+=word+" "
+        else:
+            bonusWords+=word+" "
+    #adding them together
+    wordsForFile+="BONUSWORD "+bonusWords+"X"
+    print(wordsForFile)
+    #putting this into a file
+    with open("wordsInPuzzle.txt", "a") as file:
+        file.write(wordsForFile)
+
+if __name__ == '__main__':
+    findAllWords("PGIMEUNRCTSAIONR")

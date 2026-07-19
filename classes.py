@@ -2,7 +2,6 @@ import pygame
 import constants as const
 import utilities as util
 import random
-import math
 
 import findTheWords
 #letters
@@ -26,8 +25,11 @@ class Squares:
         self.point=point
         self.setting="normal"
         self.visible=False
+        #word stuff
         self.neighbours=[]
         self.numNeighbours=[]
+        self.node=""
+        
 
 
         self.rect = pygame.Rect(self.x, self.y, self.size, self.size)
@@ -86,19 +88,19 @@ class WordType:
         self.x=const.WIDTH//2-(self.width//2)
         self.y=110
         
-        image=pygame.image.load("correct.png")
+        image=pygame.image.load("assets/correct.png")
         self.imageCorrect=pygame.transform.scale(image, (self.width, self.height))
-        image=pygame.image.load("wrong.png")
+        image=pygame.image.load("assets/wrong.png")
         self.imageWrong=pygame.transform.scale(image, (self.width, self.height))
-        image=pygame.image.load("tooShort.png")
+        image=pygame.image.load("assets/tooShort.png")
         self.imageShort=pygame.transform.scale(image, (self.width, self.height))
-        image=pygame.image.load("bonus.png")
+        image=pygame.image.load("assets/bonus.png")
         self.imageBonus=pygame.transform.scale(image, (self.width, self.height))
-        image=pygame.image.load("found.png")
+        image=pygame.image.load("assets/found.png")
         self.imageFound=pygame.transform.scale(image, (self.width, self.height))
-        image=pygame.image.load("foundBonus.png")
+        image=pygame.image.load("assets/foundBonus.png")
         self.imageFoundBonus=pygame.transform.scale(image, (self.width, self.height))
-        image=pygame.image.load("blank.png")
+        image=pygame.image.load("assets/blank.png")
         self.imageBlank=pygame.transform.scale(image, (self.width, self.height))
         self.image=self.imageBlank
 
@@ -251,16 +253,16 @@ class Buttons():
         self.width=100
         self.x=const.WIDTH-self.width-30
         self.y=const.HEIGHT-self.width-30
-        image=pygame.image.load("play.png")
+        image=pygame.image.load("assets/play.png")
         self.imageGame=pygame.transform.scale(image, (self.width, self.width))
         self.rectGame=pygame.Rect(self.x, self.y, self.width, self.width)
-        image=pygame.image.load("Explain.png")
+        image=pygame.image.load("assets/Explain.png")
         self.imageExplain=pygame.transform.scale(image, (self.width, self.width))
         self.rectExplain=pygame.Rect(self.x, self.y-(self.width+30), self.width, self.width)
-        image=pygame.image.load("tutorial.png")
+        image=pygame.image.load("assets/tutorial.png")
         self.imageTutorial=pygame.transform.scale(image, (self.width, self.width))
         self.rectTutorial=pygame.Rect(self.x, self.y-(self.width+30)*2, self.width, self.width)
-        image=pygame.image.load("blank.png")
+        image=pygame.image.load("assets/blank.png")
         self.imageBlank=pygame.transform.scale(image, (self.width, self.width))
 
     def draw(self):
@@ -287,7 +289,7 @@ class Finger():
         self.nextLocation=locations[1]
         self.stop=False
 
-        image=pygame.image.load("fingerPointing.png")
+        image=pygame.image.load("assets/fingerPointing.png")
         self.image=pygame.transform.scale(image, (self.width, self.height))
 
     def newLocations(self, locations, width):
@@ -349,9 +351,9 @@ class ButtonToShowColours():
         self.width=width
         self.height=height
         self.hoveredOver=False
-        image=pygame.image.load("colourWheelHovered.png")
+        image=pygame.image.load("assets/colourWheelHovered.png")
         self.imageHovered=pygame.transform.scale(image, (width, height))
-        image=pygame.image.load("colourWheel.png")
+        image=pygame.image.load("assets/colourWheel.png")
         self.imageNormal=pygame.transform.scale(image, (width, height))
         self.image=self.imageNormal
 

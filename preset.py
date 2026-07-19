@@ -15,7 +15,7 @@ letterNum=0
 theLetters=""
 #confetti
 confettis=[]
-image=pygame.transform.scale(pygame.image.load("confetti.png"), (200, 200))
+image=pygame.transform.scale(pygame.image.load("assets/confetti.png"), (200, 200))
 for i in range(0,15):
     confettis.append(Confetti(image))
 
