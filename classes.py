@@ -4,6 +4,7 @@ import utilities as util
 import random
 import math
 
+import findTheWords
 #letters
 class Squares:
     def __init__(self, size, fontNum, x, y, colourClicked, colourNormal, letters, letterNum, isDuplicate, point):
@@ -32,52 +33,8 @@ class Squares:
         self.rect = pygame.Rect(self.x, self.y, self.size, self.size)
 
     def findNeighbours(self, squares):
-        position=self.gridPosition
-
-        #finding out neighbouring letters
-        numSquares=len(squares)
-        numAcross=math.sqrt(numSquares)
-        numAcross=int(numAcross)
-        #all left neighbours
-        if position%numAcross!=0:
-            #print("\nLetters to the left: "+letters[letterNum-1])
-            self.neighbours.append(squares[position-1])
-            self.numNeighbours.append(squares[position-1].gridPosition)
-            #left up, left down
-            if position>numAcross-1:
-                #print("Left up: "+letters[letterNum-(numAcross+1)])
-                self.neighbours.append(squares[position-(numAcross+1)])
-                self.numNeighbours.append(squares[position-(numAcross+1)].gridPosition)
-            if position<numSquares-numAcross:
-                #print("Left down: "+letters[letterNum+(numAcross-1)])
-                self.neighbours.append(squares[position+(numAcross-1)])
-                self.numNeighbours.append(squares[position+(numAcross-1)].gridPosition)
-
-        #all right neighbours
-        if position%numAcross!=3:
-            #print("Letters to the right: "+letters[letterNum+1])
-            self.neighbours.append(squares[position+1])
-            self.numNeighbours.append(squares[position+1].gridPosition)
-            #left up, left down
-            if position>=numAcross:
-                #print("right up: "+letters[letterNum-(numAcross-1)])
-                self.neighbours.append(squares[position-(numAcross-1)])
-                self.numNeighbours.append(squares[position-(numAcross-1)].gridPosition)
-            if position<numSquares-numAcross:
-                #print("Right down: "+letters[letterNum+(numAcross+1)])
-                self.neighbours.append(squares[position+(numAcross+1)])
-                self.numNeighbours.append(squares[position+(numAcross+1)].gridPosition)
-        
-        #up and down
-        if position>=numAcross:
-            #print("Up: "+letters[letterNum-(numAcross)])
-            self.neighbours.append(squares[position-(numAcross)])
-            self.numNeighbours.append(squares[position-numAcross].gridPosition)
-        if position<numSquares-numAcross:
-            #print("down: "+letters[letterNum+(numAcross)])
-            self.neighbours.append(squares[position+(numAcross)])
-            self.numNeighbours.append(squares[position+numAcross].gridPosition)
-
+        self.neighbours = findTheWords.findsquaresNeighbours(self.gridPosition, squares)
+        self.numNeighbours = [x.gridPosition for x in self.neighbours]
         #error checking
         if not " " in self.letters and False:
             print("\nNumber: "+str(self.gridPosition)+self.letter)
