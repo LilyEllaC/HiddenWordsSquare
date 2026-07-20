@@ -51,9 +51,9 @@ def makeSquares(number, letters, colour):
 
     #dealing with duplicates
     duplicateLetters=[]
-    for i in range(0, len(letters)):
-        for j in range(i+1, len(letters)):
-            if letters[i]==letters[j]:
+    for k in range(0, len(letters)):
+        for j in range(k+1, len(letters)):
+            if letters[k]==letters[j]:
                 duplicateLetters.append(letters[i])
 
     #finding font size

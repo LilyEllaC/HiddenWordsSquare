@@ -91,7 +91,8 @@ class ScoreBar:
     def changeScore(self, score):
         self.rectPoints=pygame.Rect(self.x, self.y, self.onePoint*score, self.height)
 
-    def draw(self):
+    def draw(self, score):
+        util.toScreen("Score: "+str(score)+" / "+str(self.totalScore), const.FONT60, self.colourBase, self.x+150, 100)
         pygame.draw.rect(const.SCREEN, self.colourBase, self.rectBase)
         pygame.draw.rect(const.SCREEN, self.colourPoints, self.rectPoints)
 
@@ -154,6 +155,8 @@ class WordsSorted():
 
 
         #tuples showing the words in the puzzle, the words found, and the length of the words
+        self.words=words
+        self.numWordsFound=0
         self.allWordsSorted=[]
         for i in range (4, 16):
             self.allWordsSorted.append(([], [], i))
@@ -258,6 +261,9 @@ class WordsSorted():
         self.scrollBarAppearance()
         pygame.draw.rect(const.SCREEN, self.colour, self.rect)
         pygame.draw.rect(const.SCREEN, self.hiddenColour, self.hidingRect)
+
+        #showing the number of words
+        util.toScreen("Words Found: "+str(self.numWordsFound)+" / "+str(len(self.words)), const.FONT60, const.colour2, 200, 125)
 
         if self.moving: 
             self.move()

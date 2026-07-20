@@ -12,17 +12,17 @@ def getFromFile(fileName="allWords.txt"):
 allWords = getFromFile()
 
 
-def isWord(str):
+def isWord(string):
     #return True
-    return allWords.has_key(str)
+    return allWords.has_key(string)
 
 
-def canBeWord(str):
+def canBeWord(string):
     # return if this begining of a word can ever be a word (i.e. are there any words that beging with unde)
     #  so unde woudl be true because of under but zzx would be false I hope
     # placeholder all 4 letter words are words
     #return True
-    return allWords.has_node(str)>0
+    return allWords.has_node(string)>0
 
 
 

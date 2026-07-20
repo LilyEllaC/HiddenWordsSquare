@@ -29,7 +29,7 @@ def setUp(letterSquares):
     return letterSquares
 
 #getting the word from the file
-def getWords(letters, squares):
+def getWords(letters, letterSquares):
     #getting all the info
     with open("wordsInPuzzle.txt", "r") as file:
         everything = [line.strip() for line in file]
@@ -65,9 +65,7 @@ def getWords(letters, squares):
                 posInWord.append(int(tempNums[:tempNums.find("-")]))
                 tempNums=tempNums[tempNums.find("-")+1:]
                 #adding the numbers to the words
-            for square in squares:
-                position=square.gridPosition
-                letter=square.letter
+            for square in letterSquares:
                 if square.gridPosition in posInWord:
                     square.wordsIn.append(word)
                     if posInWord[0]==square.gridPosition:
@@ -87,11 +85,11 @@ def getWords(letters, squares):
         words=tempWords
 
     #updating numbers for the squares:
-    for square in squares:
+    for square in letterSquares:
         square.numInLeft=len(square.wordsIn)
         square.numStartedLeft=len(square.wordsStarted)
     print("Letters: "+letters+" Length of words: "+str(len(words))+" Length of Bonus words: "+str(len(bonusWords)))
-    return words, bonusWords, squares
+    return words, bonusWords, letterSquares
 
 #make the squares know when they are hovered over
 def colourSquares(square, mouseX, mouseY, word:str, wordNums):
@@ -177,7 +175,7 @@ def checkIfWord(word, wordInfo, scoreBar, points, letterSquares):
             break
         
         else:
-            #sif it is a word
+            #if it is a word
             for option in lists[0]:
                 if option==word:
                     lists[1].append(word)
@@ -186,6 +184,7 @@ def checkIfWord(word, wordInfo, scoreBar, points, letterSquares):
                         points=calculatePoints(word, points)
                         scoreBar.changeScore(points)
                         wordType.image=wordType.imageCorrect
+                        wordInfo.numWordsFound+=1
                         #making the numbers of words the letter is in smaller
                         for square in letterSquares:
                             if square.letter in word and word in square.wordsIn:
@@ -246,10 +245,8 @@ def play(wordInformation, scoreBar, theCurrentWord, wordNums, points):
 
     #drawing
     #showing the score
-    #util.toScreen("Score: "+str(score), const.FONT30, const.BLACK, const.WIDTH*4//5, 100)
     if preset.gameStarted:
-        scoreBar.draw()
-        util.toScreen("Score: "+str(score), const.FONT30, const.BLACK, const.WIDTH*4//5, 100)
+        scoreBar.draw(points)
         wordType.draw()
         wordInformation.draw()
     #squares

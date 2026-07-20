@@ -1,6 +1,4 @@
 
-import random
-import string
 import math
 import wordDictionary
 
@@ -96,8 +94,7 @@ class PathSoFar:
         return self.__str__()
 
 
-    ""
-    #print(str)
+
 
 def findAllWordsFrom(node : Node, found, pathSoFar : PathSoFar):
     # we start at this node and do a 'depth first search' stopping whenever the letters formed so far can't make a word, also adding words to a list that we find along the way

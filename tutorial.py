@@ -51,7 +51,7 @@ def mouseUp(isClicked, scoreBar, points, theCurrentWord, letterSquares):
 
 
 
-def playTutorial(scoreBar, theCurrentWord, wordNums, letterSquares, pointingFinger):
+def playTutorial(scoreBar, theCurrentWord, wordNums, letterSquares, pointingFinger, points):
     #basic stuff
     const.SCREEN.fill(const.LIGHT_BLUE)
     util.toScreen("HIDDEN WORDS SQUARE", const.FONT75, const.BLACK, const.WIDTH // 2, 80)
@@ -97,11 +97,8 @@ def playTutorial(scoreBar, theCurrentWord, wordNums, letterSquares, pointingFing
 
 
     #drawing
-    #showing the score
-    util.toScreen("Score: "+str(score), const.FONT30, const.BLACK, const.WIDTH*4//5, 100)
-    
-    scoreBar.draw()
-    util.toScreen("Score: "+str(score), const.FONT30, const.BLACK, const.WIDTH*4//5, 100)
+    #showing the score    
+    scoreBar.draw(points)
     game.wordType.draw()
     wordInfo.draw()    
     for square in letterSquares:

@@ -98,7 +98,7 @@ async def main():
         elif gameState=="explain":
             explanation.showExplanation()
         elif gameState=="tutorial":
-            tutorial.pointBar, tutorial.currentWord, tutorial.wordNumbers, tutorial.squares=tutorial.playTutorial(tutorial.pointBar, tutorial.currentWord, tutorial.wordNumbers, tutorial.squares, tutorial.finger)
+            tutorial.pointBar, tutorial.currentWord, tutorial.wordNumbers, tutorial.squares=tutorial.playTutorial(tutorial.pointBar, tutorial.currentWord, tutorial.wordNumbers, tutorial.squares, tutorial.finger, tutorial.score)
 
         #colour stuff that can always appear
         if const.popUp:
