@@ -48,9 +48,10 @@ def findsquaresNeighbours(position, squares):
 
 
 class Node:
-    def __init__(self, letter):
-        self.letter =letter
+    def __init__(self, letterOpt, position):
+        self.letter =letterOpt
         self.neighbours =[]
+        self.position=str(position)
 
     
     # Best for end-users (Clean & Pretty)
@@ -62,9 +63,10 @@ class Node:
         return self.__str__()
 
     
-def makeGraph(letters):
-
-    nodes = [Node(letter) for letter in letters]
+def makeGraph(letterOptions):
+    nodes=[]
+    for i, letterOpt in enumerate(letterOptions):
+        nodes.append(Node(letterOpt, i))
     for i, n in enumerate(nodes):
         n.neighbours = findsquaresNeighbours(i,nodes)
     return nodes
@@ -73,12 +75,15 @@ def makeGraph(letters):
 class Found:
     def __init__(self):
         self.allWordsFound = set()
+        self.allNumsFound = set()
+
 
 
 class PathSoFar:
-    def __init__(self,wordSoFar,nodesVisidted ):
+    def __init__(self,wordSoFar,nodesVisidted, numsSoFar):
         self.wordSoFar =wordSoFar
         self.nodesVisited = nodesVisidted
+        self.numsSoFar = numsSoFar
 
 
     # Best for end-users (Clean & Pretty)
@@ -100,14 +105,16 @@ def findAllWordsFrom(node : Node, found, pathSoFar : PathSoFar):
     # start out with this letter
     
     wordSoFar = pathSoFar.wordSoFar +node.letter
+    numsSoFar = pathSoFar.numsSoFar +node.position+"-"
     if (wordDictionary.isWord(wordSoFar)):
-        found.allWordsFound.add(wordSoFar)
+        found.allWordsFound.add(wordSoFar+" "+numsSoFar)
+        found.allNumsFound.add(numsSoFar)
         
     # if we can go on, then nodesVisidted
     if (wordDictionary.canBeWord(wordSoFar)):
         # go over each neigbour and try again
         pathSoFar.nodesVisited.append(node)
-        newPath =PathSoFar(wordSoFar,pathSoFar.nodesVisited.copy())
+        newPath =PathSoFar(wordSoFar,pathSoFar.nodesVisited.copy(), numsSoFar)
         for n in node.neighbours:
             if n not in pathSoFar.nodesVisited:
                 findAllWordsFrom(n, found, newPath)
@@ -117,16 +124,16 @@ def findAllWordsFrom(node : Node, found, pathSoFar : PathSoFar):
     
 
 
-def findAllWords(letters):
+def findAllWords(letterOptions):
     # turn into a graph for normal reasons
-    graph = makeGraph(letters)
+    graph = makeGraph(letterOptions)
 
     # now that we have a graphnodesVisidted
     allFound = Found()
   
     
     for n in graph:
-        findAllWordsFrom(n, allFound,PathSoFar("",[]))
+        findAllWordsFrom(n, allFound,PathSoFar("",[],""))
 
     print (allFound.allWordsFound)
 
@@ -136,18 +143,18 @@ def findAllWords(letters):
         for line  in file:
             normalWords.append(line.strip())
     
-    wordsForFile="\n"+letters+" "
+    wordsForFile="\n"+letterOptions+" "
     bonusWords=""
     for word in allFound.allWordsFound:
-        if word in normalWords:
+        if word[:word.find(" ")] in normalWords:
             wordsForFile+=word+" "
         else:
             bonusWords+=word+" "
     #adding them together
     wordsForFile+="BONUSWORD "+bonusWords+"X"
     #putting this into a file
-    with open("wordsInPuzzle.txt", "a") as file:
-        file.write(wordsForFile)
+    #with open("wordsInPuzzle.txt", "a") as file:
+        #file.write(wordsForFile)
 
 if __name__ == '__main__':
     letters=["ABCDEFGHIJKLMNOP","QWERTYUIOPLKJHGF","MNBVCXZASDFGHJKL","PGIMEUNRCTSAIONR","QWERTYUIO","ASDFTUIMNOEFUNTIONCYOMTUN","EREOPLEIOLNAMNFJ","PEOPLEISAWESOMER"]
