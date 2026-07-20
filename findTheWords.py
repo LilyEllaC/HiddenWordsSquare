@@ -75,7 +75,7 @@ def makeGraph(letterOptions):
 class Found:
     def __init__(self):
         self.allWordsFound = set()
-        self.allNumsFound = set()
+        self.justWordsFound = set()
 
 
 
@@ -106,9 +106,9 @@ def findAllWordsFrom(node : Node, found, pathSoFar : PathSoFar):
     
     wordSoFar = pathSoFar.wordSoFar +node.letter
     numsSoFar = pathSoFar.numsSoFar +node.position+"-"
-    if (wordDictionary.isWord(wordSoFar)):
+    if (wordDictionary.isWord(wordSoFar)) and wordSoFar not in found.justWordsFound:
         found.allWordsFound.add(wordSoFar+" "+numsSoFar)
-        found.allNumsFound.add(numsSoFar)
+        found.justWordsFound.add(wordSoFar)
         
     # if we can go on, then nodesVisidted
     if (wordDictionary.canBeWord(wordSoFar)):
@@ -134,6 +134,7 @@ def findAllWords(letterOptions):
     
     for n in graph:
         findAllWordsFrom(n, allFound,PathSoFar("",[],""))
+                
 
    # print (allFound.allWordsFound)
 

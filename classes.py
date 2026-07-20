@@ -56,7 +56,7 @@ class Squares:
 
     def draw(self):
         #drawing shape and outline
-        pygame.draw.rect(const.SCREEN, self.colourN, self.rect)
+        pygame.draw.rect(const.SCREEN, self.colour, self.rect)
         pygame.draw.rect(const.SCREEN, const.BLACK, self.rect, 5)
         #clicked stuff
         if self.setting=="clicked":
@@ -69,7 +69,8 @@ class Squares:
         util.toScreen(str(self.point), const.FONT40, const.BLACK, self.x+self.size//2, self.y+self.size-20)
         util.toScreen(str(self.numStartedLeft), const.FONT40, self.colourT, self.x+self.size//8, self.y+self.size-20)
         util.toScreen(str(self.numInLeft), const.FONT40, self.colourT, self.x+self.size*7//8, self.y+self.size-20)
-        
+        if self.numInLeft==0:
+            self.colour=self.colourT
 
 
 class ScoreBar:
