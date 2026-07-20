@@ -27,9 +27,8 @@ async def main():
     preset.gameStarted=True
     squareInfo=preset.getSquareInfo()
     preset.theLetters=squareInfo[1]
-    print("Letters: "+preset.theLetters)
     gameplay.squares=preset.makeSquares(squareInfo[0], squareInfo[1], squareInfo[2])
-    words, bonusWords=gameplay.getWords(preset.theLetters)
+    words, bonusWords, gameplay.squares=gameplay.getWords(preset.theLetters, gameplay.squares)
     wordInfo, gameplay.pointBar=gameplay.makeBarAndWordInfo(words, bonusWords, gameplay.pointBar)
 
     preset.theLetters=squareInfo[1]
@@ -75,7 +74,7 @@ async def main():
 
                 if event.type==pygame.MOUSEBUTTONUP:
                     if gameplay.clicked:
-                        gameplay.score=gameplay.checkIfWord(gameplay.currentWord, wordInfo, gameplay.pointBar, gameplay.score)
+                        gameplay.score=gameplay.checkIfWord(gameplay.currentWord, wordInfo, gameplay.pointBar, gameplay.score, gameplay.squares)
                     gameplay.clicked=False
                     
                     #scroll bar
@@ -91,7 +90,7 @@ async def main():
                 if event.type==pygame.MOUSEBUTTONDOWN:
                     tutorial.clicked, tutorial.currentWord, tutorial.wordNumbers=tutorial.mouseDown(event, tutorial.pointBar, tutorial.currentWord, tutorial.wordNumbers)
                 if event.type==pygame.MOUSEBUTTONUP:
-                    tutorial.clicked, tutorial.score=tutorial.mouseUp(tutorial.clicked, tutorial.pointBar, tutorial.score, tutorial.currentWord)
+                    tutorial.clicked, tutorial.score=tutorial.mouseUp(tutorial.clicked, tutorial.pointBar, tutorial.score, tutorial.currentWord, tutorial.squares)
                     
 
         if gameState=="playing":

@@ -35,9 +35,9 @@ def mouseDown(event, isClicked, theCurrentWord, wordNum):
             break
     return isClicked, theCurrentWord, wordNum
 
-def mouseUp(isClicked, scoreBar, points, theCurrentWord):
+def mouseUp(isClicked, scoreBar, points, theCurrentWord, letterSquares):
     if isClicked:
-        points=game.checkIfWord(theCurrentWord, wordInfo, scoreBar, points)
+        points=game.checkIfWord(theCurrentWord, wordInfo, scoreBar, points, letterSquares)
 
     isClicked=False
     

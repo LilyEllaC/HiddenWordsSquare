@@ -135,7 +135,7 @@ def findAllWords(letterOptions):
     for n in graph:
         findAllWordsFrom(n, allFound,PathSoFar("",[],""))
 
-    print (allFound.allWordsFound)
+   # print (allFound.allWordsFound)
 
     #Dealing with figuring out the real and bonus words stuff
     normalWords=[]
@@ -153,8 +153,8 @@ def findAllWords(letterOptions):
     #adding them together
     wordsForFile+="BONUSWORD "+bonusWords+"X"
     #putting this into a file
-    #with open("wordsInPuzzle.txt", "a") as file:
-        #file.write(wordsForFile)
+    with open("wordsInPuzzle.txt", "a") as file:
+        file.write(wordsForFile)
 
 if __name__ == '__main__':
     letters=["ABCDEFGHIJKLMNOP","QWERTYUIOPLKJHGF","MNBVCXZASDFGHJKL","PGIMEUNRCTSAIONR","QWERTYUIO","ASDFTUIMNOEFUNTIONCYOMTUN","EREOPLEIOLNAMNFJ","PEOPLEISAWESOMER"]

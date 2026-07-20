@@ -6,7 +6,7 @@ import random
 import findTheWords
 #letters
 class Squares:
-    def __init__(self, size, fontNum, x, y, colourClicked, colourNormal, letters, letterNum, isDuplicate, point):
+    def __init__(self, size, fontNum, x, y, colourClicked, colourNormal, colourText, letters, letterNum, isDuplicate, point):
         self.size=size
         self.radius=self.size*3//8
         self.x=x
@@ -15,6 +15,7 @@ class Squares:
         self.yCirc=self.y+self.size//2
         self.colourN=colourNormal
         self.colourC=colourClicked
+        self.colourT=colourText
         self.colour=self.colourN
         self.letter=letters[letterNum]
         self.letters=letters
@@ -29,6 +30,12 @@ class Squares:
         self.neighbours=[]
         self.numNeighbours=[]
         self.node=""
+
+        #clues
+        self.wordsStarted=[]
+        self.wordsIn=[]
+        self.numStartedLeft=0
+        self.numInLeft=0
         
 
 
@@ -48,14 +55,21 @@ class Squares:
         self.colourC=colour2
 
     def draw(self):
+        #drawing shape and outline
         pygame.draw.rect(const.SCREEN, self.colourN, self.rect)
         pygame.draw.rect(const.SCREEN, const.BLACK, self.rect, 5)
+        #clicked stuff
         if self.setting=="clicked":
             pygame.draw.circle(const.SCREEN, self.colourC, (self.xCirc, self.yCirc), self.radius)
         else:
             self.position=-1
+        #letter
         util.toScreen(self.letter, const.FONTS[self.fontNum], const.BLACK, self.x+self.size//2, self.y+self.size*4//7)
+        #numbers
         util.toScreen(str(self.point), const.FONT40, const.BLACK, self.x+self.size//2, self.y+self.size-20)
+        util.toScreen(str(self.numStartedLeft), const.FONT40, self.colourT, self.x+self.size//8, self.y+self.size-20)
+        util.toScreen(str(self.numInLeft), const.FONT40, self.colourT, self.x+self.size*7//8, self.y+self.size-20)
+        
 
 
 class ScoreBar:

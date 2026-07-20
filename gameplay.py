@@ -29,7 +29,7 @@ def setUp(letterSquares):
     return letterSquares
 
 #getting the word from the file
-def getWords(letters):
+def getWords(letters, squares):
     #getting all the info
     with open("wordsInPuzzle.txt", "r") as file:
         everything = [line.strip() for line in file]
@@ -38,29 +38,60 @@ def getWords(letters):
     #variables
     words=[]
     tempWords=[]
+    tempNums=""
+    posInWord=[]
     bonusWords=[]
     bonusFound=False
     # words are curently all in one line woth spaces between. The letters are at the start
     for line in everything:
+        #getting the right line
         if letters in line:
             wordString=line
             break
+    #getting rid of the letters
     wordString=wordString[wordString.find(" ")+1:]
+    #looping until all letters gone
     while " " in wordString:
-        tempWords.append(wordString[:wordString.find(" ")])
+        word=wordString[:wordString.find(" ")]
+        tempWords.append(word)
         wordString=wordString[wordString.find(" ")+1:]
+        #dealing with words started and in
+        if not bonusFound:
+            #getting the numbers
+            posInWord=[]
+            tempNums=wordString[:wordString.find(" ")]
+            wordString=wordString[wordString.find(" ")+1:]
+            while "-" in tempNums:
+                posInWord.append(int(tempNums[:tempNums.find("-")]))
+                tempNums=tempNums[tempNums.find("-")+1:]
+                #adding the numbers to the words
+            for square in squares:
+                position=square.gridPosition
+                letter=square.letter
+                if square.gridPosition in posInWord:
+                    square.wordsIn.append(word)
+                    if posInWord[0]==square.gridPosition:
+                        square.wordsStarted.append(word)
+
+
         #switching to the list of bonus words
         if tempWords[-1]=="BONUSWORD":
             tempWords.pop()
             words=tempWords
             tempWords=[]
             bonusFound=True
+    
     if bonusFound:
         bonusWords=tempWords
     else:
         words=tempWords
+
+    #updating numbers for the squares:
+    for square in squares:
+        square.numInLeft=len(square.wordsIn)
+        square.numStartedLeft=len(square.wordsStarted)
     print("Letters: "+letters+" Length of words: "+str(len(words))+" Length of Bonus words: "+str(len(bonusWords)))
-    return words, bonusWords
+    return words, bonusWords, squares
 
 #make the squares know when they are hovered over
 def colourSquares(square, mouseX, mouseY, word:str, wordNums):
@@ -127,13 +158,16 @@ def showLine(colour, square, letterSquares, theCurrentWord):
                 pygame.draw.line(const.SCREEN, colour, (square.xCirc, square.yCirc), (otherSquare.xCirc, otherSquare.yCirc), 20)
 
 #check if the word is in the word list  
-def checkIfWord(word, wordInfo, scoreBar, points):
+def checkIfWord(word, wordInfo, scoreBar, points, letterSquares):
     sortedLists=wordInfo.allWordsSorted
     found=False
     isBonus=False
+    #going through all the word lengths
     for lists in sortedLists:
+        #means its a bonus word
         if lists[2]==100:
             isBonus=True
+        #is already found
         if word in lists[1]:
             if not isBonus:
                 wordType.image=wordType.imageFound
@@ -141,17 +175,29 @@ def checkIfWord(word, wordInfo, scoreBar, points):
                 wordType.image=wordType.imageFoundBonus
             found=True
             break
-        for option in lists[0]:
-            if option==word and word not in lists[1]:
-                lists[1].append(word)
-                #not a bonus word
-                if not isBonus:
-                    points=calculatePoints(word, points)
-                    scoreBar.changeScore(points)
-                    wordType.image=wordType.imageCorrect
-                else:
-                    wordType.image=wordType.imageBonus
-                found=True
+        
+        else:
+            #sif it is a word
+            for option in lists[0]:
+                if option==word:
+                    lists[1].append(word)
+                    #not a bonus word
+                    if not isBonus:
+                        points=calculatePoints(word, points)
+                        scoreBar.changeScore(points)
+                        wordType.image=wordType.imageCorrect
+                        #making the numbers of words the letter is in smaller
+                        for square in letterSquares:
+                            if square.letter in word and word in square.wordsIn:
+                                square.numInLeft-=1
+                                if word[0]==square.letter and word in square.wordsStarted:
+                                    square.numStartedLeft-=1
+                            
+                    else:
+                        wordType.image=wordType.imageBonus
+                    found=True
+                    break
+            if found:
                 break
         
     if not found:

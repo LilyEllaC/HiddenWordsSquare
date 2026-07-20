@@ -35,7 +35,6 @@ def getSquareInfo():
     with open("letters.txt", "r") as file:
         lines = file.readlines()
     letters=lines[random.randint(0, len(lines)-1)].strip()
-    #letters="PGIMEUNRCTSAIONR"
     return [len(letters), letters, const.colour1]
 
 #getting all of the squares
@@ -64,6 +63,7 @@ def makeSquares(number, letters, colour):
     #finding other colour
     colours=const.COLOUROPTIONS
     colourN=colours[colours.index(colour)-1]
+    colourT=colours[colours.index(colour)+1]
     
 
 
@@ -86,7 +86,7 @@ def makeSquares(number, letters, colour):
                 point=const.POINTS[ord(letter)-65]
             
             #creating
-            squares.append(Squares(size, fontNum, x, y, colour, colourN, letters, letterPos, duplicate, point))
+            squares.append(Squares(size, fontNum, x, y, colour, colourN, colourT, letters, letterPos, duplicate, point))
             letterPos+=1
     for square in squares:
         square.findNeighbours(squares)
