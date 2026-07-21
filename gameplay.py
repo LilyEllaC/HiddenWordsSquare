@@ -17,7 +17,6 @@ squares=[]
 pointBar=""
 
 
-
 #functions
 #setting up
 def setUp(letterSquares):

@@ -1,7 +1,7 @@
 import pygame
 import constants as const
 import utilities as util
-from classes import ColourButton, ButtonToShowColours
+from classes import ColourButton, GenericButton
 import gameplay
 import tutorial
 
@@ -19,7 +19,7 @@ for colour in const.COLOUROPTIONS:
         y+=height+10
         wordNum+=1
         colours=[]
-colourWheel=ButtonToShowColours(10, 10, 70, 70)
+colourWheel=GenericButton(10, 10, 70, "assets/colourWheel.png", "assets/colourWheelHovered.png")
 
 #buttons
 def checkButtons(mouseX, mouseY):
@@ -36,9 +36,10 @@ def checkButtons(mouseX, mouseY):
                 #forcably updating some stuff
                 #changing the squares
                 for square in gameplay.squares:
-                    square.changeColours(colourLight, const.colour1)
+                    square.changeColours(colourLight, const.colour1, const.colour2)
+                    print("Changed colours")
                 for square in tutorial.squares:
-                    square.changeColours(colourLight, const.colour1)
+                    square.changeColours(colourLight, const.colour1, const.colour2)
                 #point bar stuff
                 gameplay.pointBar.colourPoints=const.colour1
                 gameplay.pointBar.colourBase=const.colour2

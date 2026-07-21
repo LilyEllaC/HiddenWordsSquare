@@ -70,6 +70,13 @@ async def main():
                             break
                     #scroll bar
                     wordInfo.startMove()
+                    #getting the hints
+                    if gameplay.pointBar.hintStart.hoveredOver:
+                        for square in gameplay.squares:
+                            square.showStarted=True
+                    if gameplay.pointBar.hintRemain.hoveredOver:
+                        for square in gameplay.squares:
+                            square.showIn=True
 
 
                 if event.type==pygame.MOUSEBUTTONUP:

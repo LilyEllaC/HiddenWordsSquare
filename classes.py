@@ -36,6 +36,8 @@ class Squares:
         self.wordsIn=[]
         self.numStartedLeft=0
         self.numInLeft=0
+        self.showIn=False
+        self.showStarted=False
         
 
 
@@ -50,9 +52,15 @@ class Squares:
             for i in range(0,len(self.numNeighbours)):
                 print(str(self.numNeighbours[i])+self.neighbours[i].letter+", ", end="")
 
-    def changeColours(self, colour1, colour2):
+    def changeColours(self, colour1, colour2, colour3):
+        if self.colour==self.colourN:
+            self.colour=colour1
+        else:
+            self.colour=colour3
         self.colourN=colour1
         self.colourC=colour2
+        self.colourT=colour3
+        
 
     def draw(self):
         #drawing shape and outline
@@ -67,8 +75,10 @@ class Squares:
         util.toScreen(self.letter, const.FONTS[self.fontNum], const.BLACK, self.x+self.size//2, self.y+self.size*4//7)
         #numbers
         util.toScreen(str(self.point), const.FONT40, const.BLACK, self.x+self.size//2, self.y+self.size-20)
-        util.toScreen(str(self.numStartedLeft), const.FONT40, self.colourT, self.x+self.size//8, self.y+self.size-20)
-        util.toScreen(str(self.numInLeft), const.FONT40, self.colourT, self.x+self.size*7//8, self.y+self.size-20)
+        if self.showStarted: 
+            util.toScreen(str(self.numStartedLeft), const.FONT40, self.colourT, self.x+self.size//8, self.y+self.size-20)
+        if self.showIn: 
+            util.toScreen(str(self.numInLeft), const.FONT40, self.colourT, self.x+self.size*7//8, self.y+self.size-20)
         if self.numInLeft==0:
             self.colour=self.colourT
 
@@ -88,13 +98,43 @@ class ScoreBar:
         self.rectPoints = pygame.Rect(self.x, self.y, 0, self.height)
         self.rectBase = pygame.Rect(self.x, self.y, self.width, self.height)
 
+        #buttons
+        self.hintSize=25
+        self.hintStart=GenericButton(self.x+self.onePoint*self.totalScore//3-self.hintSize//2, self.y+self.hintSize, self.hintSize, "assets/HintStartingButton.png", "assets/HintStartingButtonPressed.png", False)
+        self.hintRemain=GenericButton(self.x+self.onePoint*self.totalScore*2//3-self.hintSize//2, self.y+self.hintSize, self.hintSize, "assets/HintRemainingButton.png", "assets/HintRemainingButtonPressed.png", False)
+        self.startShowing=False
+        self.remainShowing=False
+
     def changeScore(self, score):
         self.rectPoints=pygame.Rect(self.x, self.y, self.onePoint*score, self.height)
 
     def draw(self, score):
         util.toScreen("Score: "+str(score)+" / "+str(self.totalScore), const.FONT60, self.colourBase, self.x+150, 100)
         pygame.draw.rect(const.SCREEN, self.colourBase, self.rectBase)
+        pygame.draw.rect(const.SCREEN, const.BLACK, self.rectBase, 5)
         pygame.draw.rect(const.SCREEN, self.colourPoints, self.rectPoints)
+        pygame.draw.rect(const.SCREEN, const.BLACK, self.rectPoints,5)
+        
+        # buttons
+        self.hintStart.draw()
+        self.hintRemain.draw()
+        #switching
+        if score>self.totalScore//3 and not self.startShowing:
+            self.startShowing=True
+            self.hintStart.embiggenated=True
+            self.hintStart.y+=100
+            self.hintStart.size*=5
+            self.hintStart.x=self.x+self.onePoint*self.totalScore//3-self.hintSize*5//2
+            self.hintStart.imageNormal=self.hintStart.imageNBig
+            self.hintStart.imageHovered=self.hintStart.imageHBig
+        if score>self.totalScore*2//3 and not self.remainShowing:
+            self.remainShowing=True
+            self.hintRemain.embiggenated=True
+            self.hintRemain.y+=100
+            self.hintRemain.size*=5
+            self.hintRemain.x=self.x+self.onePoint*self.totalScore*2//3-self.hintSize*5//2
+            self.hintRemain.imageNormal=self.hintRemain.imageNBig
+            self.hintRemain.imageHovered=self.hintRemain.imageHBig
 
 
 class WordType:
@@ -263,7 +303,7 @@ class WordsSorted():
         pygame.draw.rect(const.SCREEN, self.hiddenColour, self.hidingRect)
 
         #showing the number of words
-        util.toScreen("Words Found: "+str(self.numWordsFound)+" / "+str(len(self.words)), const.FONT60, const.colour2, 200, 125)
+        util.toScreen("Words Found: "+str(self.numWordsFound)+" / "+str(len(self.words)), const.FONT60, const.colour2, 220, 100)
 
         if self.moving: 
             self.move()
@@ -365,18 +405,22 @@ class Finger():
             self.move()
 
 
-class ButtonToShowColours():
-    def __init__(self, x, y, width, height):
+class GenericButton():
+    def __init__(self, x, y, size, imageNorm, imageHovered, embiggenated=True):
         self.x=x
         self.y=y
-        self.width=width
-        self.height=height
+        self.size=size
         self.hoveredOver=False
-        image=pygame.image.load("assets/colourWheelHovered.png")
-        self.imageHovered=pygame.transform.scale(image, (width, height))
-        image=pygame.image.load("assets/colourWheel.png")
-        self.imageNormal=pygame.transform.scale(image, (width, height))
+        image=pygame.image.load(imageHovered)
+        self.imageHovered=pygame.transform.scale(image, (size, size))
+        self.imageHBig=pygame.transform.scale(image, (size*5, size*5))
+        image=pygame.image.load(imageNorm)
+        self.imageNormal=pygame.transform.scale(image, (size, size))
+        self.imageNBig=pygame.transform.scale(image, (size*5, size*5))
         self.image=self.imageNormal
+        self.embiggenated=embiggenated
+
+        #for size changes
 
         self.rect=self.image.get_rect()
         self.rect.x=self.x
@@ -385,7 +429,7 @@ class ButtonToShowColours():
     def update(self):
         #checking if te mouse is hovered over it
         mouseX, mouseY=pygame.mouse.get_pos()
-        if mouseX>self.x and mouseX<self.x+self.width and mouseY>self.y and mouseY<self.y+self.height:
+        if mouseX>self.x and mouseX<self.x+self.size and mouseY>self.y and mouseY<self.y+self.size and self.embiggenated:
             self.image=self.imageHovered
             self.hoveredOver=True
         else:
