@@ -23,6 +23,8 @@ buttons=classes.Buttons()
 
 async def main():
     global running, gameState
+    const.SCREEN.fill(const.ORANGE)
+
     #set up stuff
     preset.gameStarted=True
     squareInfo=preset.getSquareInfo()

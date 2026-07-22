@@ -79,8 +79,11 @@ class Squares:
             util.toScreen(str(self.numStartedLeft), const.FONT40, self.colourT, self.x+self.size//8, self.y+self.size-20)
         if self.showIn: 
             util.toScreen(str(self.numInLeft), const.FONT40, self.colourT, self.x+self.size*7//8, self.y+self.size-20)
+        #if it is done with words
         if self.numInLeft==0:
             self.colour=self.colourT
+        else:
+            self.colour=self.colourN
 
 
 class ScoreBar:
@@ -101,7 +104,7 @@ class ScoreBar:
         #buttons
         self.hintSize=25
         self.hintStart=GenericButton(self.x+self.onePoint*self.totalScore//3-self.hintSize//2, self.y+self.hintSize, self.hintSize, "assets/HintStartingButton.png", "assets/HintStartingButtonPressed.png", False)
-        self.hintRemain=GenericButton(self.x+self.onePoint*self.totalScore*2//3-self.hintSize//2, self.y+self.hintSize, self.hintSize, "assets/HintRemainingButton.png", "assets/HintRemainingButtonPressed.png", False)
+        self.hintRemain=GenericButton(self.x+self.onePoint*self.totalScore//2-self.hintSize//2, self.y+self.hintSize, self.hintSize, "assets/HintRemainingButton.png", "assets/HintRemainingButtonPressed.png", False)
         self.startShowing=False
         self.remainShowing=False
 
@@ -124,15 +127,15 @@ class ScoreBar:
             self.hintStart.embiggenated=True
             self.hintStart.y+=100
             self.hintStart.size*=5
-            self.hintStart.x=self.x+self.onePoint*self.totalScore//3-self.hintSize*5//2
+            self.hintStart.x=self.x+self.onePoint*self.totalScore//3-self.hintSize*5//2-60
             self.hintStart.imageNormal=self.hintStart.imageNBig
             self.hintStart.imageHovered=self.hintStart.imageHBig
-        if score>self.totalScore*2//3 and not self.remainShowing:
+        if score>self.totalScore//2 and not self.remainShowing:
             self.remainShowing=True
             self.hintRemain.embiggenated=True
             self.hintRemain.y+=100
             self.hintRemain.size*=5
-            self.hintRemain.x=self.x+self.onePoint*self.totalScore*2//3-self.hintSize*5//2
+            self.hintRemain.x=self.x+self.onePoint*self.totalScore//2-self.hintSize*5//2+60
             self.hintRemain.imageNormal=self.hintRemain.imageNBig
             self.hintRemain.imageHovered=self.hintRemain.imageHBig
 
