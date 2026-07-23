@@ -10,9 +10,9 @@ This is a fun word game where you try to find all of the normal words hidden in 
 
 ## How to play:
 - Click on the play button
-- Choose a letter and click on it and drag your mouse to adjacent letters to make words
+- Choose a letter and click and drag with your mouse or your finger to adjacent letters to make words. 
 - Each word adds to the score depending on the length and how long the word is
-- When a third of the total score is reached a hint is revealed, as halfway
+- When a third of the total score is reached a hint becomes available. You have to click on it with your mouse to reveal it
 - When you find all of the normal words you've won. Yay!!
 - There is not yet a way to play another game, so you have to refresh the page. This will be added soon
 

@@ -53,7 +53,7 @@ async def main():
                 #going to the tutorial
                 if buttons.rectTutorial.collidepoint((mouseX, mouseY)):
                     gameState="tutorial"
-                    tutorial.setUp()
+                    tutorial.tutorialStuff=tutorial.setUp()
                 
                 #colour stuff:
                 if mouseX<200 and mouseY<400:
@@ -97,9 +97,9 @@ async def main():
             #tutorial
             if gameState=="tutorial":
                 if event.type==pygame.MOUSEBUTTONDOWN:
-                    tutorial.clicked, tutorial.currentWord, tutorial.wordNumbers=tutorial.mouseDown(event, tutorial.pointBar, tutorial.currentWord, tutorial.wordNumbers)
+                    tutorial.mouseDown(event, tutorial.tutorialStuff)
                 if event.type==pygame.MOUSEBUTTONUP:
-                    tutorial.clicked, tutorial.score=tutorial.mouseUp(tutorial.clicked, tutorial.pointBar, tutorial.score, tutorial.currentWord, tutorial.squares)
+                    tutorial.mouseUp(tutorial.tutorialStuff)
                     
 
         if gameState=="playing":
@@ -107,7 +107,7 @@ async def main():
         elif gameState=="explain":
             explanation.showExplanation()
         elif gameState=="tutorial":
-            tutorial.pointBar, tutorial.currentWord, tutorial.wordNumbers, tutorial.squares=tutorial.playTutorial(tutorial.pointBar, tutorial.currentWord, tutorial.wordNumbers, tutorial.squares, tutorial.finger, tutorial.score)
+            tutorial.playTutorial(tutorial.tutorialStuff)
 
         #colour stuff that can always appear
         if const.popUp:

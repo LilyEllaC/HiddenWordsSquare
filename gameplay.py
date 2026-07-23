@@ -20,8 +20,9 @@ pointBar=""
 #functions
 #setting up
 def setUp(letterSquares):
-    for square in tutorial.squares:
-        square.visible=False
+    if tutorial.tutorialStuff!="":
+        for square in tutorial.tutorialStuff.squares:
+            square.visible=False
     for square in letterSquares:
         square.visible=True
     
