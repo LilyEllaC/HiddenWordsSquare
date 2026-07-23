@@ -131,6 +131,7 @@ def findAllWords(letterOptions):
     
     for n in graph:
         findAllWordsFrom(n, allFound,PathSoFar("",[],""))
+    normalWordCount=0
                 
 
    # print (allFound.allWordsFound)
@@ -146,15 +147,33 @@ def findAllWords(letterOptions):
     for word in allFound.allWordsFound:
         if word[:word.find(" ")] in normalWords:
             wordsForFile+=word+" "
+            normalWordCount+=1
         else:
             bonusWords+=word+" "
     #adding them together
     wordsForFile+="BONUSWORD "+bonusWords+"X"
+    print(str(normalWordCount)+" normal words")
+    print(wordsForFile)
     #putting this into a file
     with open("wordsInPuzzle.txt", "a") as file:
         file.write(wordsForFile)
 
 if __name__ == '__main__':
     letters=["ABCDEFGHIJKLMNOP","QWERTYUIOPLKJHGF","MNBVCXZASDFGHJKL","PGIMEUNRCTSAIONR","QWERTYUIO","ASDFTUIMNOEFUNTIONCYOMTUN","EREOPLEIOLNAMNFJ","PEOPLEISAWESOMER"]
-    for letter in letters:
-        findAllWords(letter)
+    #for letter in letters:
+    letters="PREIOSNTCAPEGNID" #141 Normal
+    letters="QETHUUSIEAORBLNB" #96 Normal
+    letters="RCUYBALLZINOYLMD" #61 Normal
+    letters="ERTEZEESLEEBETRU" #42 Normal
+    letters="QRECSUAKZZIGFINT" #43 Normal
+    letters="BDHRFEAOGDLCUPIV" #74 Normal
+    letters="CEGANOYPOGLOZOIB" #41 Normal
+    letters="CKFDEHALPEECMESI" #64 Normal
+    letters="HCSREAPYSNPMUSIL" #93 Normal
+    letters="DNVLIEOIFCMPTYAC" #95 Normal
+    letters="PIZMYPMOUMPYMHAP" #12 Normal
+    letters="AAPHRSRTAGUAISAB" #55 Normal
+    letters="CPTVCATAIROSHPMI" #95 Normal
+    letters="KOHSNEEUDKSYYOGG" #47 Normal
+    letters="HPOHOIPSHTPUUAML" #47 Normal
+    letters="HPAPOOULBRCSICTE" #69 Normal
