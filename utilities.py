@@ -36,7 +36,7 @@ def toScreenInfTopLeft(wordList, font1, font2, colour, x, y):
                 font=font2
                 fontHeight=font2Height
         #stuff
-        currentHeight+=fontHeight+5
+        currentHeight+=fontHeight
         text = font.render(word, True, colour)
             
         const.SCREEN.blit(text, (x, currentHeight))

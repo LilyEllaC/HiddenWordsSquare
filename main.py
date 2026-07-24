@@ -56,7 +56,7 @@ async def main():
                     tutorial.tutorialStuff=tutorial.setUp()
                 
                 #colour stuff:
-                if mouseX<200 and mouseY<400:
+                if mouseX<200 and mouseY<550:
                     colour.checkButtons(mouseX, mouseY)
                 else: const.popUp=False
 

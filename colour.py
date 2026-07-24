@@ -25,13 +25,15 @@ def checkButtons(mouseX, mouseY):
                 for square in gameplay.squares:
                     square.changeColours(colourLight, const.colour1, const.colour2)
                     print("Changed colours")
-                for square in tutorial.tutorialStuff.squares:
-                    square.changeColours(colourLight, const.colour1, const.colour2)
+                if tutorial.tutorialStuff is not None:
+                    tutorial.tutorialStuff.pointBar.colourPoints=const.colour1
+                    tutorial.tutorialStuff.pointBar.colourBase=const.colour2
+                    for square in tutorial.tutorialStuff.squares:
+                        square.changeColours(colourLight, const.colour1, const.colour2)
                 #point bar stuff
                 gameplay.pointBar.colourPoints=const.colour1
                 gameplay.pointBar.colourBase=const.colour2
-                tutorial.tutorialStuff.pointBar.colourPoints=const.colour1
-                tutorial.tutorialStuff.pointBar.colourBase=const.colour2
+                
                 break
     if colourWheel and colourWheel.rect.collidepoint((mouseX, mouseY)):
         const.popUp=not const.popUp
@@ -40,8 +42,8 @@ def checkButtons(mouseX, mouseY):
 
 #pop-up
 def showPopUp():
-    pygame.draw.rect(const.SCREEN, const.WHITE, (0, 0, 400, 400))
-    pygame.draw.rect(const.SCREEN, const.BLACK, (0, 0, 400, 400), 5)
+    pygame.draw.rect(const.SCREEN, const.WHITE, (0, 0, 400, 475))
+    pygame.draw.rect(const.SCREEN, const.BLACK, (0, 0, 400, 475), 5)
     util.toScreen("Colour Theme", const.FONT60, const.BLACK, 233, 50)
     util.toScreen("What colour do you want?", const.FONT40, const.BLACK, 200, 100)
     for button in const.buttons:
