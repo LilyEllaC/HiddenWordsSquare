@@ -11,7 +11,6 @@ import colour
 
 # important stuff
 # pylint: disable=no-member
-pygame.init()
 running=True
 gameState="explain"
 
@@ -23,8 +22,9 @@ buttons=classes.Buttons()
 
 async def main():
     global running, gameState
-    const.SCREEN.fill(const.ORANGE)
-
+    pygame.init()
+    colour.colourWheel=colour.initColourButtons(colour.colourWheel)
+#    await asyncio.sleep(0)
     #set up stuff
     preset.gameStarted=True
     squareInfo=preset.getSquareInfo()
@@ -121,7 +121,9 @@ async def main():
         const.CLOCK.tick(const.FPS)
         await asyncio.sleep(0)
 
+
 if __name__ == "__main__":
     asyncio.run(main())
     pygame.quit()
+
         

@@ -39,7 +39,7 @@ class TutorialStuff():
         self.score=0
         
 
-tutorialStuff=""
+tutorialStuff=None
 
 def setUp():
     tutorStuff=TutorialStuff()

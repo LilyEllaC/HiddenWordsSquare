@@ -6,20 +6,7 @@ import gameplay
 import tutorial
 
 
-colours=[]
-words=["RED", "ORANGE", "YELLOW", "GREEN", "TEAL", "BLUE", "PURPLE", "MAGENTA"]
-wordNum=0
-x=20
-y=120
-height=const.FONT35.get_height()
-for colour in const.COLOUROPTIONS:
-    colours.append(colour)
-    if len(colours)==3:
-        const.buttons.append(ColourButton(x, y, 140, height+7, colours, words[wordNum], const.FONT35))
-        y+=height+10
-        wordNum+=1
-        colours=[]
-colourWheel=GenericButton(10, 10, 70, "assets/colourWheel.png", "assets/colourWheelHovered.png")
+colourWheel=None
 
 #buttons
 def checkButtons(mouseX, mouseY):
@@ -38,15 +25,15 @@ def checkButtons(mouseX, mouseY):
                 for square in gameplay.squares:
                     square.changeColours(colourLight, const.colour1, const.colour2)
                     print("Changed colours")
-                for square in tutorial.squares:
+                for square in tutorial.tutorialStuff.squares:
                     square.changeColours(colourLight, const.colour1, const.colour2)
                 #point bar stuff
                 gameplay.pointBar.colourPoints=const.colour1
                 gameplay.pointBar.colourBase=const.colour2
-                tutorial.pointBar.colourPoints=const.colour1
-                tutorial.pointBar.colourBase=const.colour2
+                tutorial.tutorialStuff.pointBar.colourPoints=const.colour1
+                tutorial.tutorialStuff.pointBar.colourBase=const.colour2
                 break
-    if colourWheel.rect.collidepoint((mouseX, mouseY)):
+    if colourWheel and colourWheel.rect.collidepoint((mouseX, mouseY)):
         const.popUp=not const.popUp
     
             
@@ -59,3 +46,22 @@ def showPopUp():
     util.toScreen("What colour do you want?", const.FONT40, const.BLACK, 200, 100)
     for button in const.buttons:
         button.draw()
+
+
+def initColourButtons(colourWheelButton):
+    const.buttons.clear()
+    height = const.FONT35.get_height()
+    button_colours = []
+    wordNum = 0
+    words=["RED", "ORAGNE", "YELLOW", "GREEN", "TEAL", "BLUE", "MAGENTA", "PURPLE"]
+    y = 120
+    x = 20
+    for colour in const.COLOUROPTIONS:
+        button_colours.append(colour)
+        if len(button_colours) == 3:
+            const.buttons.append(ColourButton(x, y, 140, height + 7, button_colours, words[wordNum], const.FONT35))
+            y += height + 10
+            wordNum += 1
+            button_colours = []
+    colourWheelButton = GenericButton(10, 10, 70, "assets/colourWheel.png", "assets/colourWheelHovered.png")
+    return colourWheelButton

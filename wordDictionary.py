@@ -1,28 +1,30 @@
-import pygtrie
 
 
 
+allWords= None
 def getFromFile(fileName="allWords.txt"):
+    import pygtrie
+
     t = pygtrie.CharTrie()
 
     with open(fileName, 'r') as file:
         for line  in file:
             t[line.strip()]= True
     return t
-allWords = getFromFile()
+
+def getAllWords():
+    global allWords
+    if allWords==None:
+        allWords=getFromFile()
+    return allWords
 
 
 def isWord(string):
-    #return True
-    return allWords.has_key(string)
+    return getAllWords().has_key(string)
 
 
 def canBeWord(string):
-    # return if this begining of a word can ever be a word (i.e. are there any words that beging with unde)
-    #  so unde woudl be true because of under but zzx would be false I hope
-    # placeholder all 4 letter words are words
-    #return True
-    return allWords.has_node(string)>0
+    return getAllWords().has_node(string)>0
 
 
 
