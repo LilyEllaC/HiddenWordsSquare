@@ -39,4 +39,4 @@ pip install -r requirements.txt
 python main.py
 
 ## AI 
-This project used very little ai. It was used for research purposes and the autocomplete function was used before I got annoyed and turned it off only a few hours into the project
+This project used very little ai. It was used for research purposes and the autocomplete function was used before I got annoyed and turned it off only a few hours into the project. Slight bit of ai to figure out why it wasn't working for pygbag and fixing that problem
