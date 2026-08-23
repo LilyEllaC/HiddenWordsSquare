@@ -45,12 +45,9 @@ def makeSquares(number, letters, colour):
         xPos.append(const.WIDTH//4+xDistance*i)
         yPos.append(const.HEIGHT//4+xDistance*i)
 
-    #dealing with duplicates
+    #duplicate stuff
     duplicateLetters=[]
-    for k in range(0, len(letters)):
-        for j in range(k+1, len(letters)):
-            if letters[k]==letters[j]:
-                duplicateLetters.append(letters[i])
+    edittableLetters=letters
 
     #finding font size
     fontNum=(size*4//5)//5
@@ -70,7 +67,11 @@ def makeSquares(number, letters, colour):
         for x in xPos:
             #duplicate stuff
             letter=letters[letterPos]
+            edittableLetters=edittableLetters.replace(letter, "", 1)
+            if letter in edittableLetters:
+                duplicateLetters.append(letter)
             if letter in duplicateLetters:
+                print("Duplicate letter: "+letter)
                 duplicate=True
             else:
                 duplicate=False

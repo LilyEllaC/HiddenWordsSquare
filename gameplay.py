@@ -94,6 +94,7 @@ def getWords(letters, letterSquares):
 #make the squares know when they are hovered over
 def colourSquares(square, mouseX, mouseY, word:str, wordNums):
     if square.rect.collidepoint((mouseX, mouseY)) and square.visible:
+        #print("Is normal: "+square.setting+" Letter: "+square.letter+" Position in Word: "+str(square.position))
         if square.setting=="normal":
             square.setting="clicked"
             
@@ -106,42 +107,37 @@ def colourSquares(square, mouseX, mouseY, word:str, wordNums):
                 word+=str(square.letter)
                 wordNums.append(str(square.gridPosition))
                 square.position=len(word)-1
-            else: 
+            #else: 
                 #checking for errors
-                print("\nSecond last: "+wordNums[-1]+" All numbers: ", end="")
-                for number in square.numNeighbours:
-                    print(str(number)+", ", end="")
+              #  print("Is normal: "+square.setting+" Letter: "+square.letter+" Position in Word: "+str(square.position))
+               # print("\nSecond last: "+wordNums[-1]+" All numbers: ", end="")
+           #     for number in square.numNeighbours:
+                #    print(str(number)+", ", end="")
             
 
         #making it so if mouse is off it, it uncolours
+        #setting is "clicked"
         #normal way
         elif not square.isDuple:
             if len(word)>0:
+                #if the letter is not last and the letter is in the word, shrink word and word numbers so all letters after it aren't in it anymore
                 if square.letter!=word[-1] and square.letter in word: 
                     word=word[0: word.find(square.letter)+1]
                     wordNums=wordNums[0: word.find(square.letter)+1]
-        #letter is a duplicate strange way
-        elif square.isDuple: 
-            if square.letter in word:
-                for i in range(0, len(word)-1):
-                    if len(word)>1:
-                        if word[i]==square.letter and i==square.position:
+        #letter is a duplicate- strange way
+        if square.isDuple: 
+            if square.letter in word and square.position+1!=len(word):
+                if len(word)>1:
+                    for i in range(0, len(word)-1):                        
+                        if str(word[i])==square.letter and i==square.position:
+                            print("letter is acknowledged as there")
                             word=word[0: i+1]
                             wordNums=wordNums[0: i+1]
                             break
 
-    if square.letter not in word and square.setting=="clicked":
+    if str(square.gridPosition) not in wordNums and square.setting=="clicked":
         square.setting="normal"
         square.position=-1
-    if square.isDuple and square.letter in word and square.setting=="clicked":
-        isThere=False
-        for i in range(0, len(word)):
-            if word[i]==square.letter and i==square.position:
-                isThere=True
-                break
-        if not isThere:
-            square.setting="normal"
-            square.position=-1
     return word, wordNums, square
                 
 #make a line
