@@ -400,8 +400,7 @@ class Finger():
         if self.currentLocation[0]>self.nextLocation[0]:
             self.x-=self.speed
         self.y+=slope*self.speed
-
-            
+     
     def draw(self):
         if len(self.previousLocations)!=len(self.locations) and not self.stop:
             const.SCREEN.blit(self.image, (self.x, self.y))
@@ -518,4 +517,104 @@ class ColourButton():
             const.SCREEN.blit(text, (self.x+self.width+10, self.y))
 
     
-        
+class Stars():
+    def __init__(self, x, y):
+        self.x=x
+        self.y=y
+        self.size=100
+        self.sizeSmall=25
+
+        #image
+        image=pygame.image.load("assets/starHint")
+        self.imageNorm=pygame.image.scale(image, (self.size, self.size))
+        self.imageSmall=pygame.image.scale(image, (self.sizeSmall, self.sizeSmall))
+        self.image=self.imageNorm
+
+        #stack
+        self.stackX=const.WIDTH-150
+        self.stackY=700
+        self.stackNum=-1
+        self.stackLen=0
+
+        #moving at the start
+        self.reachedStack=False
+        self.stackPositions=pygame.math.Vector2(self.stackX, self.stackY)
+        self.positions=pygame.math.Vector2(self.x, self.y)
+        self.speed=10
+        self.followingMouse=False
+
+        #info shown/actual hint part
+        self.wordsThatLen=[]
+        for i in range(0,16):
+            self.wordsThatLen.append(0)
+        self.numsShown=[]
+        self.wordBeginnings=[]
+
+        #appearance for the hints
+        self.box=(self.x, self.y, 0, 0)
+        self.boxWidth=100
+        self.fontSize=30
+        self.showingHints=False
+
+    def goToStack(self):
+
+        difference=self.stackPositions-(self.positions.x, self.positions.y)
+        distance=difference.length()
+
+        #actually moving the thing
+        if distance>self.speed:
+            difference.normalize_ip()
+            self.positions+=difference*self.speed
+        else:
+            self.reachedStack=True
+            self.stackNum=self.stackLen
+            self.stackLen+=1
+
+    def onSquare(self, square):
+        #stopping it from happening if it already has the two hints
+        if square.numHints!=2:
+            self.image=self.imageSmall
+            #positioning it correctly
+            self.y=square.y+15
+            if square.numHints==0:
+                self.x=square.x+15
+                #showing which type of hint - length of words started
+                for word in square.wordsStarted:
+                    self.wordsThatLen[len(word)]+=1
+                self.box=(self.x, self.y, self.boxWidth, len(self.wordsThatLen)*self.fontSize)
+                for i, number in enumerate(self.wordsThatLen):
+                    if number!=0:
+                        self.numsShown=str(number)+" "+str(i)+" letter words"
+            else:
+                #position again
+                self.x=square.x+square.width-self.sizeSmall-15
+                #hint stuff
+                for word in square.wordsStarted:
+                    stoppingSpot=len(word)//3
+                    self.wordBeginnings.append(word[0:stoppingSpot])
+                self.box=(self.x, self.y, self.boxWidth, len(self.wordBeginnings)*self.fontSize)
+        else: 
+            self.reachedStack=False
+            
+    def showHints(self):
+        pygame.draw.rect(const.SCREEN, const.WHITE, self.box)
+        pygame.draw.rect(const.SCREEN, const.BLACK, self.box, 3)
+        #showing the hints
+        if len(self.wordBeginnings)>0:
+            util.toScreenInfTopLeft(self.wordBeginnings, const.FONT25, const.FONT25, const.colour1, self.x, self.y)
+        else:
+            util.toScreenInfTopLeft(self.numsShown, const.FONT25, const.FONT25, const.colour1, self.x, self.y)
+
+    def draw(self):
+        const.SCREEN.blit(self.image, (self.x, self.y))
+        if not self.reachedStack:
+            self.goToStack()
+        if self.followingMouse:
+            self.x, self.y=pygame.mouse.get_pos()
+            self.stackLen-=1
+        if self.showingHints:
+            self.showHints()
+
+        return self.stackLen
+
+
