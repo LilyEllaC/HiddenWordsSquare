@@ -521,18 +521,18 @@ class Stars():
     def __init__(self, x, y):
         self.x=x
         self.y=y
-        self.size=100
+        self.size=150
         self.sizeSmall=25
 
         #image
-        image=pygame.image.load("assets/starHint")
-        self.imageNorm=pygame.image.scale(image, (self.size, self.size))
-        self.imageSmall=pygame.image.scale(image, (self.sizeSmall, self.sizeSmall))
+        image=pygame.image.load("assets/hintStar.png")
+        self.imageNorm=pygame.transform.scale(image, (self.size, self.size))
+        self.imageSmall=pygame.transform.scale(image, (self.sizeSmall, self.sizeSmall))
         self.image=self.imageNorm
 
         #stack
-        self.stackX=const.WIDTH-150
-        self.stackY=700
+        self.stackX=const.WIDTH-175
+        self.stackY=450
         self.stackNum=-1
         self.stackLen=0
 
@@ -565,6 +565,8 @@ class Stars():
         if distance>self.speed:
             difference.normalize_ip()
             self.positions+=difference*self.speed
+            self.x=self.positions.x
+            self.y=self.positions.y
         else:
             self.reachedStack=True
             self.stackNum=self.stackLen

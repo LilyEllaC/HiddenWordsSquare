@@ -190,6 +190,9 @@ def checkIfWord(word, wordInfo, scoreBar, points, letterSquares):
                             
                     else:
                         wordType.image=wordType.imageBonus
+                        #star hint stuff
+                        mouseX, mouseY = pygame.mouse.get_pos()
+                        preset.stars.append(classes.Stars(mouseX, mouseY))
                     found=True
                     break
             if found:
@@ -249,6 +252,10 @@ def play(wordInformation, scoreBar, theCurrentWord, wordNums, points):
     for square in squares:
         if square.visible:
             square.draw()
+
+    #stars
+    for star in preset.stars:
+        star.draw()
 
     #celebration
     if points==scoreBar.totalScore:

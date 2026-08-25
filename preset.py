@@ -14,6 +14,9 @@ confettis=[]
 image=pygame.transform.scale(pygame.image.load("assets/confetti.png"), (200, 200))
 for i in range(0,15):
     confettis.append(Confetti(image))
+#star stuff
+stars=[]
+stackStackLen=0
 
 #creating the points bar
 def calculatePointBar(words):
