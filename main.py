@@ -85,19 +85,20 @@ async def main():
 
 
                 if event.type==pygame.MOUSEBUTTONUP:
-                    if gameplay.clicked:
-                        gameplay.score=gameplay.checkIfWord(gameplay.currentWord, wordInfo, gameplay.pointBar, gameplay.score, gameplay.squares)
-                    gameplay.clicked=False
-                    
-                    #scroll bar
-                    wordInfo.moving=False
+                    if event.button==1:
+                        if gameplay.clicked:
+                            gameplay.score=gameplay.checkIfWord(gameplay.currentWord, wordInfo, gameplay.pointBar, gameplay.score, gameplay.squares)
+                        gameplay.clicked=False
+                        
+                        #scroll bar
+                        wordInfo.moving=False
 
-                    #resetting the squares
-                    for square in gameplay.squares:
-                        square.setting="normal"
+                        #resetting the squares
+                        for square in gameplay.squares:
+                            square.setting="normal"
 
-                    #STARS!!!
-                    gameplay.starRelease()
+                        #STARS!!!
+                        gameplay.starRelease()
             
 
             #tutorial

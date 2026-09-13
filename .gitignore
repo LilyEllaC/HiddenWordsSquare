@@ -1,3 +1,7 @@
 .venv
-__pycache__/
+__pycache__/*
 
+__pycache__/classes.cpython-312.pyc
+__pycache__/constants.cpython-312.pyc
+__pycache__/gameplay.cpython-312.pyc
+__pycache__/preset.cpython-312.pyc

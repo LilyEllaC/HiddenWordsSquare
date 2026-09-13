@@ -12,7 +12,7 @@ import pygame
 clicked=False
 currentWord=" "
 wordNumbers=[]
-score=140
+score=340
 squares=[]
 pointBar=""
 
@@ -233,29 +233,46 @@ def starRelease():
     for star in preset.stars:
         if star.followingMouse:
             theStar=star
+            print("done")
     if theStar!="":
         for square in squares:
             if square.rect.collidepoint(pygame.mouse.get_pos()):
-                theStar.onSquare(square)
+                square=theStar.onSquare(square)
                 onASquare=True
+                print("on a square")
                 break
         if not onASquare:
+            #getting it to move back to the stack
             theStar.reachedStack=False
+            theStar.followingMouse=False
 
-
-                
 
 def stars():
+    print("mouse clicked")
     mouseX, mouseY=pygame.mouse.get_pos()
-    if len(preset.stars)>0 and preset.stars[0].rect.collidepoint(mouseX, mouseY):
-        #finding the star at the top
+    #seeing if stars are able to be dealt with
+    if preset.unlocked and len(preset.stars)>0:
+        print("unlocked")
+        #checking if a and which star is hit
         for star in preset.stars:
-            if star.stackNum==0:
-                star.followingMouse=True
-                break
-        #moving all of them up in the stack
-        for star in preset.stars:
-            star.stackNum-=1
+            if star.rect.collidepoint(mouseX, mouseY):
+                #moving it from the stack
+                if star.image==star.imageNorm:
+                    print("mouse on the star")
+                    #finding the star at the top
+                    for star2 in preset.stars:
+                        if star2.stackNum==0:
+                            star2.followingMouse=True
+                            print("following the mouse")
+                            break
+                    #moving all of them up in the stack
+                    for star2 in preset.stars:
+                        star2.stackNum-=1
+
+                #getting them to show the hints
+                else:
+                    star.showingHints=not star.showingHints
+        
 
 #play the game
 def play(wordInformation, scoreBar, theCurrentWord, wordNums, points):

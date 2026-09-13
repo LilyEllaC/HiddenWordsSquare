@@ -18,6 +18,7 @@ for i in range(0,15):
 stars=[]
 stackStackLen=0
 lock=Lock()
+unlocked=False
 
 #creating the points bar
 def calculatePointBar(words):
