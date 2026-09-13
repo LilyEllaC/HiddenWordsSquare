@@ -1,7 +1,7 @@
 import math
 import random
 import pygame
-from classes import Squares, ScoreBar, WordType, Confetti
+from classes import Squares, ScoreBar, WordType, Confetti, Lock
 import constants as const
 
 
@@ -17,6 +17,7 @@ for i in range(0,15):
 #star stuff
 stars=[]
 stackStackLen=0
+lock=Lock()
 
 #creating the points bar
 def calculatePointBar(words):

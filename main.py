@@ -80,6 +80,9 @@ async def main():
                         for square in gameplay.squares:
                             square.showIn=True
 
+                    #STARS!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    gameplay.stars()
+
 
                 if event.type==pygame.MOUSEBUTTONUP:
                     if gameplay.clicked:
@@ -92,6 +95,9 @@ async def main():
                     #resetting the squares
                     for square in gameplay.squares:
                         square.setting="normal"
+
+                    #STARS!!!
+                    gameplay.starRelease()
             
 
             #tutorial

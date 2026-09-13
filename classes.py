@@ -105,22 +105,15 @@ class ScoreBar:
         self.hintSize=25
         self.hintStart=GenericButton(self.x+self.onePoint*self.totalScore//3-self.hintSize//2, self.y+self.hintSize, self.hintSize, "assets/HintStartingButton.png", "assets/HintStartingButtonPressed.png", False)
         self.hintRemain=GenericButton(self.x+self.onePoint*self.totalScore//2-self.hintSize//2, self.y+self.hintSize, self.hintSize, "assets/HintRemainingButton.png", "assets/HintRemainingButtonPressed.png", False)
+        self.hintKey=GenericButton(self.x+self.onePoint*self.totalScore*2//3-self.hintSize//2, self.y+self.hintSize, self.hintSize, "assets/key.png", "assets/key.png", False)
         self.startShowing=False
         self.remainShowing=False
+        self.keyDone=False
 
     def changeScore(self, score):
         self.rectPoints=pygame.Rect(self.x, self.y, self.onePoint*score, self.height)
 
-    def draw(self, score):
-        util.toScreen("Score: "+str(score)+" / "+str(self.totalScore), const.FONT60, self.colourBase, self.x+150, 100)
-        pygame.draw.rect(const.SCREEN, self.colourBase, self.rectBase)
-        pygame.draw.rect(const.SCREEN, const.BLACK, self.rectBase, 5)
-        pygame.draw.rect(const.SCREEN, self.colourPoints, self.rectPoints)
-        pygame.draw.rect(const.SCREEN, const.BLACK, self.rectPoints,5)
-        
-        # buttons
-        self.hintStart.draw()
-        self.hintRemain.draw()
+    def moveButtons(self, score):
         #switching
         if score>self.totalScore//3 and not self.startShowing:
             self.startShowing=True
@@ -138,7 +131,34 @@ class ScoreBar:
             self.hintRemain.x=self.x+self.onePoint*self.totalScore//2-self.hintSize*5//2+60
             self.hintRemain.imageNormal=self.hintRemain.imageNBig
             self.hintRemain.imageHovered=self.hintRemain.imageHBig
+        if score>self.totalScore*2//3 and not self.keyDone:
+            self.moveKey()
 
+    def moveKey(self):
+        if self.hintKey.y>=550 and self.hintKey.x<const.WIDTH-175+20:
+            self.hintKey.x+=3
+        else: #self.hintKey.x<const.WIDTH-175+20
+            self.hintKey.y+=3
+            self.hintKey.embiggenated=True
+        if self.hintKey.y>=550 and self.hintKey.x>const.WIDTH-175+20:
+            self.keyDone=True
+        
+
+    def draw(self, score):
+        util.toScreen("Score: "+str(score)+" / "+str(self.totalScore), const.FONT60, self.colourBase, self.x+150, 100)
+        pygame.draw.rect(const.SCREEN, self.colourBase, self.rectBase)
+        pygame.draw.rect(const.SCREEN, const.BLACK, self.rectBase, 5)
+        pygame.draw.rect(const.SCREEN, self.colourPoints, self.rectPoints)
+        pygame.draw.rect(const.SCREEN, const.BLACK, self.rectPoints,5)
+
+        self.moveButtons(score)
+
+        # buttons
+        self.hintStart.draw()
+        self.hintRemain.draw()
+        if not self.keyDone:
+            self.hintKey.draw()
+        
 
 class WordType:
     def __init__ (self):
@@ -529,6 +549,7 @@ class Stars():
         self.imageNorm=pygame.transform.scale(image, (self.size, self.size))
         self.imageSmall=pygame.transform.scale(image, (self.sizeSmall, self.sizeSmall))
         self.image=self.imageNorm
+        self.rect=self.image.get_rect()
 
         #stack
         self.stackX=const.WIDTH-175
@@ -620,3 +641,27 @@ class Stars():
         return self.stackLen
 
 
+class Lock():
+    def __init__(self):
+        self.x=const.WIDTH-175
+        self.y=450
+        self.size=155
+        image=pygame.image.load("assets/locked.png")
+        self.imageLocked=pygame.transform.scale(image, (self.size, self.size))
+        image=pygame.image.load("assets/unlocked.png")
+        self.imageUnlocked=pygame.transform.scale(image, (self.size, self.size))
+        self.image=self.imageLocked
+
+        #unlocking stuff
+        self.timer=0
+        self.done=False
+    
+    def unlocked(self):
+        if self.timer>=4:
+            self.done=True
+            print("disappear")
+
+    def draw(self):
+        if not self.done:
+            const.SCREEN.blit(self.image, (self.x, self.y))
+        self.unlocked()

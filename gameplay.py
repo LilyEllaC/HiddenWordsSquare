@@ -12,7 +12,7 @@ import pygame
 clicked=False
 currentWord=" "
 wordNumbers=[]
-score=0
+score=140
 squares=[]
 pointBar=""
 
@@ -227,6 +227,36 @@ def celebrate():
         
         confetti.draw()
 
+def starRelease():
+    onASquare=False
+    theStar=""
+    for star in preset.stars:
+        if star.followingMouse:
+            theStar=star
+    if theStar!="":
+        for square in squares:
+            if square.rect.collidepoint(pygame.mouse.get_pos()):
+                theStar.onSquare(square)
+                onASquare=True
+                break
+        if not onASquare:
+            theStar.reachedStack=False
+
+
+                
+
+def stars():
+    mouseX, mouseY=pygame.mouse.get_pos()
+    if len(preset.stars)>0 and preset.stars[0].rect.collidepoint(mouseX, mouseY):
+        #finding the star at the top
+        for star in preset.stars:
+            if star.stackNum==0:
+                star.followingMouse=True
+                break
+        #moving all of them up in the stack
+        for star in preset.stars:
+            star.stackNum-=1
+
 #play the game
 def play(wordInformation, scoreBar, theCurrentWord, wordNums, points):
     #basic stuff
@@ -244,10 +274,8 @@ def play(wordInformation, scoreBar, theCurrentWord, wordNums, points):
 
     #drawing
     #showing the score
-    if preset.gameStarted:
-        scoreBar.draw(points)
-        wordType.draw()
-        wordInformation.draw()
+    wordType.draw()
+    wordInformation.draw()
     #squares
     for square in squares:
         if square.visible:
@@ -256,6 +284,12 @@ def play(wordInformation, scoreBar, theCurrentWord, wordNums, points):
     #stars
     for star in preset.stars:
         star.draw()
+    preset.lock.draw()
+    #unlocking the lock
+    if scoreBar.keyDone:
+        preset.lock.image=preset.lock.imageUnlocked
+        preset.lock.timer+=1/const.FPS
+    scoreBar.draw(points)
 
     #celebration
     if points==scoreBar.totalScore:
