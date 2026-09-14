@@ -575,9 +575,10 @@ class Stars():
 
         #appearance for the hints
         self.box=(self.x, self.y, 0, 0)
-        self.boxWidth=100
+        self.boxWidth=200
         self.fontSize=30
         self.showingHints=False
+        self.squareNum=-1
 
     def goToStack(self):
 
@@ -596,36 +597,82 @@ class Stars():
             self.stackLen+=1
             
 
-    def onSquare(self, square):
+    def onSquare(self, square, squares):
         #stopping it from happening if it already has the two hints
         if square.numHints!=2:
             self.image=self.imageSmall
+            self.squareNum=squares.index(square)
             #positioning it correctly
             self.y=square.y+15
-            #giving the first hints
+
+            #first hint!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             if square.numHints==0:
                 self.x=square.x+15
                 #showing which type of hint - length of words started
+
+                #making a list of number of word that the letter starts of each len
                 for word in square.wordsStarted:
                     self.wordsThatLen[len(word)]+=1
-                self.box=(self.x, self.y, self.boxWidth, len(self.wordsThatLen)*self.fontSize)
+                #using only stuff who isn't zero
+                numDiffLen=0
                 for i, number in enumerate(self.wordsThatLen):
                     if number!=0:
-                        self.numsShown=str(number)+" "+str(i)+" letter words"
+                        numDiffLen+=1
+                        self.numsShown.append(str(number)+" "+str(i)+" letter words")
+                #creating the box
+                self.box=(self.x, self.y, self.boxWidth, numDiffLen*self.fontSize)
+
+                print(self.numsShown)
+
+
+            #second hint!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             else:
                 #position again
                 self.x=square.x+square.size-self.sizeSmall-15
                 #hint stuff
+                wordBegin=[]
                 for word in square.wordsStarted:
                     stoppingSpot=len(word)//3
-                    self.wordBeginnings.append(word[0:stoppingSpot])
-                self.box=(self.x, self.y, self.boxWidth, len(self.wordBeginnings)*self.fontSize)
+                    wordBegin.append(word[0:stoppingSpot])
+                    #making it look better
+                    for i in range(0, len(wordBegin), 2):
+                        if i+1<len(wordBegin):
+                            self.wordBeginnings.append(wordBegin[i]+"-       | "+wordBegin[i+1]+"-")
+
+                self.box=(self.x, self.y, self.boxWidth, len(self.wordBeginnings)*self.fontSize/2)
+
+                print(self.wordBeginnings)
+
+
             square.numHints+=1
         else: 
             self.reachedStack=False
             return square
         self.followingMouse=False
-        
+    
+    def updateHints(self, squares):
+        square=squares[self.squareNum]
+        """
+        #making it so when new words are found, the list updates.
+        if len(self.wordBeginnings)>0:
+            #making a list of number of word that the letter starts of each len
+            for word in square.wordsStarted:
+                self.wordsThatLen[len(word)]+=1
+            #using only stuff who isn't zero
+            numDiffLen=0
+            for i, number in enumerate(self.wordsThatLen):
+                if number!=0:
+                    numDiffLen+=1
+                    self.numsShown.append(str(number)+" "+str(i)+" letter words")
+            #recreating the box
+            self.box=(self.x, self.y, self.boxWidth, numDiffLen*self.fontSize)
+        else:
+            for word in square.wordsStarted:
+                stoppingSpot=len(word)//3
+                self.wordBeginnings.append(word[0:stoppingSpot])
+            self.box=(self.x, self.y, self.boxWidth, len(self.wordBeginnings)*self.fontSize)
+        """
+
     def showHints(self):
         pygame.draw.rect(const.SCREEN, const.WHITE, self.box)
         pygame.draw.rect(const.SCREEN, const.BLACK, self.box, 3)
@@ -644,7 +691,7 @@ class Stars():
             self.stackLen-=1
         if self.showingHints:
             self.showHints()
-            
+
         #having them able to be clicked on
 
         self.rect.x=self.x
@@ -654,8 +701,8 @@ class Stars():
 
 class Lock():
     def __init__(self):
-        self.x=const.WIDTH-175
-        self.y=450
+        self.x=const.WIDTH-180
+        self.y=445
         self.size=155
         image=pygame.image.load("assets/locked.png")
         self.imageLocked=pygame.transform.scale(image, (self.size, self.size))

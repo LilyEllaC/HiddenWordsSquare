@@ -237,7 +237,7 @@ def starRelease():
     if theStar!="":
         for square in squares:
             if square.rect.collidepoint(pygame.mouse.get_pos()):
-                square=theStar.onSquare(square)
+                square=theStar.onSquare(square, squares)
                 onASquare=True
                 print("on a square")
                 break
@@ -266,8 +266,8 @@ def stars():
                             print("following the mouse")
                             break
                     #moving all of them up in the stack
-                    for star2 in preset.stars:
-                        star2.stackNum-=1
+                    for allStars in preset.stars:
+                        allStars.stackNum-=1
 
                 #getting them to show the hints
                 else:

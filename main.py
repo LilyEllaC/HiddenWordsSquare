@@ -88,6 +88,10 @@ async def main():
                     if event.button==1:
                         if gameplay.clicked:
                             gameplay.score=gameplay.checkIfWord(gameplay.currentWord, wordInfo, gameplay.pointBar, gameplay.score, gameplay.squares)
+                            #making all of the stars update
+                            for star in preset.stars:
+                                if star.image==star.imageSmall:
+                                    star.updateHints(gameplay.squares)
                         gameplay.clicked=False
                         
                         #scroll bar
