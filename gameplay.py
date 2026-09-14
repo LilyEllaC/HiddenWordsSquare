@@ -12,7 +12,7 @@ import pygame
 clicked=False
 currentWord=" "
 wordNumbers=[]
-score=340
+score=0
 squares=[]
 pointBar=""
 

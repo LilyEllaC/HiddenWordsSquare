@@ -18,7 +18,7 @@ This is a fun word game where you try to find all of the normal words hidden in 
 - When you find all of the normal words you've won. Yay!!
 - To play again, refresh the page.
 
-![Image of the game near the start with one word actively being made](./catExample.png)
+![Image of the game near the start with one word actively being made](./googExample.png)
 
 ## How I made this
 This project was made intirely in python (ignore what github is telling you, it's insane) with pygame.
