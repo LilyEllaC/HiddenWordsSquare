@@ -569,9 +569,7 @@ class Stars():
         self.followingMouse=False
 
         #info shown/actual hint part
-        self.wordsThatLen=[]
-        for i in range(0,16):
-            self.wordsThatLen.append(0)
+        self.wordsThatLen=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.numsShown=[]
         self.wordBeginnings=[]
 
@@ -647,9 +645,8 @@ class Stars():
                     if i+1<len(wordBegin):
                         self.wordBeginnings.append(wordBegin[i]+"-       | "+wordBegin[i+1]+"-")
 
-                self.box=(self.x, self.y, self.boxWidth, len(self.wordBeginnings)*self.fontSize/2)
+                self.box=(self.x, self.y, self.boxWidth, len(self.wordBeginnings)*self.fontSize)
 
-                print(self.wordBeginnings)
 
 
             square.numHints+=1
@@ -659,12 +656,21 @@ class Stars():
         self.followingMouse=False
     
     def updateHints(self, squares):
+        #making the word lists update when words are found
         square=squares[self.squareNum]
-        """
-        #making it so when new words are found, the list updates.
-        if len(self.wordBeginnings)>0:
+        #getting the words that haven't been started yet instead of all words.
+        wordsNotYetStarted=[]
+        for word in square.wordsStarted:
+            if not word in square.wordsStartedFound:
+                wordsNotYetStarted.append(word)
+        #first hint!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if len(self.wordBeginnings)==0:
+            #resetting variables
+            self.wordsThatLen=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            self.numsShown=[]
             #making a list of number of word that the letter starts of each len
-            for word in square.wordsStarted:
+            #dealing with wordsStarted being all of the words
+            for word in wordsNotYetStarted:
                 self.wordsThatLen[len(word)]+=1
             #using only stuff who isn't zero
             numDiffLen=0
@@ -672,14 +678,24 @@ class Stars():
                 if number!=0:
                     numDiffLen+=1
                     self.numsShown.append(str(number)+" "+str(i)+" letter words")
-            #recreating the box
-            self.box=(self.x, self.y, self.boxWidth, numDiffLen*self.fontSize)
+            #creating the box
+            self.box=(self.x, self.y, self.boxWidth, numDiffLen*self.fontSize)        
+
+        #second hint!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         else:
-            for word in square.wordsStarted:
+            #hint stuff
+            wordBegin=[]
+            self.wordBeginnings=[]
+            for word in wordsNotYetStarted: 
                 stoppingSpot=len(word)//3
-                self.wordBeginnings.append(word[0:stoppingSpot])
+                wordBegin.append(word[0:stoppingSpot])
+                #making it look better
+            for i in range(0, len(wordBegin), 2):
+                if i+1<len(wordBegin):
+                    self.wordBeginnings.append(wordBegin[i]+"-       | "+wordBegin[i+1]+"-")
+            #box/outline
             self.box=(self.x, self.y, self.boxWidth, len(self.wordBeginnings)*self.fontSize)
-        """
+        
 
     def showHints(self):
         pygame.draw.rect(const.SCREEN, const.WHITE, self.box)
