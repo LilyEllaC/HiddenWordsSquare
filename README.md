@@ -11,10 +11,12 @@ This is a fun word game where you try to find all of the normal words hidden in 
 ## How to play:
 - Click on the play button
 - Choose a letter and click and drag with your mouse or your finger to adjacent letters to make words. 
-- Each word adds to the score depending on the length and how long the word is
-- When a third of the total score is reached a hint becomes available. You have to click on it with your mouse to reveal it
+- Each normal word adds to the score depending on the length and which letters are in the word
+- Bonus words are words that were deemed too rare to be needed to win. These words give you hints that are unlocked when you reach two thirds of the total score
+- When a third of the total score is reached a hint becomes available as well as at half. You have to click on it with your mouse to reveal it
+- Once the stars are unlocked, drag them onto a swuare to gets hits about the words it starts.
 - When you find all of the normal words you've won. Yay!!
-- There is not yet a way to play another game, so you have to refresh the page. This will be added soon
+- To play again, refresh the page.
 
 ![Image of the game near the start with one word actively being made](./catExample.png)
 
@@ -22,7 +24,7 @@ This is a fun word game where you try to find all of the normal words hidden in 
 This project was made intirely in python (ignore what github is telling you, it's insane) with pygame.
 
 ## How to play
-The easiest way to play the game is visiting the itch.io page at *link*
+The easiest way to play the game is visiting the itch.io page at **
 
 ## Installing
 If you want to install the game for some reason follow these steps. They presume that you already have python installed, and while a venv is recommended it isn't needed.

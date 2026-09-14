@@ -602,6 +602,7 @@ class Stars():
             self.image=self.imageSmall
             self.rect=self.smallRect
             self.squareNum=squares.index(square)
+            self.reachedStack=True
             #positioning it correctly
             self.y=square.y+15
             wordsNotYetStarted=[]
@@ -626,7 +627,7 @@ class Stars():
                         numDiffLen+=1
                         self.numsShown.append(str(number)+" "+str(i)+" letter words")
                 #creating the box
-                self.box=(self.x, self.y, self.boxWidth, numDiffLen*self.fontSize)
+                self.box=(self.x, self.y, self.boxWidth-50, numDiffLen*self.fontSize)
 
                 print(self.numsShown)
 
@@ -645,9 +646,9 @@ class Stars():
                     if i+1<len(wordBegin):
                         self.wordBeginnings.append(wordBegin[i]+"-       | "+wordBegin[i+1]+"-")
                     else:
-                        self.wordBeginnings.append(wordBegin[i])
+                        self.wordBeginnings.append(wordBegin[i]+"-")
 
-                self.box=(self.x, self.y, self.boxWidth, len(self.wordBeginnings)*self.fontSize)
+                self.box=(self.x, self.y, self.boxWidth-70, len(self.wordBeginnings)*self.fontSize)
 
 
 
@@ -666,7 +667,7 @@ class Stars():
             if not word in square.wordsStartedFound:
                 wordsNotYetStarted.append(word)
         #first hint!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        if len(self.wordBeginnings)==0:
+        if len(self.wordBeginnings)==0 and len(self.numsShown)!=0:
             #resetting variables
             self.wordsThatLen=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             self.numsShown=[]
@@ -681,7 +682,7 @@ class Stars():
                     numDiffLen+=1
                     self.numsShown.append(str(number)+" "+str(i)+" letter words")
             #creating the box
-            self.box=(self.x, self.y, self.boxWidth, numDiffLen*self.fontSize)        
+            self.box=(self.x, self.y, self.boxWidth-50, numDiffLen*self.fontSize)        
 
         #second hint!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         else:
@@ -695,8 +696,10 @@ class Stars():
             for i in range(0, len(wordBegin), 2):
                 if i+1<len(wordBegin):
                     self.wordBeginnings.append(wordBegin[i]+"-       | "+wordBegin[i+1]+"-")
+                else:
+                    self.wordBeginnings.append(wordBegin[i]+"-")
             #box/outline
-            self.box=(self.x, self.y, self.boxWidth, len(self.wordBeginnings)*self.fontSize)
+            self.box=(self.x, self.y, self.boxWidth-70, len(self.wordBeginnings)*self.fontSize)
         
     def showHints(self):
         pygame.draw.rect(const.SCREEN, const.WHITE, self.box)
