@@ -70,6 +70,7 @@ def getWords(letters, letterSquares):
                     square.wordsIn.append(word)
                     if posInWord[0]==square.gridPosition:
                         square.wordsStarted.append(word)
+            
 
 
         #switching to the list of bonus words
@@ -79,6 +80,14 @@ def getWords(letters, letterSquares):
             tempWords=[]
             bonusFound=True
     
+    #sorting the words started list because there are lots of duplicates
+    for square in letterSquares:
+        uniqueWords=[]
+        for word in square.wordsStarted:
+            if word not in uniqueWords:
+                uniqueWords.append(word)
+        square.wordsStarted=uniqueWords
+
     if bonusFound:
         bonusWords=tempWords
     else:
@@ -186,6 +195,7 @@ def checkIfWord(word, wordInfo, scoreBar, points, letterSquares):
                             if square.letter in word and word in square.wordsIn:
                                 square.numInLeft-=1
                                 if word[0]==square.letter and word in square.wordsStarted:
+                                    square.wordsStartedFound.append(word)
                                     square.numStartedLeft-=1
                             
                     else:

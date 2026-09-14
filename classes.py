@@ -34,6 +34,7 @@ class Squares:
 
         #clues
         self.wordsStarted=[]
+        self.wordsStartedFound=[]
         self.wordsIn=[]
         self.numStartedLeft=0
         self.numInLeft=0
@@ -552,6 +553,7 @@ class Stars():
         self.imageSmall=pygame.transform.scale(image, (self.sizeSmall, self.sizeSmall))
         self.image=self.imageNorm
         self.rect = pygame.Rect(self.x, self.y, self.size, self.size)
+        self.smallRect = pygame.Rect(self.x, self.y, self.sizeSmall, self.sizeSmall)
     
         #stack
         self.stackX=const.WIDTH-175
@@ -596,22 +598,28 @@ class Stars():
             self.stackNum=self.stackLen
             self.stackLen+=1
             
-
     def onSquare(self, square, squares):
         #stopping it from happening if it already has the two hints
         if square.numHints!=2:
             self.image=self.imageSmall
+            self.rect=self.smallRect
             self.squareNum=squares.index(square)
             #positioning it correctly
             self.y=square.y+15
-
+            wordsNotYetStarted=[]
+            for word in square.wordsStarted:
+                if not word in square.wordsStartedFound:
+                    wordsNotYetStarted.append(word)
+            #printing the words
             #first hint!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             if square.numHints==0:
                 self.x=square.x+15
                 #showing which type of hint - length of words started
 
                 #making a list of number of word that the letter starts of each len
-                for word in square.wordsStarted:
+                #dealing with wordsStarted being all of the words
+
+                for word in wordsNotYetStarted:
                     self.wordsThatLen[len(word)]+=1
                 #using only stuff who isn't zero
                 numDiffLen=0
@@ -631,13 +639,13 @@ class Stars():
                 self.x=square.x+square.size-self.sizeSmall-15
                 #hint stuff
                 wordBegin=[]
-                for word in square.wordsStarted:
+                for word in wordsNotYetStarted: 
                     stoppingSpot=len(word)//3
                     wordBegin.append(word[0:stoppingSpot])
                     #making it look better
-                    for i in range(0, len(wordBegin), 2):
-                        if i+1<len(wordBegin):
-                            self.wordBeginnings.append(wordBegin[i]+"-       | "+wordBegin[i+1]+"-")
+                for i in range(0, len(wordBegin), 2):
+                    if i+1<len(wordBegin):
+                        self.wordBeginnings.append(wordBegin[i]+"-       | "+wordBegin[i+1]+"-")
 
                 self.box=(self.x, self.y, self.boxWidth, len(self.wordBeginnings)*self.fontSize/2)
 
@@ -678,9 +686,9 @@ class Stars():
         pygame.draw.rect(const.SCREEN, const.BLACK, self.box, 3)
         #showing the hints
         if len(self.wordBeginnings)>0:
-            util.toScreenInfTopLeft(self.wordBeginnings, const.FONT25, const.FONT25, const.colour1, self.x, self.y)
+            util.toScreenInfTopLeft(self.wordBeginnings, const.FONT25, const.FONT25, const.colour1, self.x+10, self.y)
         else:
-            util.toScreenInfTopLeft(self.numsShown, const.FONT25, const.FONT25, const.colour1, self.x, self.y)
+            util.toScreenInfTopLeft(self.numsShown, const.FONT25, const.FONT25, const.colour1, self.x+10, self.y)
 
     def draw(self):
         const.SCREEN.blit(self.image, (self.x, self.y))
