@@ -268,16 +268,11 @@ def stars():
             if star.rect.collidepoint(mouseX, mouseY):
                 #moving it from the stack
                 if star.image==star.imageNorm:
-                    print("mouse on the star")
-                    #finding the star at the top
-                    for star2 in preset.stars:
-                        if star2.stackNum==0:
-                            star2.followingMouse=True
-                            print("following the mouse")
-                            break
-                    #moving all of them up in the stack
-                    for allStars in preset.stars:
-                        allStars.stackNum-=1
+                    #no more stack stuff (hopefully this works)
+                    star.followingMouse=True
+                    print("following the mouse")
+                    break
+                    
 
                 #getting them to show the hints
                 else:

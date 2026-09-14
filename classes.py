@@ -644,6 +644,8 @@ class Stars():
                 for i in range(0, len(wordBegin), 2):
                     if i+1<len(wordBegin):
                         self.wordBeginnings.append(wordBegin[i]+"-       | "+wordBegin[i+1]+"-")
+                    else:
+                        self.wordBeginnings.append(wordBegin[i])
 
                 self.box=(self.x, self.y, self.boxWidth, len(self.wordBeginnings)*self.fontSize)
 
@@ -696,22 +698,22 @@ class Stars():
             #box/outline
             self.box=(self.x, self.y, self.boxWidth, len(self.wordBeginnings)*self.fontSize)
         
-
     def showHints(self):
         pygame.draw.rect(const.SCREEN, const.WHITE, self.box)
         pygame.draw.rect(const.SCREEN, const.BLACK, self.box, 3)
         #showing the hints
         if len(self.wordBeginnings)>0:
-            util.toScreenInfTopLeft(self.wordBeginnings, const.FONT25, const.FONT25, const.colour1, self.x+10, self.y)
+            util.toScreenInfTopLeft(self.wordBeginnings, const.FONT25, const.FONT25, const.colour1, self.x+10, self.y-10)
         else:
-            util.toScreenInfTopLeft(self.numsShown, const.FONT25, const.FONT25, const.colour1, self.x+10, self.y)
+            util.toScreenInfTopLeft(self.numsShown, const.FONT25, const.FONT25, const.colour1, self.x+10, self.y-10)
 
     def draw(self):
         const.SCREEN.blit(self.image, (self.x, self.y))
         if not self.reachedStack:
             self.goToStack()
         if self.followingMouse:
-            self.x, self.y=pygame.mouse.get_pos()
+            mouseX, mouseY=pygame.mouse.get_pos()
+            self.x, self.y=mouseX-self.size//2, mouseY-self.size//2
             self.stackLen-=1
         if self.showingHints:
             self.showHints()
